@@ -1,15 +1,14 @@
-package com.example.kotclash
+package com.example.kotclash.view
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-
+import com.example.kotclash.Map
+import com.example.kotclash.MapLoader
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback, Runnable {
@@ -17,6 +16,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     lateinit var canvas: Canvas
     lateinit var thread: Thread
 
+    //Map
     var map : Map = Map()
     var mapLoader: MapLoader = MapLoader(context, "spring", this)
     val mapView = MapView(context)
@@ -26,9 +26,9 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     var screenWidth = 0f
     var screenHeight = 0f
-
-
     var drawing : Boolean = true
+
+
 
     init{
         backgroundPaint.color = Color.WHITE
@@ -53,13 +53,10 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     fun draw(){
 
-
-
         if (holder.surface.isValid) {
             canvas = holder.lockCanvas()
             canvas.drawRect(0f, 0f, canvas.width.toFloat(),
                     canvas.height.toFloat(), backgroundPaint)
-
 
             mapView.drawGrid(canvas, map)
 

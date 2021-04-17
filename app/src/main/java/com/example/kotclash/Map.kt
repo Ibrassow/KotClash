@@ -1,33 +1,12 @@
 package com.example.kotclash
 
+import com.example.kotclash.model.Entity
 
 
-class Map(val mapWidth: Int = 10, val mapHeight: Int = 10)  {
-
-    //I keep them to remind me something
-    val mapPixelWidth = mapWidth
-    val mapPixelHeight = mapHeight
-    val rows = mapWidth / Renderable.RENDERABLE_WIDTH
-    val cols = mapHeight / Renderable.RENDERABLE_HEIGHT
+class Map()  {
 
     val grid = mutableListOf<MutableList<Tile>>()
 
-
-    /*fun createMap() {
-        var x = 0
-        var y = 0
-        for (i in 0..rows){
-            grid.add(mutableListOf())
-            for (j in 0..cols){
-                //grid[i][j] = Tile(x,y)
-                grid[i].add(Tile(x,y))
-                y += Renderable.RENDERABLE_HEIGHT
-            }
-            y = 0
-            x += Renderable.RENDERABLE_WIDTH
-        }
-
-    }*/
 
     fun getRowSize() : Int {
         return grid.size
@@ -41,24 +20,8 @@ class Map(val mapWidth: Int = 10, val mapHeight: Int = 10)  {
 
 
 
-
-
-
-
-
-
-
-}
-
-/*class Map(val size_x: Int = 10, val size_y: Int = 10) {
-    val grid : Array<Array<Tile?>> = Array<Array<Tile?>>(size_x){Array<Tile?>(size_y){null} }
-
-
-
-
-
     //@ return the enttities found within the given range
-    fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<Entity>? {
+    fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<Entity> {
 
         val entityFound = mutableListOf<Entity>()
 
@@ -68,8 +31,8 @@ class Map(val mapWidth: Int = 10, val mapHeight: Int = 10)  {
         //TODO add conditions for walls -- existence of cells
         for (column in y-range..y+range+1){
             for (row in x-range..x+range+1){
-                if (grid[row][column]?.isOccupied() == true){
-                    grid[row][column]?.getEntity()?.let { entityFound.add(it) }
+                if (grid[row][column].isOccupied()){
+                    grid[row][column].getEntity().let { entityFound.addAll(it) }
                 }
             }
         }
@@ -80,10 +43,9 @@ class Map(val mapWidth: Int = 10, val mapHeight: Int = 10)  {
 
 
     fun showOccupancyGrid(){
-        for (y in 0 until size_y){
-            for (x in 0 until size_x){
-                //print(grid[x][y]?.isOccupied())
-                if (grid[x][y]?.isOccupied() == true){
+        for (y in 0 until getRowSize()){
+            for (x in 0 until getColSize()){
+                if (grid[x][y].isOccupied()){
                     print(1)
                 }
                 else{print(0)}
@@ -97,13 +59,18 @@ class Map(val mapWidth: Int = 10, val mapHeight: Int = 10)  {
 
     //TODO Check if movement is possible, where, etc
     fun displace(entity : Entity, dx : Int, dy : Int){
-        var actualPos = entity.position
+        var actualPos = entity.coordinates
 
-        grid[actualPos.first][actualPos.second]?.removeOccupant() //free cell
-        grid[actualPos.first + dx][actualPos.second + dy]?.setOccupant(entity)
+        //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
+        //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
 
-    }*/
-//}
+    }
 
 
+
+
+
+
+
+}
 

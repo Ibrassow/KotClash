@@ -2,11 +2,14 @@ package com.example.kotclash
 
 import android.graphics.RectF
 import android.util.Log
+import com.example.kotclash.model.Entity
+import com.example.kotclash.view.Renderable
 
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
-    var occupants : MutableList<GameObject> = mutableListOf()
+    //TODO -> GameObject preferably
+    var occupants : MutableList<Entity> = mutableListOf()
 
     var x = xi
     var y = yi
@@ -19,6 +22,7 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     var endx = x + Renderable.RENDERABLE_WIDTH
     var endy = y + Renderable.RENDERABLE_HEIGHT
 
+    //Will serve later on
     var cellRectangle: RectF = RectF(x, y, endx, endy)
 
     init{
@@ -39,8 +43,8 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     }
 
     fun setRect(renderable_Width : Float, renderable_Height : Float){
-        x = (xi * renderable_Width).toFloat()
-        y = (yi * renderable_Height).toFloat()
+        x = (xi * renderable_Width)
+        y = (yi * renderable_Height)
         position = Pair(x,y)
         endx = x + renderable_Width
         endy = y + renderable_Height
@@ -48,97 +52,26 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         Log.d("InTile", "x : $x - y : $y")
     }
 
-
-
-
-
-
-
-
-
-
-
-    /*var tileSize : Int
-
-    lateinit var myBitmap: Bitmap
-
-
-    init{
-        //var a: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.TileView)
-        //tileSize = a.getDimensionPixelSize(R.styleable.TileView_tileSize, 12)
-
-        tileSize = 200
-        loadTile(1, this.getContext().getResources().getDrawable(R.drawable.grass))
-    }
-
-
-
-    fun draw(){
-        loadTile(1, this.getContext().getResources().getDrawable(R.drawable.grass))
-    }
-
-
-    fun loadTile(key: Int, tile: Drawable) {
-        val bitmap = Bitmap.createBitmap(
-            tileSize,
-            tileSize,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        tile.setBounds(
-            0,
-            0,
-            tileSize,
-            tileSize
-        )
-        tile.draw(canvas)
-
-        myBitmap = bitmap
-        //mTileArray.get(key) = bitmap
-    }
-
-
-     override fun onDraw(canvas : Canvas)
-    {
-        super.onDraw(canvas)
-        /*canvas.drawBitmap(
-            mTileArray.get(mTileGrid.get(x).get(y)),
-            XOffset + x * tileSize.toFloat(),
-            YOffset + y * tileSize.toFloat(),
-            paint
-        )*/
-        val rectangle = Rect(0, 0, 100, 100)
-        canvas.drawBitmap(myBitmap, Rect(0, 0, 100, 100), rectangle, paint)
-
-    }*/
-
-
-
-
-
-    /*@JvmName("setOccupant1") //Overwriting to allow the change of position, want to keep it verbose
-    fun setOccupant(entity : Entity){
-        occupant = entity
-        occupant!!.position = position
-    }
-
+    //TODO
     fun removeOccupant(){
-        occupant = null
+        //occupant = null
     }
 
 
-    fun isOccupied(): Boolean{
-        //print(occupant != null)
-        return (occupant != null)
+    fun setOccupant(entity : Entity){
+    //occupant = entity
+    //occupant!!.position = position
     }
 
-    fun dist(posE: Tile): Double {
+
+    /*fun dist(posE: Tile): Double {
         return sqrt((posE.x - x).toDouble().pow(2) + (posE.y - y).toDouble().pow(2))
-    }
-
-    fun getEntity() : Entity?{
-        return occupant
     }*/
+
+    //TODO -> GameObject preferably
+    fun getEntity() : MutableList<Entity>{
+        return occupants
+    }
 
     override fun toString(): String {
         return position.toString()

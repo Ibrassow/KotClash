@@ -1,10 +1,12 @@
-package com.example.kotclash
+package com.example.kotclash.view
 
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.Log
+import com.example.kotclash.Map
+import com.example.kotclash.R
 
 class MapView(val context : Context) {
 

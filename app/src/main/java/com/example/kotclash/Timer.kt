@@ -1,4 +1,5 @@
 package com.example.kotclash
 
-class GameObject {
+class Timer {
+
 }

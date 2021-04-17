@@ -1,13 +1,11 @@
 package com.example.kotclash
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Paint
 import android.view.View
-import java.io.File
-import java.io.InputStream
+
 
 
 class MapLoader(var context : Context, mapChoice : String, val view: View) {
