@@ -2,25 +2,18 @@ package com.example.kotclash
 
 
 
-class Map(val mapWidth: Int = 20, val mapHeight: Int = 20) {
+class Map(val mapWidth: Int = 10, val mapHeight: Int = 10)  {
 
-
+    //I keep them to remind me something
     val mapPixelWidth = mapWidth
     val mapPixelHeight = mapHeight
-
     val rows = mapWidth / Renderable.RENDERABLE_WIDTH
     val cols = mapHeight / Renderable.RENDERABLE_HEIGHT
 
-
     val grid = mutableListOf<MutableList<Tile>>()
 
-     init {
 
-        createMap()
-
-     }
-
-    fun createMap() {
+    /*fun createMap() {
         var x = 0
         var y = 0
         for (i in 0..rows){
@@ -34,8 +27,15 @@ class Map(val mapWidth: Int = 20, val mapHeight: Int = 20) {
             x += Renderable.RENDERABLE_WIDTH
         }
 
+    }*/
+
+    fun getRowSize() : Int {
+        return grid.size
     }
 
+    fun getColSize() : Int {
+        return grid[0].size
+    }
 
 
 
@@ -55,22 +55,6 @@ class Map(val mapWidth: Int = 20, val mapHeight: Int = 20) {
 
 
 
-    //Array(size_x) { Array(size_y) {null} }
-
-    init{
-        createMap()
-    }
-
-
-    fun createMap() {
-
-        for (y in 0 until size_y){
-            for (x in 0 until size_x){
-                grid[x][y] = Tile(x,y)
-            }
-        }
-
-    }
 
 
     //@ return the enttities found within the given range
@@ -123,19 +107,3 @@ class Map(val mapWidth: Int = 20, val mapHeight: Int = 20) {
 
 
 
-//Don't even think
-
-/*    fun drawGrid(canvas: Canvas, context : Context) {
-
-        // Don't touch if you don't want to die
-        val grass : Bitmap = BitmapFactory.decodeResource(context.resources, com.example.kotclash.R.drawable.grass)
-
-        for (x in 0 until rows) {
-            for (y in 0 until cols) {
-                val xx = grid[x][y].position.first.toFloat()
-                val yy = grid[x][y].position.second.toFloat()
-                canvas.drawBitmap(grass, xx, yy, paint)
-
-            }
-        }
-    }*/

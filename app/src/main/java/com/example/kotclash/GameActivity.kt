@@ -15,8 +15,6 @@ class GameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_game)
         gameView = findViewById(R.id.gameView)
 
-
-
     }
 
     override fun onPause() {

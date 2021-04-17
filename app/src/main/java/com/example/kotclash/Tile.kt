@@ -1,40 +1,17 @@
 package com.example.kotclash
 
-import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
-import android.util.AttributeSet
-import java.util.*
+import android.graphics.RectF
+import android.util.Log
 
-interface Renderable {
-    fun draw(canvas: Canvas?)
 
-    companion object {
-        const val RENDERABLE_WIDTH = 50
-        const val RENDERABLE_HEIGHT = 50
-    }
-}
-
-class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
-    //context : Context, attributes: AttributeSet? = null
-    // : View(context, attributes)
-    //var occupant : Entity? = null
+class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
     var occupants : MutableList<GameObject> = mutableListOf()
 
-    //lateinit var canvas : Canvas
-    //val paint = Paint()
+    var x = xi
+    var y = yi
 
-    val random = Random()
-
-    init{
-        val rr: Int = random.nextInt(10)
-        if (rr < 5) tileElement = "ground"
-
-    }
-
-    val position  = Pair(x,y)
+    var position  = Pair(xi,yi)
 
     //TODO change this attribute when reading the map
     var walkable : Boolean = true
@@ -42,9 +19,13 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
     var endx = x + Renderable.RENDERABLE_WIDTH
     var endy = y + Renderable.RENDERABLE_HEIGHT
 
+    var cellRectangle: RectF = RectF(x, y, endx, endy)
 
-
-    var cellRectangle: Rect = Rect(x, y, endx, endy)
+    init{
+        if (tileElement == "grass"){
+            walkable = false //for testing purposes
+        }
+    }
 
     // TODO A* Search
     /*val parentCell: Cell? = null
@@ -55,6 +36,16 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
 
     fun isOccupied(): Boolean{
         return occupants.isNotEmpty()
+    }
+
+    fun setRect(renderable_Width : Float, renderable_Height : Float){
+        x = (xi * renderable_Width).toFloat()
+        y = (yi * renderable_Height).toFloat()
+        position = Pair(x,y)
+        endx = x + renderable_Width
+        endy = y + renderable_Height
+        cellRectangle.set(x, y, endx, endy)
+        Log.d("InTile", "x : $x - y : $y")
     }
 
 
