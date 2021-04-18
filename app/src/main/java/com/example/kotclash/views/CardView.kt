@@ -1,10 +1,9 @@
-package com.example.kotclash.view
+package com.example.kotclash.views
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.widget.ImageButton
 import android.widget.ImageView
 import com.example.kotclash.R
 

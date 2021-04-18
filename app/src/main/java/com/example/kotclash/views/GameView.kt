@@ -1,4 +1,4 @@
-package com.example.kotclash.view
+package com.example.kotclash.views
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,9 +10,13 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.kotclash.Map
 import com.example.kotclash.MapLoader
+import com.example.kotclash.GameManager
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
+
+
+    lateinit var game : GameManager
 
     lateinit var canvas: Canvas
     lateinit var thread: Thread
@@ -20,24 +24,27 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     //Map
     var map : Map = Map()
     var mapLoader: MapLoader = MapLoader()
-    val mapView = MapView(context)
+    val mapView = MapView()
 
     val backgroundPaint = Paint()
-
 
     var screenWidth = 0f
     var screenHeight = 0f
     var drawing : Boolean = true
 
-
-
     init{
+
+        //Temporary
         mapLoader.loadMap("spring")
         map = mapLoader.returnMap()
         backgroundPaint.color = Color.WHITE
         Log.d("map", "test")
     }
 
+
+    fun bindToGame(g : GameManager){
+        game = g
+    }
 
 
     /*override fun run(){
@@ -60,7 +67,8 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             canvas.drawRect(0f, 0f, canvas.width.toFloat(),
                     canvas.height.toFloat(), backgroundPaint)
 
-            mapView.drawGrid(canvas, map)
+            //mapView.drawGrid(canvas, map)
+            mapView.drawGrid(canvas, game.grid)
 
             //Ultra-important
             holder.unlockCanvasAndPost(canvas)
@@ -74,6 +82,18 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
 
+    override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
+
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        screenWidth = w.toFloat()
+        screenHeight = h.toFloat()
+
+        //mapView.setRects(map, screenWidth, screenHeight)
+        mapView.setRects(game.grid, screenWidth, screenHeight)
+        //Log.d("ow", "screenwWidth : $screenWidth")
+
+    }
 
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
@@ -101,19 +121,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         thread.start()
 
     }*/
-
-
-    override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
-
-        super.onSizeChanged(w, h, oldw, oldh)
-
-        screenWidth = w.toFloat()
-        screenHeight = h.toFloat()
-
-        mapView.setRects(map, screenWidth, screenHeight)
-        //Log.d("ow", "screenwWidth : $screenWidth")
-
-    }
 
 
 }

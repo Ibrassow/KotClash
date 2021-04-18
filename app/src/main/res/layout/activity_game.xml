@@ -7,9 +7,9 @@
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".activities.GameActivity">
 
-    <com.example.kotclash.view.GameView
+    <com.example.kotclash.views.GameView
         android:id="@+id/gameView"
         android:layout_width="0dp"
         android:layout_height="450dp"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
-        <com.example.kotclash.view.CardView
+        <com.example.kotclash.views.CardView
             android:id="@+id/card1"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -39,7 +39,7 @@
             />
 
 
-        <com.example.kotclash.view.CardView
+        <com.example.kotclash.views.CardView
             android:id="@+id/card2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -48,7 +48,7 @@
             android:focusable="true"
             android:src="@drawable/imtest2" />
 
-        <com.example.kotclash.view.CardView
+        <com.example.kotclash.views.CardView
             android:id="@+id/card3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

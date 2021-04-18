@@ -1,14 +1,14 @@
-package com.example.kotclash.view
+package com.example.kotclash.views
 
-import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.Log
+import com.example.kotclash.App
 import com.example.kotclash.Map
 import com.example.kotclash.R
 
-class MapView(val context : Context) {
+class MapView() {
 
     var paint = Paint()
 
@@ -17,12 +17,11 @@ class MapView(val context : Context) {
 
     fun drawGrid(canvas: Canvas, map : Map) {
 
-        val grass = BitmapFactory.decodeResource(context.resources, R.drawable.grass)
-        val soil = BitmapFactory.decodeResource(context.resources, R.drawable.soil)
+        val grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.grass)
+        val soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soil)
 
         for (x in 0 until map.getRowSize()) {
             for (y in 0 until map.getColSize()) {
-
 
                 val cell = map.grid[x][y]
 

@@ -1,19 +1,20 @@
 package com.example.kotclash
 
+import android.util.Log
 import com.example.kotclash.models.*
 
 class GameManager: Runnable {
 
-    init{
-        //initEntityList()
-    }
+
+    //Map
+    var grid = Map() //TODO: temporary -> rename it to map
+    var mapLoader: MapLoader = MapLoader()
+
 
     private lateinit var thread: Thread
     private var GAMEOVER = false
     var running = false
 
-    val mapLoader: MapLoader = MapLoader()
-    val grid = Map() //TODO: temporary
 
 
     private val enemyGenerationFreq = 0f
@@ -46,8 +47,18 @@ class GameManager: Runnable {
     val enemyTowersList = ArrayList<Entity>() //to use fctn already def for entities
     val allyTowersList = ArrayList<Entity>()
 
-    fun setMap(mapName : String){
+    //////////////////
 
+
+    init{
+        //initEntityList()
+
+    }
+
+    fun setMap(mapName : String){
+        mapLoader.loadMap("spring")
+        grid = mapLoader.returnMap()
+        Log.d("InitGM", "got map successfully")
     }
 
     override fun run(){

@@ -1,4 +1,4 @@
-package com.example.kotclash
+package com.example.kotclash.activities
 
 import android.content.Intent
 import android.os.Bundle

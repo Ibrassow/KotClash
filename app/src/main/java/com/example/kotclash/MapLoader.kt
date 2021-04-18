@@ -32,7 +32,6 @@ class MapLoader() {
 
     fun parseFile(filename : String) : Map {
 
-        //var map = Map()
         //val inputStream = context.assets.open("$filename.txt")
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
         var lineList = mutableListOf<String>()

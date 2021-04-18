@@ -7,7 +7,6 @@ class Map()  {
 
     val grid = mutableListOf<MutableList<Tile>>()
 
-
     fun getRowSize() : Int {
         return grid.size
     }
@@ -19,9 +18,6 @@ class Map()  {
     fun clearMap(){
         grid.clear()
     }
-
-
-
 
 
     //@ return the enttities found within the given range
@@ -45,7 +41,6 @@ class Map()  {
     }
 
 
-
     fun showOccupancyGrid(){
         for (y in 0 until getRowSize()){
             for (x in 0 until getColSize()){
@@ -59,7 +54,6 @@ class Map()  {
         }
         println("--------------------")
     }
-
 
     //TODO Check if movement is possible, where, etc
     fun displace(entity : Entity, dx : Int, dy : Int){
