@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KotClash</string>
+    <string name="start">Start a new game</string>
+    <string name="quit">Quit</string>
 </resources>
