@@ -6,35 +6,26 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import java.util.*
+import android.graphics.RectF
+import android.util.Log
 
-interface Renderable {
+/*interface Renderable {
     fun draw(canvas: Canvas?)
 
     companion object {
         const val RENDERABLE_WIDTH = 50
         const val RENDERABLE_HEIGHT = 50
     }
-}
+}*/
 
-class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
-    //context : Context, attributes: AttributeSet? = null
-    // : View(context, attributes)
-    //var occupant : Entity? = null
+class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
     var occupants : MutableList<GameObject> = mutableListOf()
 
-    //lateinit var canvas : Canvas
-    //val paint = Paint()
+    var x = xi
+    var y = yi
 
-    val random = Random()
-
-    init{
-        val rr: Int = random.nextInt(10)
-        if (rr < 5) tileElement = "ground"
-
-    }
-
-    val position  = Pair(x,y)
+    var position  = Pair(xi,yi)
 
     //TODO change this attribute when reading the map
     var walkable : Boolean = true
@@ -42,9 +33,13 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
     var endx = x + Renderable.RENDERABLE_WIDTH
     var endy = y + Renderable.RENDERABLE_HEIGHT
 
+    var cellRectangle: RectF = RectF(x, y, endx, endy)
 
-
-    var cellRectangle: Rect = Rect(x, y, endx, endy)
+    init{
+        if (tileElement == "grass"){
+            walkable = false //for testing purposes
+        }
+    }
 
     // TODO A* Search
     /*val parentCell: Cell? = null
@@ -55,6 +50,16 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
 
     fun isOccupied(): Boolean{
         return occupants.isNotEmpty()
+    }
+
+    fun setRect(renderable_Width : Float, renderable_Height : Float){
+        x = (xi * renderable_Width).toFloat()
+        y = (yi * renderable_Height).toFloat()
+        position = Pair(x,y)
+        endx = x + renderable_Width
+        endy = y + renderable_Height
+        cellRectangle.set(x, y, endx, endy)
+        Log.d("InTile", "x : $x - y : $y")
     }
 
 
@@ -68,25 +73,16 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
 
 
     /*var tileSize : Int
-
     lateinit var myBitmap: Bitmap
-
-
     init{
         //var a: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.TileView)
         //tileSize = a.getDimensionPixelSize(R.styleable.TileView_tileSize, 12)
-
         tileSize = 200
         loadTile(1, this.getContext().getResources().getDrawable(R.drawable.grass))
     }
-
-
-
     fun draw(){
         loadTile(1, this.getContext().getResources().getDrawable(R.drawable.grass))
     }
-
-
     fun loadTile(key: Int, tile: Drawable) {
         val bitmap = Bitmap.createBitmap(
             tileSize,
@@ -101,12 +97,9 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
             tileSize
         )
         tile.draw(canvas)
-
         myBitmap = bitmap
         //mTileArray.get(key) = bitmap
     }
-
-
      override fun onDraw(canvas : Canvas)
     {
         super.onDraw(canvas)
@@ -118,7 +111,6 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
         )*/
         val rectangle = Rect(0, 0, 100, 100)
         canvas.drawBitmap(myBitmap, Rect(0, 0, 100, 100), rectangle, paint)
-
     }*/
 
 
@@ -130,21 +122,16 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
         occupant = entity
         occupant!!.position = position
     }
-
     fun removeOccupant(){
         occupant = null
     }
-
-
     fun isOccupied(): Boolean{
         //print(occupant != null)
         return (occupant != null)
     }
-
     fun dist(posE: Tile): Double {
         return sqrt((posE.x - x).toDouble().pow(2) + (posE.y - y).toDouble().pow(2))
     }
-
     fun getEntity() : Entity?{
         return occupant
     }*/
@@ -157,4 +144,3 @@ class Tile(val x : Int, val y : Int, var tileElement : String = "grass") {
 
 
 }
-

@@ -3,6 +3,7 @@ package com.example.kotclash
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -17,7 +18,8 @@ class StartActivity : AppCompatActivity() {
     val sampleTroops = intArrayOf(R.drawable.luffy, R.drawable.zoro, R.drawable.sanji)
     val sampleBases = intArrayOf(R.drawable.tower1, R.drawable.tower2, R.drawable.tower3)
     var sampleChoosable = arrayOf<ImageView>()
-    var i= 0; var j= 0; var k= 0
+    var i=0;var j=0;var k=0;var l=0;var m=0;var n=0;var o=0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,7 @@ class StartActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
         setContentView(R.layout.brand)
+
         Handler().postDelayed({
             setContentView(R.layout.activity_start)
             sampleChoosable = arrayOf<ImageView>(mapChoose, troop1Choose, troop2Choose, troop3Choose, tower1Choose, tower2Choose, tower3Choose)
@@ -43,7 +46,7 @@ class StartActivity : AppCompatActivity() {
                             i++
                         }
                     }
-                    else if (choosable == sampleChoosable[1] || choosable == sampleChoosable[2] || choosable == sampleChoosable[3] ){
+                    else if (choosable == sampleChoosable[1] || choosable == sampleChoosable[2] || choosable == sampleChoosable[3]){
                         if (j == sampleTroops.size) {
                             j = 0
                             choosable.setBackgroundResource(sampleTroops[j])
@@ -70,7 +73,12 @@ class StartActivity : AppCompatActivity() {
         quitButton = findViewById(R.id.quitbutton)
 
         startButton.setOnClickListener {
+            var params = listOf<Int>(i,j,k,l,m,n,o)
             val intent = Intent(this, GameActivity::class.java)
+            Log.wtf("my wtf tag", "start dit "+ params.toString())
+            intent.putExtra("mapChosen", i)
+            intent.putExtra("troopChosen", j)
+            intent.putExtra("towerChosen", k)
             startActivity(intent);
         }
 
@@ -81,6 +89,7 @@ class StartActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
         }, 3000)
     }
 

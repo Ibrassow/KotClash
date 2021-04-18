@@ -6,9 +6,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import androidx.core.content.ContextCompat
+
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback, Runnable {
@@ -16,48 +17,43 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     lateinit var canvas: Canvas
     lateinit var thread: Thread
 
-    lateinit var map : Map
-    lateinit var mapLoader: MapLoader
-
-
+    var map : Map = Map()
+    var mapLoader: MapLoader = MapLoader(context, "spring", this)
+    val mapView = MapView(context)
 
     val backgroundPaint = Paint()
 
-    //val bitmap: Bitmap
-
-
-
-
-
-    //var grass = BitmapFactory.decodeResource(context.resources, com.example.kotclash.R.drawable.tile_drawable)
 
     var screenWidth = 0f
     var screenHeight = 0f
-
 
 
     var drawing : Boolean = true
 
     init{
         backgroundPaint.color = Color.WHITE
+        map = mapLoader.returnMap()
+
     }
 
+    fun notifyView(){
 
+    }
 
 
     override fun run(){
 
         while(drawing){
-            //tileView.draw()
-           draw()
-            //println("drawing")
-        }
 
+            draw()
+        }
     }
 
 
 
     fun draw(){
+
+
 
         if (holder.surface.isValid) {
             canvas = holder.lockCanvas()
@@ -65,20 +61,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
                     canvas.height.toFloat(), backgroundPaint)
 
 
-
-            //map.drawGrid(canvas, context)
-            mapLoader.drawGrid(canvas)
-
+            mapView.drawGrid(canvas, map)
 
             //Ultra-important
             holder.unlockCanvasAndPost(canvas)
+        }
     }
-}
 
 
-
-
-    //val tt = ContextCompat.getDrawable(context, R.drawable.grass)
 
 
 
@@ -105,6 +95,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         drawing = true
         thread = Thread(this)
         thread.start()
+
     }
 
 
@@ -113,15 +104,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         super.onSizeChanged(w, h, oldw, oldh)
 
-        //screenWidth = w.toFloat()
-        //screenHeight = h.toFloat()
+        screenWidth = w.toFloat()
+        screenHeight = h.toFloat()
 
-
-        map = Map(this.getWidth(), this.getHeight())
-        mapLoader = MapLoader(map, context)
-
-
-
+        mapView.setRects(map, screenWidth, screenHeight)
+        //Log.d("ow", "screenwWidth : $screenWidth")
 
 
     }
@@ -129,11 +116,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
 }
 
+interface Renderable {
+    fun draw(canvas: Canvas?)
 
-/*    <com.example.kotclash.Tile
-        android:id="@+id/tileView"
-        android:layout_width="193dp"
-        android:layout_height="173dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/gameView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />*/
+    companion object {
+        const val RENDERABLE_WIDTH = 50
+        const val RENDERABLE_HEIGHT = 50
+    }
+}

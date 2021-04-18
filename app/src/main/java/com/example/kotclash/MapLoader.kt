@@ -3,61 +3,79 @@ package com.example.kotclash
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.View
 
 
-class MapLoader(val map : Map, context : Context) {
+class MapLoader(var context : Context, mapChoice : String, val view: View) {
 
     var grass : Bitmap //Don't join yet
     var ground : Bitmap
 
     var paint = Paint()
 
+    lateinit var map : Map
+
     init{
         // Don't touch if you don't want to die
         grass = BitmapFactory.decodeResource(context.resources, R.drawable.grass)
         ground = BitmapFactory.decodeResource(context.resources, R.drawable.ground)
+        map = loadMap(mapChoice)
+    }
+
+    fun returnMap() : Map{
+        return map
     }
 
 
 
+    fun loadMap(mapName : String) : Map{
 
-    fun drawGrid(canvas: Canvas) {
+        var grid = Map() //temp fix
 
-        for (x in 0 until map.rows) {
-            for (y in 0 until map.cols) {
-
-                //val xx = map.grid[x][y].position.first.toFloat()
-                //val yy = map.grid[x][y].position.second.toFloat()
-
-                val cell = map.grid[x][y]
-
-                val xx = cell.position.first.toFloat()
-                val yy = cell.position.second.toFloat()
-
-                when(cell.tileElement) {
-
-                    "grass" -> canvas.drawBitmap(grass, xx, yy, paint)
-                    "ground" -> canvas.drawBitmap(ground, xx, yy, paint)
-
-                }
-            }
+        when (mapName){
+            "spring" -> grid = parseFile("spring")
         }
+
+        return grid
     }
 
 
-    // I repeat, Don't touch if you don't want to die
-    //val grass : Bitmap = BitmapFactory.decodeResource(context.resources, com.example.kotclash.R.drawable.grass)
+    fun parseFile(filename : String) : Map {
+
+        var map = Map()
+        val inputStream = context.assets.open("$filename.txt")
+        var lineList = mutableListOf<String>()
 
 
+        var xi = 0f
+        var yi = 0f
+        var i = 0
+        var j = 0
+
+        inputStream.bufferedReader().use(){
+            it.forEachLine {
+                line -> lineList = line.split(" ") as MutableList<String>
+
+                map.grid.add(mutableListOf()) //Add a new row
+                for (tileElement in lineList){
+                    when(tileElement){
+                        "G" -> map.grid[i].add(Tile(xi, yi, "grass"))
+                        "S" -> map.grid[i].add(Tile(xi, yi, "ground"))
+                    }
+                    j++
+                    //xi += Renderable.RENDERABLE_WIDTH
+                    xi++
+                }
+                //yi += Renderable.RENDERABLE_HEIGHT
+                yi++
+                i++
+                xi = 0f
+            }
 
 
+            return map
+        }
 
-
-
-
-
-
-
+    }
 }
