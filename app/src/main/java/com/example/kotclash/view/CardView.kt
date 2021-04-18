@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.widget.ImageButton
 import android.widget.ImageView
 import com.example.kotclash.R
 
@@ -46,6 +47,8 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     fun setCard(cardName: String){
 
     }
+
+
 
 
 

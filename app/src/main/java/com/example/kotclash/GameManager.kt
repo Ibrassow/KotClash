@@ -1,21 +1,18 @@
 package com.example.kotclash
 
-import com.example.kotclash.model.*
-
-import java.lang.Math.floor
-import kotlin.math.floor
+import com.example.kotclash.models.*
 
 class GameManager: Runnable {
 
     init{
-        initEntityList()
+        //initEntityList()
     }
 
     private lateinit var thread: Thread
     private var GAMEOVER = false
-    var drawing = false
+    var running = false
 
-
+    val mapLoader: MapLoader = MapLoader()
     val grid = Map() //TODO: temporary
 
 
@@ -49,17 +46,18 @@ class GameManager: Runnable {
     val enemyTowersList = ArrayList<Entity>() //to use fctn already def for entities
     val allyTowersList = ArrayList<Entity>()
 
+    fun setMap(mapName : String){
 
+    }
 
     override fun run(){
         var previousFrameTime = System.currentTimeMillis()
 
-        while (drawing){
+        while (running){
             val currentTime = System.currentTimeMillis()
             val elapsedTimeMS = (currentTime - previousFrameTime)
             timeLeft -= elapsedTimeMS/1000.0
 
-            //notifyView()
             if(timeLeft <= 0){
                 endGame()
             }
@@ -117,12 +115,12 @@ class GameManager: Runnable {
 
 
     fun updateEnemiesDestroyed(){
-        enemyTowersDestroyed ++
+        enemyTowersDestroyed++
     }
 
 
     fun updateAlliesDestroyed(){
-        allyTowersDestroyed
+        allyTowersDestroyed++
     }
 
 
@@ -182,13 +180,13 @@ class GameManager: Runnable {
 
 
     fun pause() {
-        drawing = false
+        running = false
         thread.join()
     }
 
 
     fun resume() {
-        drawing = true
+        running = true
         thread = Thread(this)
         thread.start()
     }

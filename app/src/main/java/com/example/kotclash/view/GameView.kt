@@ -5,20 +5,21 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.kotclash.Map
 import com.example.kotclash.MapLoader
 
 
-class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback, Runnable {
+class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
 
     lateinit var canvas: Canvas
     lateinit var thread: Thread
 
     //Map
     var map : Map = Map()
-    var mapLoader: MapLoader = MapLoader(context, "spring", this)
+    var mapLoader: MapLoader = MapLoader()
     val mapView = MapView(context)
 
     val backgroundPaint = Paint()
@@ -31,22 +32,23 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
 
     init{
-        backgroundPaint.color = Color.WHITE
+        mapLoader.loadMap("spring")
         map = mapLoader.returnMap()
-
-    }
-
-    fun notifyView(){
-
+        backgroundPaint.color = Color.WHITE
+        Log.d("map", "test")
     }
 
 
-    override fun run(){
 
+    /*override fun run(){
         while(drawing){
-
-           draw()
+           //draw()
         }
+    }*/
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        draw() //onDraw isn't always called with invalidate.. strange
     }
 
 
@@ -65,6 +67,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 }
 
+    //Future
+    fun changeMap(mapName : String){
+        mapLoader.loadMap("spring")
+        map = mapLoader.returnMap()
+    }
 
 
 
@@ -73,17 +80,17 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        thread = Thread(this)
-        thread.start()
+        //thread = Thread(this)
+        //thread.start()
 
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        thread.join()
+        //thread.join()
     }
 
 
-    fun pause() {
+    /*fun pause() {
         drawing = false
         thread.join()
     }
@@ -93,8 +100,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         thread = Thread(this)
         thread.start()
 
-    }
-
+    }*/
 
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
@@ -107,19 +113,10 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         mapView.setRects(map, screenWidth, screenHeight)
         //Log.d("ow", "screenwWidth : $screenWidth")
 
-
     }
 
 
 }
 
-interface Renderable {
-    fun draw(canvas: Canvas?)
-
-    companion object {
-        const val RENDERABLE_WIDTH = 50
-        const val RENDERABLE_HEIGHT = 50
-    }
-}
 
 

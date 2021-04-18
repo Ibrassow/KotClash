@@ -1,6 +1,6 @@
 package com.example.kotclash
 
-import com.example.kotclash.model.Entity
+import com.example.kotclash.models.Entity
 
 
 class Map()  {
@@ -14,6 +14,10 @@ class Map()  {
 
     fun getColSize() : Int {
         return grid[0].size
+    }
+
+    fun clearMap(){
+        grid.clear()
     }
 
 

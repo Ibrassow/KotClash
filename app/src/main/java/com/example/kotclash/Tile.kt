@@ -2,11 +2,15 @@ package com.example.kotclash
 
 import android.graphics.RectF
 import android.util.Log
-import com.example.kotclash.model.Entity
-import com.example.kotclash.view.Renderable
+import com.example.kotclash.models.Entity
+
 
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {
+
+    //Temporary
+    val RENDERABLE_WIDTH = 50
+    val RENDERABLE_HEIGHT = 50
 
     //TODO -> GameObject preferably
     var occupants : MutableList<Entity> = mutableListOf()
@@ -19,8 +23,8 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     //TODO change this attribute when reading the map
     var walkable : Boolean = true
 
-    var endx = x + Renderable.RENDERABLE_WIDTH
-    var endy = y + Renderable.RENDERABLE_HEIGHT
+    var endx = x + RENDERABLE_WIDTH
+    var endy = y + RENDERABLE_HEIGHT
 
     //Will serve later on
     var cellRectangle: RectF = RectF(x, y, endx, endy)

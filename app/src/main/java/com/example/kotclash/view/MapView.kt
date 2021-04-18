@@ -12,7 +12,6 @@ class MapView(val context : Context) {
 
     var paint = Paint()
 
-
     // I repeat, Don't touch if you don't want to die
     //val grass : Bitmap = BitmapFactory.decodeResource(context.resources, com.example.kotclash.R.drawable.grass)
 

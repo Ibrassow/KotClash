@@ -1,4 +1,4 @@
-package com.example.kotclash.model
+package com.example.kotclash.models
 
 import com.example.kotclash.Map
 import com.example.kotclash.GameManager

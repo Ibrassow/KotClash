@@ -1,54 +1,43 @@
 package com.example.kotclash
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Paint
-import android.view.View
 
 
 
-class MapLoader(var context : Context, mapChoice : String, val view: View) {
-
-    var grass : Bitmap //Don't join yet
-    var soil : Bitmap
+class MapLoader() {
 
     var paint = Paint()
+    var map = Map()
 
-    lateinit var map : Map
-
-    init{
-        // Don't touch if you don't want to die
-        grass = BitmapFactory.decodeResource(context.resources, R.drawable.grass)
-        soil = BitmapFactory.decodeResource(context.resources, R.drawable.soil)
-        map = loadMap(mapChoice)
-    }
 
     fun returnMap() : Map{
         return map
     }
 
 
-
     fun loadMap(mapName : String) : Map{
 
-        var grid = Map() //temp fix
-
-        when (mapName){
-            "spring" -> grid = parseFile("spring")
+        if (map.grid.isNotEmpty()){
+            map.clearMap()
         }
 
-        return grid
+        //TODO Add other maps
+        when (mapName){
+            "spring" -> map = parseFile("spring")
+        }
+        return map
     }
 
 
     fun parseFile(filename : String) : Map {
 
-        var map = Map()
-        val inputStream = context.assets.open("$filename.txt")
+        //var map = Map()
+        //val inputStream = context.assets.open("$filename.txt")
+        val inputStream = App.getContext().resources.assets.open("$filename.txt")
         var lineList = mutableListOf<String>()
 
-
+        //Temporary
         var xi = 0f
         var yi = 0f
         var i = 0
@@ -73,11 +62,8 @@ class MapLoader(var context : Context, mapChoice : String, val view: View) {
                 i++
                 xi = 0f
             }
-
-
                 return map
             }
-
     }
 
 
