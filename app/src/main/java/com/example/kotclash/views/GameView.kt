@@ -8,9 +8,10 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import com.example.kotclash.GameManager
+import com.example.kotclash.GameThread
 import com.example.kotclash.Map
 import com.example.kotclash.MapLoader
-import com.example.kotclash.GameManager
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
@@ -18,8 +19,8 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     lateinit var game : GameManager
 
-    lateinit var canvas: Canvas
-    lateinit var thread: Thread
+    //lateinit var canvas: Canvas
+    lateinit var thread: GameThread
 
     //Map
     var map : Map = Map()
@@ -39,6 +40,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         map = mapLoader.returnMap()
         backgroundPaint.color = Color.WHITE
         Log.d("map", "test")
+
+        holder.addCallback( this)
+        this.isFocusable = true
+        thread = GameThread(holder, this)
+
     }
 
 
@@ -53,14 +59,26 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         }
     }*/
 
-    override fun onDraw(canvas: Canvas?) {
+   /* override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        draw() //onDraw isn't always called with invalidate.. strange
+        //draw() //onDraw isn't always called with invalidate.. strange
+    }*/
+
+    fun update(timeElasped: Long){
+        game.update(timeElasped)
     }
 
+    override fun draw(canvas: Canvas?) {
+        super.draw(canvas)
 
+        canvas!!.drawRect(0f, 0f, width.toFloat(),
+                    height.toFloat(), backgroundPaint)
 
-    fun draw(){
+        mapView.drawGrid(canvas, game.grid)
+        Log.d("View", "GameView drawing")
+    }
+
+    /*fun draw(){
 
         if (holder.surface.isValid) {
             canvas = holder.lockCanvas()
@@ -69,11 +87,12 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
             //mapView.drawGrid(canvas, map)
             mapView.drawGrid(canvas, game.grid)
+            Log.d("View", "GameView drawing")
 
             //Ultra-important
             holder.unlockCanvasAndPost(canvas)
     }
-}
+}*/
 
     //Future
     fun changeMap(mapName : String){
@@ -100,14 +119,22 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+        Log.d("GameView", "surface created")
+        thread = GameThread(getHolder(), this)
+        thread.setRunning(true)
+        thread.start()
         //thread = Thread(this)
         //thread.start()
 
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        //thread.join()
+
+        thread.setRunning(false)
+        thread.join()
+
     }
+
 
 
     /*fun pause() {

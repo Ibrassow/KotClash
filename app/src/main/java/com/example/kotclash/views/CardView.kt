@@ -11,9 +11,6 @@ import com.example.kotclash.R
 @SuppressLint("AppCompatCustomView")
 class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0, val cardName : String = "") : ImageView(context, attrs, defStyle) {
 
-
-
-
     val paint = Paint()
     lateinit var imageCard : Bitmap
 

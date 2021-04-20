@@ -53,7 +53,7 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         endx = x + renderable_Width
         endy = y + renderable_Height
         cellRectangle.set(x, y, endx, endy)
-        Log.d("InTile", "x : $x - y : $y")
+        //Log.d("InTile", "x : $x - y : $y")
     }
 
     //TODO

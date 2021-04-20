@@ -46,7 +46,7 @@ class MapView() {
         for (x in 0 until map.getColSize()) {
             for (y in 0 until map.getRowSize()) {
                 map.grid[x][y].setRect(rendW, rendH)
-                Log.d("inMapView", "Doing the setRect : $rendW --- $rendH")
+                //Log.d("inMapView", "Doing the setRect : $rendW --- $rendH")
             }
         }
     }
