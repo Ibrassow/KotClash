@@ -3,9 +3,9 @@ package com.example.kotclash
 import android.util.Log
 import com.example.kotclash.models.*
 
-class GameManager: Runnable {
+class GameManager {
 
-
+    //Runnable
     //Map
     var grid = Map() //TODO: temporary -> rename it to map
     var mapLoader: MapLoader = MapLoader()
@@ -14,7 +14,6 @@ class GameManager: Runnable {
     private lateinit var thread: Thread
     private var GAMEOVER = false
     var running = false
-
 
 
     private val enemyGenerationFreq = 0f
@@ -28,8 +27,8 @@ class GameManager: Runnable {
 
 
     //TODO : define spots
-    val rightGenerationSpot = listOf(0f,0f)
-    val leftGenerationSpot = listOf(0f,0f)
+    val rightGenerationSpot = listOf(0f, 0f)
+    val leftGenerationSpot = listOf(0f, 0f)
 
 
     var enemyTowersDestroyed = 0
@@ -50,18 +49,35 @@ class GameManager: Runnable {
     //////////////////
 
 
-    init{
+
+    init {
         //initEntityList()
 
     }
 
-    fun setMap(mapName : String){
+    //TODO Singleton ?
+    companion object {
+        private var instance: GameManager? = null
+
+        val gameInstance: GameManager
+            get() {
+                if (instance == null) {
+                    instance = GameManager()
+                }
+
+                return instance!!
+            }
+    }
+
+
+
+    fun setMap(mapName: String) {
         mapLoader.loadMap("spring")
         grid = mapLoader.returnMap()
         Log.d("InitGM", "got map successfully")
     }
 
-    override fun run(){
+    /*override fun run(){
         var previousFrameTime = System.currentTimeMillis()
 
         while (running){
@@ -77,32 +93,47 @@ class GameManager: Runnable {
             takeAction(elapsedTimeMS, grid) //TODO: might want to convert time into s
             autonomousEnemyGeneration(grid)
         }
+    }*/
+
+    fun update(elapsedTimeMS: Long) {
+
+        timeLeft -= elapsedTimeMS / 1000.0
+        Log.d("GM", "$timeLeft")
+
+        if (timeLeft <= 0) {
+            endGame()
+        }
+        updateResourceBar(elapsedTimeMS)
+        resources = getResourceBar()
+        takeAction(elapsedTimeMS, grid) //TODO: might want to convert time into s
+        autonomousEnemyGeneration(grid)
+
     }
 
 
-    fun takeAction(elapsedTimeMS: Long, grid:Map){
-        for (entity in gameObjectList){
-            if(entity.isAlive()){
-                entity.takeAction(elapsedTimeMS,grid)
+    fun takeAction(elapsedTimeMS: Long, grid: Map) {
+        for (entity in gameObjectList) {
+            if (entity.isAlive()) {
+                entity.takeAction(elapsedTimeMS, grid)
             }
         }
     }
 
 
     //TODO : define more complex generation pattern (preferably one that respects resources)
-    fun autonomousEnemyGeneration(grid:Map){
-        if(readyForEnemyGeneration()){
-            gameObjectList.add(troopFactory.getTroop(true,"boat",null, Pair(0f,0f), 0f))
+    fun autonomousEnemyGeneration(grid: Map) {
+        if (readyForEnemyGeneration()) {
+            gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
         }
     }
 
 
     //checks whether set time between two enemy creations passed
-    fun readyForEnemyGeneration(): Boolean{
+    fun readyForEnemyGeneration(): Boolean {
         var ready = false
         val currentGenerationTime = System.currentTimeMillis()
         val deltaTime = (currentGenerationTime - previousEnemyGenerationTime)
-        if (deltaTime > enemyGenerationFreq){
+        if (deltaTime > enemyGenerationFreq) {
             ready = true
             previousEnemyGenerationTime = currentGenerationTime
         }
@@ -110,56 +141,56 @@ class GameManager: Runnable {
     }
 
 
-    fun createProjectile(enemy:Boolean, type: String, target: Entity, coordinates: Pair<Float,Float>, orientation: Float){
-        gameObjectList.add(troopFactory.getTroop(enemy,type,target,coordinates,orientation))
+    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>, orientation: Float) {
+        gameObjectList.add(troopFactory.getTroop(enemy, type, target, coordinates, orientation))
     }
 
 
-    fun getResourceBar(): Float{
+    fun getResourceBar(): Float {
         return resourceBar.checkResourceBar()
     }
 
 
-    fun updateResourceBar(elapsedTimeMS: Long){
+    fun updateResourceBar(elapsedTimeMS: Long) {
         resourceBar.updateResourceBar(elapsedTimeMS)
     }
 
 
-    fun updateEnemiesDestroyed(){
+    fun updateEnemiesDestroyed() {
         enemyTowersDestroyed++
     }
 
 
-    fun updateAlliesDestroyed(){
+    fun updateAlliesDestroyed() {
         allyTowersDestroyed++
     }
 
 
-    fun saveCard(nbCard:Int){
+    fun saveCard(nbCard: Int) {
         nbCardClicked = nbCard
     }
 
 
-    fun playCard(coordinates: Pair<Float,Float>){
-        cardManager.playCard(nbCardClicked,kotlin.math.floor(resources.toDouble()), coordinates, grid)
+    fun playCard(coordinates: Pair<Float, Float>) {
+        cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, grid)
     }
 
 
     //TODO
-    fun initEntityList(){
+    fun initEntityList() {
         //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true,"simpleTower",null, Pair(0f,0f), 0f ))
-        gameObjectList.add(troopFactory.getTroop(false,"simpleTower",null, Pair(0f,0f),0f))
-        gameObjectList.add(troopFactory.getTroop(true,"simpleTower",null, Pair(0f,0f),0f))
-        gameObjectList.add(troopFactory.getTroop(false,"simpleTower",null, Pair(0f,0f),0f))
-        gameObjectList.add(troopFactory.getTroop(true,"baseTower",null, Pair(0f,0f),0f))
-        gameObjectList.add(troopFactory.getTroop(false,"baseTower",null, Pair(0f,0f),0f))
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "baseTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "baseTower", null, Pair(0f, 0f), 0f))
 
 
-        for(elem in gameObjectList){
-            if(elem.isEnemy()){
+        for (elem in gameObjectList) {
+            if (elem.isEnemy()) {
                 enemyTowersList.add(elem as Entity)
-            }else{
+            } else {
                 allyTowersList.add(elem as Entity)
             }
         }
@@ -167,30 +198,30 @@ class GameManager: Runnable {
     }
 
 
-    fun endGame(){
-        if(allyTowersDestroyed < enemyTowersDestroyed){
+    fun endGame() {
+        if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
-        }else if(allyTowersDestroyed > enemyTowersDestroyed){
+        } else if (allyTowersDestroyed > enemyTowersDestroyed) {
             setGameOver(false)
-        }else
+        } else
             setGameOver(null)
     }
 
 
-    fun setGameOver(gameWon : Boolean?){
+    fun setGameOver(gameWon: Boolean?) {
         //GAMEOVER = false
         GAMEOVER = true
-        if(gameWon == null){
+        if (gameWon == null) {
             //"Egalité"
-        }else if (gameWon == true){
+        } else if (gameWon == true) {
             //"Vous avez gagné"
-        }else{
+        } else {
             //"Vous ave perdu"
         }
     }
 
 
-    fun pause() {
+    /*fun pause() {
         running = false
         thread.join()
     }
@@ -200,6 +231,6 @@ class GameManager: Runnable {
         running = true
         thread = Thread(this)
         thread.start()
-    }
+    }*/
 
 }
