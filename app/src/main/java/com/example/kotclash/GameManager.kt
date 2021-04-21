@@ -5,15 +5,27 @@ import com.example.kotclash.models.*
 
 class GameManager {
 
-    //Runnable
+
+    //"Singleton" - So we get a single instance of the game
+    companion object {
+        private var instance: GameManager? = null
+        val gameInstance: GameManager
+            get() {
+                if (instance == null) {
+                    instance = GameManager()
+                }
+                return instance!!
+            }
+    }
+
+
     //Map
     var grid = Map() //TODO: temporary -> rename it to map
     var mapLoader: MapLoader = MapLoader()
 
 
-    private lateinit var thread: Thread
     private var GAMEOVER = false
-    var running = false
+
 
 
     private val enemyGenerationFreq = 0f
@@ -46,8 +58,7 @@ class GameManager {
     val enemyTowersList = ArrayList<Entity>() //to use fctn already def for entities
     val allyTowersList = ArrayList<Entity>()
 
-    //////////////////
-
+    // -------------------- INIT ------------------- //
 
 
     init {
@@ -55,20 +66,28 @@ class GameManager {
 
     }
 
-    //TODO Singleton ?
-    companion object {
-        private var instance: GameManager? = null
 
-        val gameInstance: GameManager
-            get() {
-                if (instance == null) {
-                    instance = GameManager()
-                }
 
-                return instance!!
+    //TODO
+    fun initEntityList() {
+        //here one base per side and two simpleTowers
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "baseTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "baseTower", null, Pair(0f, 0f), 0f))
+
+
+        for (elem in gameObjectList) {
+            if (elem.isEnemy()) {
+                enemyTowersList.add(elem as Entity)
+            } else {
+                allyTowersList.add(elem as Entity)
             }
+        }
+        //temporary, initialisation will depend on choices made by player
     }
-
 
 
     fun setMap(mapName: String) {
@@ -77,23 +96,7 @@ class GameManager {
         Log.d("InitGM", "got map successfully")
     }
 
-    /*override fun run(){
-        var previousFrameTime = System.currentTimeMillis()
 
-        while (running){
-            val currentTime = System.currentTimeMillis()
-            val elapsedTimeMS = (currentTime - previousFrameTime)
-            timeLeft -= elapsedTimeMS/1000.0
-
-            if(timeLeft <= 0){
-                endGame()
-            }
-            updateResourceBar(elapsedTimeMS)
-            resources = getResourceBar()
-            takeAction(elapsedTimeMS, grid) //TODO: might want to convert time into s
-            autonomousEnemyGeneration(grid)
-        }
-    }*/
 
     fun update(elapsedTimeMS: Long) {
 
@@ -176,26 +179,7 @@ class GameManager {
     }
 
 
-    //TODO
-    fun initEntityList() {
-        //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(true, "baseTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "baseTower", null, Pair(0f, 0f), 0f))
 
-
-        for (elem in gameObjectList) {
-            if (elem.isEnemy()) {
-                enemyTowersList.add(elem as Entity)
-            } else {
-                allyTowersList.add(elem as Entity)
-            }
-        }
-        //temporary, initialisation will depend on choices made by player
-    }
 
 
     fun endGame() {
@@ -221,16 +205,26 @@ class GameManager {
     }
 
 
-    /*fun pause() {
-        running = false
-        thread.join()
+    /*override fun run(){
+    var previousFrameTime = System.currentTimeMillis()
+
+    while (running){
+        val currentTime = System.currentTimeMillis()
+        val elapsedTimeMS = (currentTime - previousFrameTime)
+        timeLeft -= elapsedTimeMS/1000.0
+
+        if(timeLeft <= 0){
+            endGame()
+        }
+        updateResourceBar(elapsedTimeMS)
+        resources = getResourceBar()
+        takeAction(elapsedTimeMS, grid)
+        autonomousEnemyGeneration(grid)
     }
+}*/
 
 
-    fun resume() {
-        running = true
-        thread = Thread(this)
-        thread.start()
-    }*/
+
+
 
 }

@@ -20,7 +20,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     lateinit var game : GameManager
 
     //lateinit var canvas: Canvas
-    lateinit var thread: GameThread
+    var thread: GameThread
 
     //Map
     var map : Map = Map()
@@ -31,15 +31,15 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     var screenWidth = 0f
     var screenHeight = 0f
-    var drawing : Boolean = true
+    //var drawing : Boolean = true
 
     init{
 
         //Temporary
-        mapLoader.loadMap("spring")
-        map = mapLoader.returnMap()
+        /*mapLoader.loadMap("spring")
+        map = mapLoader.returnMap()*/
         backgroundPaint.color = Color.WHITE
-        Log.d("map", "test")
+        //Log.d("map", "test")
 
         holder.addCallback( this)
         this.isFocusable = true
@@ -53,21 +53,12 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
 
-    /*override fun run(){
-        while(drawing){
-           //draw()
-        }
-    }*/
-
-   /* override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-        //draw() //onDraw isn't always called with invalidate.. strange
-    }*/
 
     fun update(timeElasped: Long){
         game.update(timeElasped)
     }
 
+    //TODO MAIN FUNCTION
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
 
@@ -78,21 +69,16 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         Log.d("View", "GameView drawing")
     }
 
-    /*fun draw(){
 
-        if (holder.surface.isValid) {
-            canvas = holder.lockCanvas()
-            canvas.drawRect(0f, 0f, canvas.width.toFloat(),
-                    canvas.height.toFloat(), backgroundPaint)
+    fun drawBases(){
 
-            //mapView.drawGrid(canvas, map)
-            mapView.drawGrid(canvas, game.grid)
-            Log.d("View", "GameView drawing")
-
-            //Ultra-important
-            holder.unlockCanvasAndPost(canvas)
     }
-}*/
+
+
+
+
+
+
 
     //Future
     fun changeMap(mapName : String){
@@ -107,10 +93,8 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
-
         //mapView.setRects(map, screenWidth, screenHeight)
         mapView.setRects(game.grid, screenWidth, screenHeight)
-        //Log.d("ow", "screenwWidth : $screenWidth")
 
     }
 
@@ -135,7 +119,27 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     }
 
+    /*override fun run(){
+    while(drawing){
+       //draw()
+    }
+}*/
 
+    /*fun draw(){
+
+    if (holder.surface.isValid) {
+        canvas = holder.lockCanvas()
+        canvas.drawRect(0f, 0f, canvas.width.toFloat(),
+                canvas.height.toFloat(), backgroundPaint)
+
+        //mapView.drawGrid(canvas, map)
+        mapView.drawGrid(canvas, game.grid)
+        Log.d("View", "GameView drawing")
+
+        //Ultra-important
+        holder.unlockCanvasAndPost(canvas)
+}
+}*/
 
     /*fun pause() {
         drawing = false

@@ -23,8 +23,6 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
     override fun run() {
         var startTime: Long
-        var timeMillis: Long
-        var waitTime: Long
         val targetTime = (1000 / MAX_FPS).toLong()
         var timeElapsed: Long
         var lastTime: Long = 0
