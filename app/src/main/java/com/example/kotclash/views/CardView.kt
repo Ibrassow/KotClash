@@ -9,43 +9,32 @@ import com.example.kotclash.R
 
 
 @SuppressLint("AppCompatCustomView")
-class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0, val cardName : String = "") : ImageView(context, attrs, defStyle) {
-
-
-
+class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ImageView(context, attrs, defStyle) {
 
     val paint = Paint()
-    lateinit var imageCard : Bitmap
+    //lateinit var imageCard : Bitmap
 
 
-
-
-    init{
-        //initCard()
-        this.setImageResource(R.drawable.imtest2)
-
+    fun setCard(cardName: String){
+        initView(cardName)
     }
 
 
-    fun initCard() {
+    fun initView(cardName : String) {
 
-        imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
+        //imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
 
         when (cardName) {
-            "test1" -> imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
-            "test2" -> imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest2)
-            "test3" -> imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest3)
+            "test1" -> this.setImageResource(R.drawable.imtest1)
+            "test2" -> this.setImageResource(R.drawable.imtest2)
+            "test3" -> this.setImageResource(R.drawable.imtest3)
         }
 
-
-
     }
 
 
-    //TODO
-    fun setCard(cardName: String){
 
-    }
+
 
 
 }

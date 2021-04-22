@@ -4,17 +4,18 @@ import com.example.kotclash.Map
 import com.example.kotclash.GameManager
 
 //set base to true when the tower is a base (=> its destruction leads to the end of the game)
-open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: GameManager, currentOrientation: Float
-) : Entity(enemy, coordinates, gameManager, currentOrientation) {    //open var view:GameObjectView,
+open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, gameManager: GameManager
+) : Entity(enemy, coordinates, currentOrientation, gameManager) {
 
+    override var size = Pair(5,3)
 
     override fun takeAction(elapsedTimeMS: Long, grid:Map) {
-        if(readyForAttack()){
+        /*if(readyForAttack()){
             target = selectTarget(grid)
             if(!(target == null)){   //ARTIFICE EN PRINCIPE TEMPORAIRE
                 attack(target!!)
             }
-        }
+        }*/
     }
 
 
