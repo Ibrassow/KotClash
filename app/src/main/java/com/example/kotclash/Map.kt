@@ -11,11 +11,11 @@ class Map()  {
     val grid = mutableListOf<MutableList<Tile>>()
 
     fun getRowSize() : Int {
-        return grid.size
+        return grid[0].size
     }
 
     fun getColSize() : Int {
-        return grid[0].size
+        return grid.size
     }
 
     fun clearMap(){

@@ -1,18 +1,16 @@
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
-G G G G G G * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * E * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G
+G G G G G G * * * A * * * G G G G G G
+G G G G G G * * * * * * * G G G G G G

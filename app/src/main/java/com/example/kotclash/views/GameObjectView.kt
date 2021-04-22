@@ -31,8 +31,14 @@ class GameObjectView(val view : GameView) {
     fun drawObjects(canvas : Canvas, objectList : MutableList<GameObject>){
 
         for (obj in objectList){
-            canvas.drawBitmap(base, null, obj.rectF, paint)
-            Log.d("GameObjectView", "drawingBase")
+
+            when(obj.type){
+                "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
+
+            }
+
+            Log.d("GameObjectView", "drawing object")
+
         }
 
 

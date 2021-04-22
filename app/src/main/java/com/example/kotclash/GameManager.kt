@@ -72,7 +72,7 @@ class GameManager {
 
         //Verif - default map
         if (map.grid.isEmpty()){
-            setMap("spring")
+            //setMap("spring")
         }
         
         //here one base per side and two simpleTowers
@@ -97,9 +97,10 @@ class GameManager {
 
 
     fun setMap(mapName: String) {
-        mapLoader.loadMap("spring")
+        mapLoader.loadMap(mapName)
         map = mapLoader.returnMap()
-        Log.d("InitGM", "got map successfully")
+        val ss = map.grid.isNotEmpty()
+        Log.d("InitGM", "got map : $ss")
     }
 
 

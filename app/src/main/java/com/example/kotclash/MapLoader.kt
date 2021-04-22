@@ -2,7 +2,7 @@ package com.example.kotclash
 
 import android.content.Context
 import android.graphics.Paint
-
+import android.util.Log
 
 
 class MapLoader() {
@@ -35,7 +35,7 @@ class MapLoader() {
         //val inputStream = context.assets.open("$filename.txt")
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
         var lineList = mutableListOf<String>()
-
+        val posBases = mutableMapOf<String, Pair<Float, Float>>()
         //Temporary
         var xi = 0f
         var yi = 0f
@@ -51,6 +51,16 @@ class MapLoader() {
                     when(tileElement){
                         "G" -> map.grid[i].add(Tile(xi, yi, "grass"))
                         "*" -> map.grid[i].add(Tile(xi, yi, "soil"))
+                        "A" -> {
+                            map.grid[i].add(Tile(xi, yi, "soil"))
+                            posBases.put("ally", Pair(xi, yi))
+                            Log.d("allyPosBase", "$xi $yi")
+                        }
+                        "E" -> {
+                            map.grid[i].add(Tile(xi, yi, "soil"))
+                            posBases.put("enemy", Pair(xi, yi))
+                            Log.d("enemyPosBase", "$xi $yi")
+                        }
                     }
                     j++
                     //xi += Renderable.RENDERABLE_WIDTH
@@ -61,6 +71,7 @@ class MapLoader() {
                 i++
                 xi = 0f
             }
+
                 return map
             }
     }

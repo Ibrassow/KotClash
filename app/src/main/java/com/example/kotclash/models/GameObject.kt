@@ -13,6 +13,8 @@ open class GameObject(
         open var size : Pair<Int, Int> = Pair(1,1)
 ) {
 
+    open var type = ""
+
     init{
 
     }
