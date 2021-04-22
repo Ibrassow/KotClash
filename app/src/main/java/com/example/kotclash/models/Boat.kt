@@ -4,8 +4,8 @@ import com.example.kotclash.GameManager
 
 class Boat(enemy: Boolean,
            coordinates : Pair<Float,Float>,
-           gameManager: GameManager, currentOrientation: Float
-) : Troop(enemy, coordinates, gameManager, currentOrientation) {    //open var view:GameObjectView,
+           currentOrientation: Float, gameManager: GameManager
+) : Troop(enemy, coordinates, currentOrientation, gameManager) {
 
     override val freqShoot = 0f
     override val damage = 0

@@ -2,7 +2,7 @@ package com.example.kotclash.models
 
 import com.example.kotclash.GameManager
 
-class TroopFactory(val gameManager: GameManager) {     //var view: GameObjectView
+class TroopFactory(val gameManager: GameManager) {
 
     lateinit var troopSelect : GameObject
 
@@ -15,14 +15,14 @@ class TroopFactory(val gameManager: GameManager) {     //var view: GameObjectVie
 
         //TODO : gameObjectFactory
         when (type){
-            //"submarine" -> troopSelect = Submarine(enemy, coordinates, gameManager, currentOrientation)
-            "projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, gameManager, currentOrientation)
-            "boat" -> troopSelect = Boat(true, coordinates, gameManager, currentOrientation)
-            //"simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, gameManager, currentOrientation)
-            "base" -> troopSelect = Base(enemy, coordinates, gameManager, currentOrientation)
+            "base" -> troopSelect = Base(enemy, coordinates, currentOrientation, gameManager)
+            //"submarine" -> troopSelect = Submarine(enemy, coordinates, currentOrientation, gameManager)
+            //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, currentOrientation, gameManager)
+            //"boat" -> troopSelect = Boat(true, coordinates, currentOrientation, gameManager)
+            //"simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, currentOrientation, gameManager)
 
-            //TODO : redefine missile for each entity
 
+            //TODO : redefine missile for each entity - mdr
         }
 
         return troopSelect

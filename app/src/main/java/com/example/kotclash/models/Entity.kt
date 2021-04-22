@@ -4,8 +4,8 @@ import com.example.kotclash.GameManager
 import com.example.kotclash.Map
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: GameManager, currentOrientation: Float) : GameObject(enemy, coordinates, currentOrientation, gameManager) {
-//open var view:GameObjectView,
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, gameManager: GameManager) : GameObject(enemy, coordinates, currentOrientation) {
+
 
     open var health = 0
 
@@ -28,6 +28,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: 
 
 
     //TODO : should be overridden, as each troop will create its own projectile
+    //TODO : Attack as an interface? -> close/distance/..
     override fun attack(entity: Entity){
         val orientation = getInitAngleProjectile(entity)
         //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)

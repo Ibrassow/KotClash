@@ -9,9 +9,9 @@ import kotlin.math.sin
 class Projectile(enemy: Boolean,
                  val target: Entity,
                  coordinates : Pair<Float,Float>,
-                 gameManager: GameManager,
-                 currentOrientation : Float
-) : GameObject(enemy, coordinates, currentOrientation, gameManager), Movable {
+                 currentOrientation : Float,
+                 gameManager: GameManager
+) : GameObject(enemy, coordinates, currentOrientation), Movable {
 
 
 
