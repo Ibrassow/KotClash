@@ -40,8 +40,11 @@ class GameActivity : AppCompatActivity() {
 
         progressBar = findViewById(R.id.progressBar)
         cardList.add(findViewById(R.id.card1))
+        cardList[0].setCard("test1")
         cardList.add(findViewById(R.id.card2))
+        cardList[1].setCard("test2")
         cardList.add(findViewById(R.id.card3))
+        cardList[2].setCard("test3")
 
         //Success
         /*cardList[0].setOnClickListener{
