@@ -1,7 +1,9 @@
 package com.example.kotclash
 
+import android.util.Log
 import com.example.kotclash.models.Entity
 import com.example.kotclash.models.GameObject
+import java.lang.IndexOutOfBoundsException
 
 
 class Map()  {
@@ -22,10 +24,27 @@ class Map()  {
 
     //Need to accomodate for the size, etc
     fun placeNewObject(gameObject: GameObject){
+        //TODO opti after
         val sz = gameObject.size
-        val pos = gameObject.coordinates
+        val szx = sz.first/2
+        val szy = sz.second/2
+        val xx = gameObject.coordinates.first.toInt()
+        val yy = gameObject.coordinates.second.toInt()
+
+        for (x in xx-szx..xx+szx){
+            for (y in yy-szy..yy+szy){
+                //to account for non-existing tiles
+                try {
+                    grid[y][x].setOccupant(gameObject as Entity) //TODO we need to decide if we add objects or entities
+                }
+                catch(e: IndexOutOfBoundsException){
+                    Log.d("Exception grid - place", "Index out of bounds")
+                }
+            }
+        }
 
     }
+
 
 
 

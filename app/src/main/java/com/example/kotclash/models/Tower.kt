@@ -7,6 +7,7 @@ import com.example.kotclash.GameManager
 open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, gameManager: GameManager
 ) : Entity(enemy, coordinates, currentOrientation, gameManager) {
 
+    override var size = Pair(3,3)
 
     override fun takeAction(elapsedTimeMS: Long, grid:Map) {
         if(readyForAttack()){
