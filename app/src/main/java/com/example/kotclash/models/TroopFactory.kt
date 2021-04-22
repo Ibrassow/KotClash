@@ -23,7 +23,6 @@ class TroopFactory(val gameManager: GameManager) {
 
 
             //TODO : redefine missile for each entity - mdr
-
         }
 
         return troopSelect

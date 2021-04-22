@@ -4,14 +4,17 @@ import android.graphics.*
 import android.util.Log
 import com.example.kotclash.App
 import com.example.kotclash.R
+import com.example.kotclash.models.Entity
 import com.example.kotclash.models.GameObject
+import java.lang.IndexOutOfBoundsException
 
-class GameObjectView {
+class GameObjectView(val view : GameView) {
 
     lateinit var base: Bitmap
 
     //TODO Check P
     var paint = Paint()
+    val rectF = RectF(0f,0f, 0f, 0f)
 
     init{
         initImages()
@@ -25,20 +28,44 @@ class GameObjectView {
     }
 
     // gameObject : GameObject
-    fun drawObjects(canvas : Canvas){
-        val rectF = RectF(500f, 100f, 800f, 300f)
-        canvas.drawBitmap(base, null, rectF, paint)
+    fun drawObjects(canvas : Canvas, objectList : MutableList<GameObject>){
+
+        for (obj in objectList){
+            canvas.drawBitmap(base, null, obj.rectF, paint)
+            Log.d("GameObjectView", "drawingBase")
+        }
+
+
+
+    }
+
+    fun setRect(objectList : MutableList<GameObject>){
+
+        val rendW = (view.screenWidth / view.game.map.getRowSize())
+        val rendH = (view.screenHeight / view.game.map.getColSize())
+
+
+        for (obj in objectList){
+
+            val xx = obj.coordinates.first
+            val yy = obj.coordinates.second
+            val szx = obj.size.first
+            val szy = obj.size.second
+            //RESIZING
+            obj.rectF.set(xx-(szx/2f)*rendW, yy-(szy/2f)*rendH, xx+(szx/2f)*rendW, yy+(szy/2f)*rendH)
+
+        }
 
     }
 
 
-    /*TODO Set multi-tiles objects on map
+
+
+
+    /*
     TODO Draw objects based on their positions
     TODO Set Rect!
     TODO
-
-
-
 
 
      */

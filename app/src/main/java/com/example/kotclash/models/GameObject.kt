@@ -31,6 +31,14 @@ open class GameObject(
     var rectF: RectF = RectF(coordinates.first, coordinates.second, coordinates.first, coordinates.second)
 
 
+
+    //TODO For each "movable" object -> Offset the rectangle
+
+
+
+
+
+
     open fun takeAction(elapsedTimeMS: Long, grid: Map){}
 
     /*fun isObstacle(){

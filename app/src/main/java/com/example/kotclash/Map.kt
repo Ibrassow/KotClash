@@ -22,7 +22,7 @@ class Map()  {
         grid.clear()
     }
 
-    //Need to accomodate for the size, etc
+
     fun placeNewObject(gameObject: GameObject){
         //TODO opti after
         val sz = gameObject.size

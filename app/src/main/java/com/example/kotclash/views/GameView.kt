@@ -28,7 +28,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     val mapLoader: MapLoader = MapLoader()
     val mapView = MapView()
 
-    val objectDrawer : GameObjectView = GameObjectView()
+    val objectDrawer : GameObjectView = GameObjectView(this)
 
     //misc
     val backgroundPaint = Paint()
@@ -69,7 +69,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
                     height.toFloat(), backgroundPaint)
         Log.d("View", "GameView drawing")
         mapView.drawGrid(canvas, game.map)
-        objectDrawer.drawObjects(canvas)
+        objectDrawer.drawObjects(canvas, game.gameObjectList)
         Log.d("checking", "$width and $height")
 
 
@@ -95,31 +95,42 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
-        //mapView.setRects(map, screenWidth, screenHeight)
         mapView.setRects(game.map, screenWidth, screenHeight)
-
+        objectDrawer.setRect(game.gameObjectList)
     }
 
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
     }
 
+
+
     override fun surfaceCreated(holder: SurfaceHolder) {
         Log.d("GameView", "surface created")
         thread = GameThread(getHolder(), this)
         thread.setRunning(true)
         thread.start()
-        //thread = Thread(this)
-        //thread.start()
-
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-
         thread.setRunning(false)
         thread.join()
-
     }
+
+
+    fun pause() {
+        thread.setRunning(false)
+        thread.join()
+    }
+
+    fun resume() {
+        Log.d("GameView", "Game resumed")
+        thread = GameThread(getHolder(), this)
+        thread.setRunning(true)
+        thread.start()
+    }
+
+
 
     /*override fun run(){
     while(drawing){
@@ -143,17 +154,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 }
 }*/
 
-    /*fun pause() {
-        drawing = false
-        thread.join()
-    }
 
-    fun resume() {
-        drawing = true
-        thread = Thread(this)
-        thread.start()
-
-    }*/
 
 
 }

@@ -53,15 +53,15 @@ class GameManager {
     /////////////////////////
     val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
-    val gameObjectList = ArrayList<GameObject>()
-    val enemyTowersList = ArrayList<Entity>() //to use fctn already def for entities
-    val allyTowersList = ArrayList<Entity>()
+    val gameObjectList = mutableListOf<GameObject>()
+    val enemyTowersList = mutableListOf<Entity>() //to use fctn already def for entities
+    val allyTowersList = mutableListOf<Entity>()
 
     // -------------------- INIT ------------------- //
 
 
     init {
-        //initEntityList()
+        initEntityList()
 
     }
 
@@ -76,8 +76,8 @@ class GameManager {
         }
         
         //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "baseTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "baseTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "base", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "base", null, Pair(0f, 0f), 0f))
         /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
