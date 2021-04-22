@@ -6,6 +6,7 @@ import com.example.kotclash.App
 import com.example.kotclash.R
 import com.example.kotclash.models.Entity
 import com.example.kotclash.models.GameObject
+import com.example.kotclash.models.Tower
 import java.lang.IndexOutOfBoundsException
 
 class GameObjectView(val view : GameView) {
@@ -52,6 +53,10 @@ class GameObjectView(val view : GameView) {
 
 
         for (obj in objectList){
+
+            if (obj is Tower){
+                obj.coordinates = Pair(obj.coordinates.first * rendW, obj.coordinates.second * rendH)
+            }
 
             val xx = obj.coordinates.first
             val yy = obj.coordinates.second

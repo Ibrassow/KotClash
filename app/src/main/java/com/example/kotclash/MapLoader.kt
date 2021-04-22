@@ -10,6 +10,9 @@ class MapLoader() {
     var paint = Paint()
     var map = Map()
 
+    val posBases = mutableMapOf<String, Pair<Float, Float>>()
+
+
 
     fun returnMap() : Map{
         return map
@@ -32,10 +35,12 @@ class MapLoader() {
 
     fun parseFile(filename : String) : Map {
 
+        posBases.clear()
+
         //val inputStream = context.assets.open("$filename.txt")
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
         var lineList = mutableListOf<String>()
-        val posBases = mutableMapOf<String, Pair<Float, Float>>()
+
         //Temporary
         var xi = 0f
         var yi = 0f
@@ -75,6 +80,8 @@ class MapLoader() {
                 return map
             }
     }
+
+
 
 
 

@@ -72,12 +72,13 @@ class GameManager {
 
         //Verif - default map
         if (map.grid.isEmpty()){
-            //setMap("spring")
+            setMap("spring")
         }
-        
+
+
         //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "base", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "base", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "base", null, mapLoader.posBases["enemy"]!!, 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "base", null, mapLoader.posBases["ally"]!!, 0f))
         /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
