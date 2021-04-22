@@ -73,15 +73,6 @@ class GameObjectView(val view : GameView) {
 
 
 
-    /*
-    TODO Draw objects based on their positions
-    TODO Set Rect!
-    TODO
-
-
-     */
-
-
 
 
 
