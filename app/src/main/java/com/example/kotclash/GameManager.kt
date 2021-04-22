@@ -20,12 +20,11 @@ class GameManager {
 
 
     //Map
-    var grid = Map() //TODO: temporary -> rename it to map
+    var map = Map()
     var mapLoader: MapLoader = MapLoader()
 
 
     private var GAMEOVER = false
-
 
 
     private val enemyGenerationFreq = 0f
@@ -52,7 +51,7 @@ class GameManager {
     var timeLeft = 0.0
 
     /////////////////////////
-    val troopFactory = TroopFactory(this)  //requires view?
+    val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
     val gameObjectList = ArrayList<GameObject>()
     val enemyTowersList = ArrayList<Entity>() //to use fctn already def for entities
@@ -70,13 +69,20 @@ class GameManager {
 
     //TODO
     fun initEntityList() {
+
+        //Verif - default map
+        if (map.grid.isEmpty()){
+            setMap("spring")
+        }
+        
         //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(true, "baseTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(false, "baseTower", null, Pair(0f, 0f), 0f))
+        /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))*/
+
 
 
         for (elem in gameObjectList) {
@@ -92,7 +98,7 @@ class GameManager {
 
     fun setMap(mapName: String) {
         mapLoader.loadMap("spring")
-        grid = mapLoader.returnMap()
+        map = mapLoader.returnMap()
         Log.d("InitGM", "got map successfully")
     }
 
@@ -108,25 +114,25 @@ class GameManager {
         }
         updateResourceBar(elapsedTimeMS)
         resources = getResourceBar()
-        takeAction(elapsedTimeMS, grid) //TODO: might want to convert time into s
-        autonomousEnemyGeneration(grid)
+        takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+        autonomousEnemyGeneration(map)
 
     }
 
 
-    fun takeAction(elapsedTimeMS: Long, grid: Map) {
+    fun takeAction(elapsedTimeMS: Long, map: Map) {
         for (entity in gameObjectList) {
             if (entity.isAlive()) {
-                entity.takeAction(elapsedTimeMS, grid)
+                entity.takeAction(elapsedTimeMS, map)
             }
         }
     }
 
 
     //TODO : define more complex generation pattern (preferably one that respects resources)
-    fun autonomousEnemyGeneration(grid: Map) {
+    fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
-            gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
+            //gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
         }
     }
 
@@ -175,7 +181,7 @@ class GameManager {
 
 
     fun playCard(coordinates: Pair<Float, Float>) {
-        cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, grid)
+        cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, map)
     }
 
 
@@ -218,8 +224,8 @@ class GameManager {
         }
         updateResourceBar(elapsedTimeMS)
         resources = getResourceBar()
-        takeAction(elapsedTimeMS, grid)
-        autonomousEnemyGeneration(grid)
+        takeAction(elapsedTimeMS, map)
+        autonomousEnemyGeneration(map)
     }
 }*/
 

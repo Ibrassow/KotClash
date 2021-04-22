@@ -1,5 +1,6 @@
 package com.example.kotclash.models
 
+import android.graphics.RectF
 import com.example.kotclash.GameManager
 import com.example.kotclash.Map
 import kotlin.math.atan2
@@ -8,12 +9,26 @@ import kotlin.math.atan2
 open class GameObject(
         val enemy: Boolean,
         var coordinates: Pair<Float, Float>,
-        var currentOrientation: Float
+        var currentOrientation: Float,
+        open var size : Pair<Int, Int> = Pair(1,1)
 ) {
+
+    init{
+
+    }
+
+    //Needed for view and common to each object
+    //Size for the grid
+    //open var size = Pair(0,0)
+
+    //open var name: String
 
     var dead = false
     val range = 0
     open val damage = 0
+
+    //Parcelable
+    var rectF: RectF = RectF(coordinates.first, coordinates.second, coordinates.first, coordinates.second)
 
 
     open fun takeAction(elapsedTimeMS: Long, grid: Map){}

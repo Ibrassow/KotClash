@@ -33,7 +33,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
             timeElapsed = (startTime - lastTime) / 1000000
 
             if (timeElapsed >= targetTime){
-                canvas = null
+                canvas = null //Null pointer exception is our friend
 
                 try {
                     // locking the canvas allows us to draw on to it

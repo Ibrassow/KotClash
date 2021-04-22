@@ -1,6 +1,7 @@
 package com.example.kotclash
 
 import com.example.kotclash.models.Entity
+import com.example.kotclash.models.GameObject
 
 
 class Map()  {
@@ -19,8 +20,16 @@ class Map()  {
         grid.clear()
     }
 
+    //Need to accomodate for the size, etc
+    fun placeNewObject(gameObject: GameObject){
+        val sz = gameObject.size
+        val pos = gameObject.coordinates
 
-    //@ return the enttities found within the given range
+    }
+
+
+
+    //returns the entities found in the given range
     fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<Entity> {
 
         val entityFound = mutableListOf<Entity>()

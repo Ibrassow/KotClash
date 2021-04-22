@@ -12,6 +12,7 @@ import com.example.kotclash.GameManager
 import com.example.kotclash.GameThread
 import com.example.kotclash.Map
 import com.example.kotclash.MapLoader
+import com.example.kotclash.models.GameObject
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
@@ -24,21 +25,22 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     //Map
     var map : Map = Map()
-    var mapLoader: MapLoader = MapLoader()
+    val mapLoader: MapLoader = MapLoader()
     val mapView = MapView()
 
-    val backgroundPaint = Paint()
+    val objectDrawer : GameObjectView = GameObjectView()
 
+    //misc
+    val backgroundPaint = Paint()
     var screenWidth = 0f
     var screenHeight = 0f
-    //var drawing : Boolean = true
 
     init{
+        backgroundPaint.color = Color.WHITE
 
         //Temporary
         /*mapLoader.loadMap("spring")
         map = mapLoader.returnMap()*/
-        backgroundPaint.color = Color.WHITE
         //Log.d("map", "test")
 
         holder.addCallback( this)
@@ -48,15 +50,16 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
 
+
+
+
+
     fun bindToGame(g : GameManager){
         game = g
     }
 
 
 
-    fun update(timeElasped: Long){
-        game.update(timeElasped)
-    }
 
     //TODO MAIN FUNCTION
     override fun draw(canvas: Canvas?) {
@@ -64,17 +67,15 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         canvas!!.drawRect(0f, 0f, width.toFloat(),
                     height.toFloat(), backgroundPaint)
-
-        mapView.drawGrid(canvas, game.grid)
         Log.d("View", "GameView drawing")
+        mapView.drawGrid(canvas, game.map)
+        objectDrawer.drawObjects(canvas)
+        Log.d("checking", "$width and $height")
+
+
+
+
     }
-
-
-    fun drawBases(){
-
-    }
-
-
 
 
 
@@ -82,6 +83,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     //Future
     fun changeMap(mapName : String){
+        //TODO read map from gameManager
         mapLoader.loadMap("spring")
         map = mapLoader.returnMap()
     }
@@ -94,7 +96,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
         //mapView.setRects(map, screenWidth, screenHeight)
-        mapView.setRects(game.grid, screenWidth, screenHeight)
+        mapView.setRects(game.map, screenWidth, screenHeight)
 
     }
 

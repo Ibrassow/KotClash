@@ -50,7 +50,7 @@ class MapLoader() {
                 for (tileElement in lineList){
                     when(tileElement){
                         "G" -> map.grid[i].add(Tile(xi, yi, "grass"))
-                        "S" -> map.grid[i].add(Tile(xi, yi, "soil"))
+                        "*" -> map.grid[i].add(Tile(xi, yi, "soil"))
                     }
                     j++
                     //xi += Renderable.RENDERABLE_WIDTH

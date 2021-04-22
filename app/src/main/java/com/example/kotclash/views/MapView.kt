@@ -25,8 +25,8 @@ class MapView() {
 
                 val cell = map.grid[x][y]
 
-                val xx = cell.position.first.toFloat()
-                val yy = cell.position.second.toFloat()
+                val xx = cell.position.first
+                val yy = cell.position.second
 
                 when(cell.tileElement) {
 
@@ -40,8 +40,8 @@ class MapView() {
 
     fun setRects(map : Map, w : Float, h : Float){
 
-        val rendW = (w / map.getRowSize()).toFloat()
-        val rendH = (h / map.getColSize()).toFloat()
+        val rendW = (w / map.getRowSize())
+        val rendH = (h / map.getColSize())
 
         for (x in 0 until map.getColSize()) {
             for (y in 0 until map.getRowSize()) {
