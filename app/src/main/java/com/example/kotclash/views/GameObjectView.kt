@@ -55,7 +55,7 @@ class GameObjectView(val view : GameView) {
         for (obj in objectList){
 
             if (obj is Tower){
-                obj.coordinates = Pair(obj.coordinates.first * rendW, obj.coordinates.second * rendH)
+                obj.coordinates = Pair(obj.coordinates.first * rendW + rendW/2, obj.coordinates.second * rendH + rendH/2)
             }
 
             val xx = obj.coordinates.first

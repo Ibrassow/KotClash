@@ -54,13 +54,13 @@ class GameActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        //gameView.pause()
+        gameView.pause()
 
     }
 
     override fun onResume() {
         super.onResume()
-        //gameView.resume()
+        gameView.resume()
     }
 
     override fun onDestroy(){
@@ -71,7 +71,7 @@ class GameActivity : AppCompatActivity() {
 
 
     //This will be called to update everything
-    fun notifyViews(){
+    /*fun notifyViews(){
         //gameView.invalidate()
         //gameView.draw() //Temp
         progressBar.invalidate()
@@ -79,7 +79,7 @@ class GameActivity : AppCompatActivity() {
             card.invalidate()
         }
         Log.d("Push", "Views notified")
-    }
+    }*/
 
 
 
