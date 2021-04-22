@@ -37,9 +37,4 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
 
 
-
-
-
-
-
 }
