@@ -52,7 +52,7 @@ class GameManager {
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
-    val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
+    val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<Entity>() //to use fctn already def for entities
     val allyTowersList = mutableListOf<Entity>()
@@ -185,9 +185,6 @@ class GameManager {
     fun playCard(coordinates: Pair<Float, Float>) {
         cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, map)
     }
-
-
-
 
 
     fun endGame() {

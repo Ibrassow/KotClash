@@ -3,10 +3,12 @@ package com.example.kotclash
 import android.graphics.Canvas
 import android.util.Log
 import android.view.SurfaceHolder
+import android.widget.ProgressBar
 import com.example.kotclash.views.GameView
+import kotlin.math.floor
 
 
-class GameThread(private val holder: SurfaceHolder, private val gameView: GameView) : Thread() {
+class GameThread(private val holder: SurfaceHolder, private val gameView: GameView, val progressBar: ProgressBar) : Thread() {
     private var running: Boolean = false
 
     private val MAX_FPS = 50
@@ -42,6 +44,8 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
                         game.update(timeElapsed)
                         gameView.draw(canvas!!)
+                        progressBar.progress = floor(game.getResourceBar()).toInt()*20
+                        //mutliply by 20 as need percentage -> might be temporary
                         Log.d("thread", "calling draw and update from thread : $timeElapsed")
                         lastTime = System.nanoTime()
                     }

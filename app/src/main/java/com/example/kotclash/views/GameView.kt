@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.ProgressBar
 import com.example.kotclash.GameManager
 import com.example.kotclash.GameThread
 import com.example.kotclash.Map
@@ -19,6 +20,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
 
     lateinit var game : GameManager
+    lateinit var progressBar: ProgressBar
 
     //lateinit var canvas: Canvas
     var thread: GameThread
@@ -45,11 +47,9 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         holder.addCallback( this)
         this.isFocusable = true
-        thread = GameThread(holder, this)
+        thread = GameThread(holder, this, progressBar)
 
     }
-
-
 
 
 
@@ -79,8 +79,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
 
 
-
-
     //Future
     fun changeMap(mapName : String){
         //TODO read map from gameManager
@@ -107,7 +105,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         Log.d("GameView", "surface created")
-        thread = GameThread(getHolder(), this)
+        thread = GameThread(getHolder(), this, progressBar)
         thread.setRunning(true)
         thread.start()
     }
@@ -125,7 +123,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     fun resume() {
         Log.d("GameView", "Game resumed")
-        thread = GameThread(getHolder(), this)
+        thread = GameThread(getHolder(), this, progressBar)
         thread.setRunning(true)
         thread.start()
     }
