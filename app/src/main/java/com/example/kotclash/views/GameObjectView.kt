@@ -15,7 +15,7 @@ class GameObjectView(val view : GameView) {
 
     //TODO Check P
     var paint = Paint()
-    val rectF = RectF(0f,0f, 0f, 0f)
+    //val rectF = RectF(0f,0f, 0f, 0f)
 
     init{
         initImages()
@@ -66,12 +66,6 @@ class GameObjectView(val view : GameView) {
         }
 
     }
-
-
-
-
-
-
 
 
 
