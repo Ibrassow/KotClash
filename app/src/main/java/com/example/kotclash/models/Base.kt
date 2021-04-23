@@ -14,7 +14,7 @@ class Base(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: 
     override fun getDamaged(dmg: Int) {
         super.getDamaged(dmg)
         if (dead && enemy){
-            //gameManager.setGameOver(true) //TODO
+            gameManager.setGameOver(true)
         }
     }
 
