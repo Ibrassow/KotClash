@@ -1,4 +1,4 @@
-package com.example.kotclash
+package com.example.kotclash.controllers
 
 import android.util.Log
 import com.example.kotclash.models.*
@@ -48,7 +48,7 @@ class GameManager {
 
     private val resourceBar = ResourceBar()
 
-    var timeLeft = 0.0
+    var timeLeft = 40.0
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
@@ -77,8 +77,13 @@ class GameManager {
 
 
         //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "base", null, mapLoader.posBases["enemy"]!!, 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "base", null,mapLoader.posBases["enemy"]!!, 0f))
         gameObjectList.add(troopFactory.getTroop(false, "base", null, mapLoader.posBases["ally"]!!, 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers1["ally"]!!,  0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers1["enemy"]!!,  0f))
+        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers2["ally"]!!,  0f))
+        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers2["enemy"]!!,  0f))
+        gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))
         /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
         gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
@@ -108,7 +113,7 @@ class GameManager {
 
     fun update(elapsedTimeMS: Long) {
 
-        timeLeft -= elapsedTimeMS / 1000.0
+        timeLeft -= elapsedTimeMS / 10000000000.0
         Log.d("GM", "$timeLeft")
 
         if (timeLeft <= 0) {
@@ -116,7 +121,9 @@ class GameManager {
         }
         updateResourceBar(elapsedTimeMS)
         resources = getResourceBar()
-        takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+
+        takeAction(elapsedTimeMS, map)
+        //TODO: might want to convert time into s
         autonomousEnemyGeneration(map)
 
     }
@@ -126,6 +133,7 @@ class GameManager {
         for (entity in gameObjectList) {
             if (entity.isAlive()) {
                 entity.takeAction(elapsedTimeMS, map)
+                Log.d("GM", "ACTION TAKEN FOR " + entity.toString())
             }
         }
     }

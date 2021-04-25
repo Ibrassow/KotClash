@@ -8,11 +8,10 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import com.example.kotclash.GameManager
-import com.example.kotclash.GameThread
-import com.example.kotclash.Map
-import com.example.kotclash.MapLoader
-import com.example.kotclash.models.GameObject
+import com.example.kotclash.controllers.GameManager
+import com.example.kotclash.controllers.GameThread
+import com.example.kotclash.controllers.Map
+import com.example.kotclash.controllers.MapLoader
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
@@ -69,16 +68,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
                     height.toFloat(), backgroundPaint)
         Log.d("View", "GameView drawing")
         mapView.drawGrid(canvas, game.map)
+        objectDrawer.setRect(game.gameObjectList)
         objectDrawer.drawObjects(canvas, game.gameObjectList)
+
         Log.d("checking", "$width and $height")
-
-
-
-
     }
-
-
-
 
 
     //Future

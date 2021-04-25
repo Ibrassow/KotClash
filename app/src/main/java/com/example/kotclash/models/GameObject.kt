@@ -1,8 +1,7 @@
 package com.example.kotclash.models
 
 import android.graphics.RectF
-import com.example.kotclash.GameManager
-import com.example.kotclash.Map
+import com.example.kotclash.controllers.Map
 import kotlin.math.atan2
 
 
@@ -10,7 +9,7 @@ open class GameObject(
         val enemy: Boolean,
         var coordinates: Pair<Float, Float>,
         var currentOrientation: Float,
-        open var size : Pair<Int, Int> = Pair(1,1)
+        open var size : Pair<Int, Int> = Pair(5,3)
 ) {
 
     open var type = ""

@@ -1,7 +1,7 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
+import com.example.kotclash.controllers.Map
+import com.example.kotclash.controllers.GameManager
 
 
 class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) {

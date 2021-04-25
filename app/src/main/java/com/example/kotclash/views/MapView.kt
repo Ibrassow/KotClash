@@ -3,9 +3,8 @@ package com.example.kotclash.views
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.util.Log
-import com.example.kotclash.App
-import com.example.kotclash.Map
+import com.example.kotclash.controllers.App
+import com.example.kotclash.controllers.Map
 import com.example.kotclash.R
 
 class MapView() {

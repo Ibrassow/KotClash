@@ -1,4 +1,4 @@
-package com.example.kotclash
+package com.example.kotclash.controllers
 
 import android.util.Log
 import com.example.kotclash.models.Entity

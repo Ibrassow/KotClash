@@ -1,9 +1,7 @@
-package com.example.kotclash
+package com.example.kotclash.controllers
 
 import android.graphics.RectF
-import android.util.Log
 import com.example.kotclash.models.Entity
-import com.example.kotclash.models.GameObject
 
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {

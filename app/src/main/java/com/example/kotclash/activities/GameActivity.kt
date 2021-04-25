@@ -2,12 +2,8 @@ package com.example.kotclash.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Window
-import android.view.WindowManager
 import android.widget.ProgressBar
-import android.widget.Toast
-import com.example.kotclash.GameManager
+import com.example.kotclash.controllers.GameManager
 import com.example.kotclash.R
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView

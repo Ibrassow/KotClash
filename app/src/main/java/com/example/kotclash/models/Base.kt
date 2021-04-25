@@ -1,6 +1,6 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.GameManager
+import com.example.kotclash.controllers.GameManager
 
 class Base(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, gameManager: GameManager
 ) : Tower(enemy, coordinates, currentOrientation, gameManager) {

@@ -1,6 +1,6 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.GameManager
+import com.example.kotclash.controllers.GameManager
 
 class TroopFactory(val gameManager: GameManager) {
 
@@ -16,10 +16,10 @@ class TroopFactory(val gameManager: GameManager) {
         //TODO : gameObjectFactory
         when (type){
             "base" -> troopSelect = Base(enemy, coordinates, currentOrientation, gameManager)
-            //"submarine" -> troopSelect = Submarine(enemy, coordinates, currentOrientation, gameManager)
+            "submarine" -> troopSelect = Submarine(enemy, coordinates, currentOrientation, gameManager)
             //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, currentOrientation, gameManager)
             //"boat" -> troopSelect = Boat(true, coordinates, currentOrientation, gameManager)
-            //"simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, currentOrientation, gameManager)
+            "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, currentOrientation, gameManager)
 
 
             //TODO : redefine missile for each entity - mdr

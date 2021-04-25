@@ -1,7 +1,9 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
+import android.util.Log
+import com.example.kotclash.controllers.Map
+import com.example.kotclash.controllers.GameManager
+import com.example.kotclash.controllers.MapLoader
 import kotlin.math.*
 
 
@@ -10,22 +12,23 @@ open class Troop(enemy: Boolean,
                  currentOrientation: Float, gameManager: GameManager
 ) : Entity(enemy, coordinates, currentOrientation, gameManager), Movable{
 
-
     open val speed  = 0f
+    var mapLoader: MapLoader = MapLoader()
     var targetOfMotion: Entity? = null
 
     //serve to direct movement of troops
     val gate1 = Pair(0f,0f)
     val gate2 = Pair(0f,0f)
 
-    override fun takeAction(ElapsedTimeMS: Long, grid:Map){
-        if(readyForAttack()){
-            target = selectTarget(grid)
-            if(!(target == null)) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
+    override fun takeAction(ElapsedTimeMS: Long, grid: Map){
+        if(target != null){
+            //target = selectTarget(grid)
+            if(readyForAttack() ) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
                 attack(target!!)
-            }
+            };Log.wtf("attack","il a attacké")
         }else{
             move(ElapsedTimeMS)
+            Log.d("troop", "dep effectué pour " + this.toString())
         }
     }
 
@@ -43,28 +46,40 @@ open class Troop(enemy: Boolean,
 
 
     fun move(interval : Long){
-        lateinit var lookAheadPoint : Pair<Float,Float>
+        Log.d("troop", "interval = " + interval.toString())
+        //lookAheadPoint=mapLoader.posBases["enemy"]!!
         /*if(onOwnSide()){
             lookAheadPoint = getClosestGate()
         }else{
             targetOfMotion = findTargetOfMotion()
             lookAheadPoint = targetOfMotion!!.coordinates
-        }*/ //TODO
+        } *///TODO
 
-        val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
-                Pair(lookAheadPoint.first, lookAheadPoint.second))
+        //val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
+                //Pair(lookAheadPoint.first, lookAheadPoint.second))
+         var previousCoordinates = coordinates
+        Log.wtf("temps", previousCoordinates.toString())
+        /*coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
+                coordinates.second + speed*interval*sin(currentOrientation))*/
+        if (previousCoordinates.second <=5){coordinates = Pair(previousCoordinates.first- speed,previousCoordinates.second )
+            currentOrientation = -4f
+            Log.wtf("temps", coordinates.toString())
+        }else if (1 <= previousCoordinates.second && previousCoordinates.second<5){coordinates = Pair(previousCoordinates.first- speed,previousCoordinates.second -speed )
+            currentOrientation = 3f
+            Log.wtf("temps", coordinates.toString())
+        }
+            else{coordinates = Pair(previousCoordinates.first,previousCoordinates.second - speed)
+            currentOrientation = -2f
+        Log.wtf("temps", coordinates.toString())}
 
-        val previousCoordinates = coordinates
-        coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
-                coordinates.second + speed*interval*sin(currentOrientation))
+        //val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
 
-        val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
-
-        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
+        /*if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
                         && ceil(coordinates.second) == ceil(previousCoordinates.second))){
             //grid.displace(this,coordinatesIdx, currentOrientation)
             //TODO
-        }
+        }*/
+
 
     }
 

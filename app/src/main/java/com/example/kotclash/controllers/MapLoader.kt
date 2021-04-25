@@ -1,6 +1,5 @@
-package com.example.kotclash
+package com.example.kotclash.controllers
 
-import android.content.Context
 import android.graphics.Paint
 import android.util.Log
 
@@ -11,15 +10,16 @@ class MapLoader() {
     var map = Map()
 
     val posBases = mutableMapOf<String, Pair<Float, Float>>()
+    val posSimpleTowers1 = mutableMapOf<String, Pair<Float, Float>>()
+    val posSimpleTowers2 = mutableMapOf<String, Pair<Float, Float>>()
 
 
-
-    fun returnMap() : Map{
+    fun returnMap() : Map {
         return map
     }
 
 
-    fun loadMap(mapName : String) : Map{
+    fun loadMap(mapName : String) : Map {
 
         if (map.grid.isNotEmpty()){
             map.clearMap()
@@ -36,6 +36,8 @@ class MapLoader() {
     fun parseFile(filename : String) : Map {
 
         posBases.clear()
+        posSimpleTowers1.clear()
+        posSimpleTowers2.clear()
 
         //val inputStream = context.assets.open("$filename.txt")
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
@@ -59,11 +61,15 @@ class MapLoader() {
                         "A" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posBases.put("ally", Pair(xi, yi))
+                            posSimpleTowers1.put("ally", Pair(xi-5, yi-1))
+                            posSimpleTowers2.put("ally", Pair(xi+5, yi-1))
                             Log.d("allyPosBase", "$xi $yi")
                         }
                         "E" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posBases.put("enemy", Pair(xi, yi))
+                            posSimpleTowers1.put("enemy", Pair(xi-5, yi+1))
+                            posSimpleTowers2.put("enemy", Pair(xi+5, yi+1))
                             Log.d("enemyPosBase", "$xi $yi")
                         }
                     }
