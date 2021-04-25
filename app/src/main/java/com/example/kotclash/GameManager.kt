@@ -2,6 +2,7 @@ package com.example.kotclash
 
 import android.util.Log
 import com.example.kotclash.models.*
+import kotlin.math.floor
 
 class GameManager {
 
@@ -122,7 +123,7 @@ class GameManager {
     }
 
 
-    fun takeAction(elapsedTimeMS: Long, map: Map) {
+    private fun takeAction(elapsedTimeMS: Long, map: Map) {
         for (entity in gameObjectList) {
             if (entity.isAlive()) {
                 entity.takeAction(elapsedTimeMS, map)
@@ -132,7 +133,7 @@ class GameManager {
 
 
     //TODO : define more complex generation pattern (preferably one that respects resources)
-    fun autonomousEnemyGeneration(map: Map) {
+    private fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             //gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
         }
@@ -140,7 +141,7 @@ class GameManager {
 
 
     //checks whether set time between two enemy creations passed
-    fun readyForEnemyGeneration(): Boolean {
+    private fun readyForEnemyGeneration(): Boolean {
         var ready = false
         val currentGenerationTime = System.currentTimeMillis()
         val deltaTime = (currentGenerationTime - previousEnemyGenerationTime)
@@ -183,7 +184,7 @@ class GameManager {
 
 
     fun playCard(coordinates: Pair<Float, Float>) {
-        cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, map)
+        cardManager.playCard(nbCardClicked, floor(resources), coordinates)
     }
 
 

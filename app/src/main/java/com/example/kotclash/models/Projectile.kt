@@ -10,14 +10,13 @@ class Projectile(enemy: Boolean,
                  val target: Entity,
                  coordinates : Pair<Float,Float>,
                  currentOrientation : Float,
-                 gameManager: GameManager
-) : GameObject(enemy, coordinates, currentOrientation), Movable {
+                 gameManager: GameManager) : GameObject(enemy, coordinates, currentOrientation), Movable {
 
 
 
     //TODO : def projectile for each troop
-    val projectileDamage = 0
-    val speed = 0f
+    private val projectileDamage = 0
+    private val speed = 0f
 
 
     override fun takeAction(elapsedTimeMS: Long, grid:Map) {
@@ -38,8 +37,15 @@ class Projectile(enemy: Boolean,
         val direction = getDirection()
 
         val previousCoordinates = coordinates
-        coordinates = Pair(coordinates.first + speed*elapsedTimeMS*cos(direction),
-                coordinates.second + speed*elapsedTimeMS*sin(direction))
+        val dx = speed*elapsedTimeMS*cos(currentOrientation)
+        val dy = speed*elapsedTimeMS*sin(currentOrientation)
+        //make sure to homogenise order of magnitude of speeds (unit time: s/ms?)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx,dy)
 
         //notify view of movement
         if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)

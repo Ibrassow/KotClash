@@ -42,23 +42,30 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun move(interval : Long){
+    private fun move(interval : Long){
         lateinit var lookAheadPoint : Pair<Float,Float>
         /*if(onOwnSide()){
             lookAheadPoint = getClosestGate()
         }else{
             targetOfMotion = findTargetOfMotion()
             lookAheadPoint = targetOfMotion!!.coordinates
-        }*/ //TODO
+        }*/
 
         val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
                 Pair(lookAheadPoint.first, lookAheadPoint.second))
 
         val previousCoordinates = coordinates
-        coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
-                coordinates.second + speed*interval*sin(currentOrientation))
+        val dx = speed*interval*cos(currentOrientation)
+        val dy = speed*interval*sin(currentOrientation)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx,dy)
 
         val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+
 
         if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
                         && ceil(coordinates.second) == ceil(previousCoordinates.second))){

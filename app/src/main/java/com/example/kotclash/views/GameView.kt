@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.ProgressBar
@@ -13,14 +14,18 @@ import com.example.kotclash.GameManager
 import com.example.kotclash.GameThread
 import com.example.kotclash.Map
 import com.example.kotclash.MapLoader
+import com.example.kotclash.models.CardManager
 import com.example.kotclash.models.GameObject
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
 
 
+    //ATTENTION : zone bizarre où on réinit des variables
+    //Rem : par souci de cohérence, vérif que s'appelle game partt ds code (parfois gameManager)
     lateinit var game : GameManager
     lateinit var progressBar: ProgressBar
+    lateinit var cardManager: CardManager
 
     //lateinit var canvas: Canvas
     var thread: GameThread
@@ -59,6 +64,16 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
 
+    override fun onTouchEvent(e: MotionEvent): Boolean {
+        when (e.action) {
+            MotionEvent.ACTION_DOWN -> {
+                val x = e.rawX - 100f
+                val y = e.rawY - 300f
+                cardManager.playCard(game.nbCardClicked, game.resources, Pair(x,y))
+            }
+        }
+        return true
+    }
 
 
     //TODO MAIN FUNCTION
@@ -71,9 +86,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         mapView.drawGrid(canvas, game.map)
         objectDrawer.drawObjects(canvas, game.gameObjectList)
         Log.d("checking", "$width and $height")
-
-
-
 
     }
 
