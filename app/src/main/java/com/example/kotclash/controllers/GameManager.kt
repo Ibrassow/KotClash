@@ -2,6 +2,7 @@ package com.example.kotclash.controllers
 
 import android.util.Log
 import com.example.kotclash.models.*
+import kotlin.math.floor
 
 class GameManager {
 
@@ -84,11 +85,6 @@ class GameManager {
         gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers2["ally"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers2["enemy"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))
-        /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))*/
-
 
 
         for (elem in gameObjectList) {
@@ -121,9 +117,7 @@ class GameManager {
         }
         updateResourceBar(elapsedTimeMS)
         resources = getResourceBar()
-
-        takeAction(elapsedTimeMS, map)
-        //TODO: might want to convert time into s
+        takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
         autonomousEnemyGeneration(map)
 
     }
@@ -191,7 +185,7 @@ class GameManager {
 
 
     fun playCard(coordinates: Pair<Float, Float>) {
-        cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, map)
+        cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates, map)
     }
 
 

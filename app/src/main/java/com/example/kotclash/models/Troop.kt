@@ -13,7 +13,6 @@ open class Troop(enemy: Boolean,
 ) : Entity(enemy, coordinates, currentOrientation, gameManager), Movable{
 
     open val speed  = 0f
-    var mapLoader: MapLoader = MapLoader()
     var targetOfMotion: Entity? = null
 
     //serve to direct movement of troops
@@ -31,6 +30,16 @@ open class Troop(enemy: Boolean,
             Log.d("troop", "dep effectué pour " + this.toString())
         }
     }
+    /*override fun takeAction(ElapsedTimeMS: Long, grid:Map){
+        if(readyForAttack()){
+            target = selectTarget(grid)
+            if(!(target == null)) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
+                attack(target!!)
+            }
+        }else{
+            move(ElapsedTimeMS)
+        }
+    }*/
 
     /*fun move(interval : Double){
         var dy = 0f
@@ -45,7 +54,7 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun move(interval : Long){
+    fun move(interval : Long){ //move forced
         Log.d("troop", "interval = " + interval.toString())
         //lookAheadPoint=mapLoader.posBases["enemy"]!!
         /*if(onOwnSide()){
@@ -79,9 +88,39 @@ open class Troop(enemy: Boolean,
             //grid.displace(this,coordinatesIdx, currentOrientation)
             //TODO
         }*/
-
-
     }
+    /*private fun move(interval : Long){
+        lateinit var lookAheadPoint : Pair<Float,Float>
+        /*if(onOwnSide()){
+            lookAheadPoint = getClosestGate()
+        }else{
+            targetOfMotion = findTargetOfMotion()
+            lookAheadPoint = targetOfMotion!!.coordinates
+        }*/
+
+        val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
+                Pair(lookAheadPoint.first, lookAheadPoint.second))
+
+        val previousCoordinates = coordinates
+        val dx = speed*interval*cos(currentOrientation)
+        val dy = speed*interval*sin(currentOrientation)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx,dy)
+
+        val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+
+
+        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
+                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
+            //grid.displace(this,coordinatesIdx, currentOrientation)
+            //TODO
+        }
+
+    }*/
 
 
     fun findTargetOfMotion():Entity?{

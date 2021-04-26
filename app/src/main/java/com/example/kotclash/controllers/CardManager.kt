@@ -1,7 +1,6 @@
-package com.example.kotclash.models
+package com.example.kotclash.controllers
 
-import com.example.kotclash.controllers.Map
-import com.example.kotclash.controllers.GameManager
+import com.example.kotclash.models.TroopFactory
 
 
 class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) {
@@ -19,4 +18,6 @@ class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) 
             add(troopFactory.getTroop(false,"submarine",null, coordinates, 0f))}
         }
     }
+
+
 }

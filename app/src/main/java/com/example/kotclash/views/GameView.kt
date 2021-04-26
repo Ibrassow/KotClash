@@ -6,18 +6,20 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import com.example.kotclash.controllers.GameManager
-import com.example.kotclash.controllers.GameThread
+import android.widget.ProgressBar
+import com.example.kotclash.controllers.*
 import com.example.kotclash.controllers.Map
-import com.example.kotclash.controllers.MapLoader
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
 
 
     lateinit var game : GameManager
+    lateinit var progressBar: ProgressBar
+    lateinit var cardManager: CardManager
 
     //lateinit var canvas: Canvas
     var thread: GameThread
@@ -57,7 +59,16 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         game = g
     }
 
-
+    override fun onTouchEvent(e: MotionEvent): Boolean {
+        when (e.action) {
+            MotionEvent.ACTION_DOWN -> {
+                val x = e.rawX - 100f
+                val y = e.rawY - 300f
+                cardManager.playCard(game.nbCardClicked, game.resources.toDouble(), Pair(x,y),map)
+            }
+        }
+        return true
+    }
 
 
     //TODO MAIN FUNCTION
