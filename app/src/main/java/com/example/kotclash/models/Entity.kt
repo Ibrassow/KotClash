@@ -2,7 +2,7 @@ package com.example.kotclash.models
 
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: GameManager)
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     : GameObject(enemy, coordinates) {
 
 

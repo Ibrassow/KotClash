@@ -1,7 +1,9 @@
 package com.example.kotclash.models
 
 
-class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) {
+class CardManager(val troopFactory: TroopFactory, val gameManager : GameManager) {
+
+
 
     val costBoat = 0
     val costSubmarine = 0

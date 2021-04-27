@@ -5,9 +5,8 @@ import kotlin.math.*
 
 
 open class Troop(enemy: Boolean,
-                 coordinates : Pair<Float,Float>,
-                  gameManager: GameManager
-) : Entity(enemy, coordinates, gameManager), Movable{
+                 coordinates : Pair<Float,Float>
+) : Entity(enemy, coordinates), Movable{
 
     open val speed  = 0f
     var targetOfMotion: Entity? = null

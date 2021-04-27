@@ -6,8 +6,7 @@ import kotlin.math.sin
 
 class Projectile(enemy: Boolean,
                  val target: Entity,
-                 coordinates : Pair<Float,Float>,
-                 gameManager: GameManager
+                 coordinates : Pair<Float,Float>
 ) : GameObject(enemy, coordinates), Movable {
 
 

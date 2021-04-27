@@ -1,8 +1,8 @@
 package com.example.kotclash.models
 
 //set base to true when the tower is a base (=> its destruction leads to the end of the game)
-open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: GameManager
-) : Entity(enemy, coordinates, gameManager) {
+open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
+) : Entity(enemy, coordinates) {
 
     override var size = Pair(3f,3f)
 
