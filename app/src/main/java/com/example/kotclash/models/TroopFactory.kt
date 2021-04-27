@@ -17,12 +17,10 @@ class TroopFactory(val gameManager : GameManager) {
             //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, gameManager)
             //"boat" -> troopSelect = Boat(true, coordinates,  gameManager)
 
-
-
         }
 
-        return troopSelect
 
+        return troopSelect
     }
 
 }

@@ -8,7 +8,7 @@ open class Troop(enemy: Boolean,
                  coordinates : Pair<Float,Float>
 ) : Entity(enemy, coordinates), Movable{
 
-    open val speed  = 0f
+    open val speed  = 10f
     var targetOfMotion: Entity? = null
 
     //serve to direct movement of troops
@@ -24,17 +24,10 @@ open class Troop(enemy: Boolean,
         }else{
             move(ElapsedTimeMS)
         }*/
+
+        move(ElapsedTimeMS)
     }
-    /*override fun takeAction(ElapsedTimeMS: Long, grid:Map){
-        if(readyForAttack()){
-            target = selectTarget(grid)
-            if(!(target == null)) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
-                attack(target!!)
-            }
-        }else{
-            move(ElapsedTimeMS)
-        }
-    }*/
+
 
     /*fun move(interval : Double){
         var dy = 0f
@@ -51,8 +44,40 @@ open class Troop(enemy: Boolean,
 
     fun move(interval : Long){
 
+        /*val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
+                Pair(lookAheadPoint.first, lookAheadPoint.second))*/
+
+        val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
+                Pair(500f, 500f))
+
+        val previousCoordinates = coordinates
+        val dx = speed*interval*cos(currentOrientation)
+        val dy = speed*interval*sin(currentOrientation)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx,dy)
+        Log.e("EE", "dx : $dx, dy : $dy")
+        Log.e("RR", "coord : $coordinates")
+
+        val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+
+
+        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
+                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
+            //grid.displace(this,coordinatesIdx, currentOrientation)
+
+    }
+
+
+
+
+    /*fun move(interval : Long){
+
         //lookAheadPoint=mapLoader.posBases["enemy"]!!
-        /*if(onOwnSide()){
+        if(onOwnSide()){
             lookAheadPoint = getClosestGate()
         }else{
             targetOfMotion = findTargetOfMotion()
@@ -82,8 +107,8 @@ open class Troop(enemy: Boolean,
                         && ceil(coordinates.second) == ceil(previousCoordinates.second))){
             //grid.displace(this,coordinatesIdx, currentOrientation)
             //TODO
-        }*/
-    }
+        }
+    }*/
     /*private fun move(interval : Long){
         lateinit var lookAheadPoint : Pair<Float,Float>
         /*if(onOwnSide()){
@@ -155,4 +180,4 @@ open class Troop(enemy: Boolean,
         return closestGate
     }
 
-}
+}}

@@ -41,7 +41,6 @@ class GameObjectView(val view : GameView) {
                         val submarineE = createSubImageAt(submarine,(cc+5).toInt(),1,8,6)
                         //submarine = createSubImageAt("Nord-Ouest")
                         canvas.drawBitmap(submarineE, null, obj.rectF, paint)
-                        Log.e("dd", "TRUE")
                     }
                     /*"projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
                 }
@@ -69,7 +68,7 @@ class GameObjectView(val view : GameView) {
 
         var width = image.getWidth()/ colCount;
         var height = image.getHeight()/ rowCount;
-        var subImage :Bitmap  = Bitmap.createBitmap(image, col* width, row* height ,width,height);
+        var subImage :Bitmap  = Bitmap.createBitmap(image, col*width, row* height ,width,height);
         return subImage;
     }
 
