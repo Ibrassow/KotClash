@@ -59,7 +59,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         game = g
     }
 
-    override fun onTouchEvent(e: MotionEvent): Boolean {
+    /*override fun onTouchEvent(e: MotionEvent): Boolean {
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 val x = e.rawX - 100f
@@ -68,7 +68,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             }
         }
         return true
-    }
+    }*/
 
 
     //TODO MAIN FUNCTION

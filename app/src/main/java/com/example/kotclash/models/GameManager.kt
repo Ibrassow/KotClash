@@ -3,10 +3,15 @@ package com.example.kotclash.models
 import android.util.Log
 import kotlin.math.floor
 
+/**
+ * Main manager of the game - Singleton
+ *
+ * This class controls the logic of the game
+ *
+ * @constructor Initiliazes the first towers and the map
+ */
 class GameManager {
 
-
-    //"Singleton" - So we get a single instance of the game
     companion object {
         private var instance: GameManager? = null
         val gameInstance: GameManager
@@ -62,7 +67,6 @@ class GameManager {
 
     init {
         initEntityList()
-
     }
 
 
