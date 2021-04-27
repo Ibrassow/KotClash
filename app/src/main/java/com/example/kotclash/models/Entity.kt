@@ -2,7 +2,8 @@ package com.example.kotclash.models
 
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, gameManager: GameManager) : GameObject(enemy, coordinates, currentOrientation) {
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: GameManager)
+    : GameObject(enemy, coordinates) {
 
 
     open var health = 0

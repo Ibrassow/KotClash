@@ -6,8 +6,8 @@ import kotlin.math.*
 
 open class Troop(enemy: Boolean,
                  coordinates : Pair<Float,Float>,
-                 currentOrientation: Float, gameManager: GameManager
-) : Entity(enemy, coordinates, currentOrientation, gameManager), Movable{
+                  gameManager: GameManager
+) : Entity(enemy, coordinates, gameManager), Movable{
 
     open val speed  = 0f
     var targetOfMotion: Entity? = null
@@ -21,10 +21,9 @@ open class Troop(enemy: Boolean,
             //target = selectTarget(grid)
             if(readyForAttack() ) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
                 attack(target!!)
-            };Log.wtf("attack","il a attacké")
+            }
         }else{
             move(ElapsedTimeMS)
-            Log.d("troop", "dep effectué pour " + this.toString())
         }
     }
     /*override fun takeAction(ElapsedTimeMS: Long, grid:Map){
@@ -51,8 +50,8 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun move(interval : Long){ //move forced
-        Log.d("troop", "interval = " + interval.toString())
+    fun move(interval : Long){
+
         //lookAheadPoint=mapLoader.posBases["enemy"]!!
         /*if(onOwnSide()){
             lookAheadPoint = getClosestGate()

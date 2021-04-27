@@ -1,7 +1,7 @@
 package com.example.kotclash.models
 
-class Base(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, gameManager: GameManager
-) : Tower(enemy, coordinates, currentOrientation, gameManager) {
+class Base(enemy: Boolean, coordinates : Pair<Float,Float>, gameManager: GameManager
+) : Tower(enemy, coordinates, gameManager) {
 
     override var type = "base"
 

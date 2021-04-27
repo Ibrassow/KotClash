@@ -105,6 +105,7 @@ class MapLoader() {
                 }
                 val m = map.grid[i].size
                 Log.e("e", "$m")
+
                 yi++
                 i++
                 xi = 0f

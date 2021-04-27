@@ -7,13 +7,13 @@ import kotlin.math.atan2
 open class GameObject(
         val enemy: Boolean,
         var coordinates: Pair<Float, Float>,
-        var currentOrientation: Float,
-        open var size : Pair<Float, Float> = Pair(1f,1f)
+        open var size : Pair<Float, Float> = Pair(1f,1f),
+        var currentOrientation: Float = 0f
 ) {
 
     open var type = ""
 
-    var initCoord : Pair<Float, Float> = coordinates
+
     var endx = coordinates.first
     var endy = coordinates.second
 
@@ -26,7 +26,7 @@ open class GameObject(
     //Parcelable
     var rectF: RectF = RectF(coordinates.first, coordinates.second, endx, endy)
 
-
+    //Don't change
     var oldRendW = 1f
     var oldRendH = 1f
 

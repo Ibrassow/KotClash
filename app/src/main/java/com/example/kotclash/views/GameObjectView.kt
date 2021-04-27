@@ -31,17 +31,19 @@ class GameObjectView(val view : GameView) {
     fun drawObjects(canvas : Canvas, objectList : MutableList<GameObject>) {
 
         for (obj in objectList) {
-            when (obj.type) {
-                "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
-                "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
-                /*"submarine" -> {
-                    var cc = obj.currentOrientation.toInt()
-                    submarine = createSubImageAt(BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank),(cc+5).toInt(),1,8,6)
-                    canvas.drawBitmap(submarine, null, obj.rectF, paint)
+            if (obj.isAlive()){
+                when (obj.type) {
+                    "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
+                    "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
+                    /*"submarine" -> {
+                        var cc = obj.currentOrientation.toInt()
+                        submarine = createSubImageAt(BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank),(cc+5).toInt(),1,8,6)
+                        canvas.drawBitmap(submarine, null, obj.rectF, paint)
+                    }
+                    "projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
                 }
-                "projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
-
             }
+
 
             Log.d("GameObjectView", "drawing object")
 

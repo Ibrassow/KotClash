@@ -90,17 +90,17 @@ class GameManager {
 
 
         //Two bases - One per side
-        gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!, 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!, 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!))
+        gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!))
 
         //Additional towers for the enemy side
         for (position in mapLoader.posEnemyTower){
-            gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value,  0f))
+            gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value))
         }
 
         //Additional towers for the ally side
         for (position in mapLoader.posAllyTower){
-            gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value,  0f))
+            gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
         }
 
 
@@ -172,8 +172,8 @@ class GameManager {
     }
 
     //TODO target at the end
-    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>, orientation: Float) {
-        gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, orientation, target))
+    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>) {
+        gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, target))
     }
 
 
@@ -209,7 +209,7 @@ class GameManager {
 
 
 
-
+    //Pas trop compris ici
     fun endGame() {
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)

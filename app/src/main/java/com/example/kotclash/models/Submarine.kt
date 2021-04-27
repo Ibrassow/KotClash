@@ -2,8 +2,8 @@ package com.example.kotclash.models
 
 class Submarine(enemy: Boolean,
                 coordinates : Pair<Float,Float>,
-                currentOrientation: Float, gameManager: GameManager
-) : Troop(enemy, coordinates, currentOrientation, gameManager) {    //open var view:GameObjectView,
+                gameManager: GameManager
+) : Troop(enemy, coordinates, gameManager) {    //open var view:GameObjectView,
     override var type = "submarine"
     override val freqShoot = 0f
     override val damage = 0

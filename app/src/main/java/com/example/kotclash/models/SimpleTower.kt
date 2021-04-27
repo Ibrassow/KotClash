@@ -3,8 +3,8 @@ package com.example.kotclash.models
 
 class SimpleTower(enemy: Boolean,
                   coordinates : Pair<Float,Float>,
-                  currentOrientation: Float, gameManager: GameManager
-) : Tower(enemy, coordinates, currentOrientation, gameManager) {    //open var view:GameObjectView,
+                  gameManager: GameManager
+) : Tower(enemy, coordinates, gameManager) {    //open var view:GameObjectView,
 
     override var type = "simpleTower"
     override val freqShoot = 0f
