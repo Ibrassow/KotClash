@@ -10,8 +10,8 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.ProgressBar
-import com.example.kotclash.controllers.*
-import com.example.kotclash.controllers.Map
+import com.example.kotclash.models.*
+import com.example.kotclash.models.Map
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {

@@ -2,12 +2,9 @@ package com.example.kotclash.views
 
 import android.graphics.*
 import android.util.Log
-import androidx.annotation.AnyRes
-import com.example.kotclash.controllers.App
+import com.example.kotclash.App
 import com.example.kotclash.R
 import com.example.kotclash.models.GameObject
-import com.example.kotclash.models.Tower
-import com.example.kotclash.models.Troop
 
 class GameObjectView(val view : GameView) {
 

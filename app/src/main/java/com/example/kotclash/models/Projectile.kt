@@ -1,7 +1,5 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.controllers.Map
-import com.example.kotclash.controllers.GameManager
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
@@ -20,7 +18,7 @@ class Projectile(enemy: Boolean,
     private val speed = 0f
 
 
-    override fun takeAction(elapsedTimeMS: Long, grid:Map) {
+    override fun takeAction(elapsedTimeMS: Long, grid: Map) {
         val enemyInRange = getEnemiesInRange(grid)
         if(enemyInRange.isNotEmpty()){
             for(entity in enemyInRange) {

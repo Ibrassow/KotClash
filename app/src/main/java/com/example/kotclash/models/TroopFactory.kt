@@ -1,7 +1,5 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.controllers.GameManager
-
 class TroopFactory(val gameManager: GameManager) {
 
     lateinit var troopSelect : GameObject

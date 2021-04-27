@@ -1,7 +1,5 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.controllers.GameManager
-
 class Submarine(enemy: Boolean,
                 coordinates : Pair<Float,Float>,
                 currentOrientation: Float, gameManager: GameManager

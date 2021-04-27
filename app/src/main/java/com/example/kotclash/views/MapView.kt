@@ -3,8 +3,9 @@ package com.example.kotclash.views
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.example.kotclash.controllers.App
-import com.example.kotclash.controllers.Map
+import android.util.Log
+import com.example.kotclash.App
+import com.example.kotclash.models.Map
 import com.example.kotclash.R
 
 class MapView() {
@@ -39,11 +40,19 @@ class MapView() {
 
     fun setRects(map : Map, w : Float, h : Float){
 
-        val rendW = (w / map.getRowSize())
-        val rendH = (h / map.getColSize())
+        val cols = map.getColSize()
+        val rows = map.getRowSize()
 
-        for (x in 0 until map.getRowSize()) {
-            for (y in 0 until map.getColSize()) {
+
+        val rendW = (w / rows)
+        val rendH = (h / cols)
+
+
+        Log.d("hm", "$rows $cols")
+
+        for (y in 0 until rows) {
+            for (x in 0 until cols) {
+                Log.d("n", "x : $x, y : $y")
                 map.grid[y][x].setRect(rendW, rendH)
                 //Log.d("inMapView", "Doing the setRect : $rendW --- $rendH")
             }

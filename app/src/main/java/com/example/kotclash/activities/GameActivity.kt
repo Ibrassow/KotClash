@@ -3,7 +3,7 @@ package com.example.kotclash.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ProgressBar
-import com.example.kotclash.controllers.GameManager
+import com.example.kotclash.models.GameManager
 import com.example.kotclash.R
 import com.example.kotclash.models.ResourceBar
 import com.example.kotclash.views.CardView
@@ -11,15 +11,14 @@ import com.example.kotclash.views.GameView
 
 
 
-abstract class GameActivity : AppCompatActivity() {
+class GameActivity : AppCompatActivity() {
 
     var game = GameManager.gameInstance
 
     lateinit var gameView : GameView
     lateinit var progressBar : ProgressBar
     val cardList = mutableListOf<CardView>()
-    abstract var resBar : ResourceBar
-
+    //var resBar : ResourceBar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +43,7 @@ abstract class GameActivity : AppCompatActivity() {
         cardList.add(findViewById(R.id.card3))
         cardList[2].setCard("test3")
 
-        for (i in 0..3 ){
+        for (i in 0 until 3 ){
             cardList[i].setOnClickListener {
                 //TODO  MAY BE BETTER IN CARD MANAGER
             }
@@ -68,11 +67,6 @@ abstract class GameActivity : AppCompatActivity() {
         super.onResume()
         gameView.resume()
     }
-
-    override fun onDestroy(){
-        super.onDestroy()
-    }
-
 
 
 

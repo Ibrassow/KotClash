@@ -1,9 +1,6 @@
 package com.example.kotclash.models
 
 import android.util.Log
-import com.example.kotclash.controllers.Map
-import com.example.kotclash.controllers.GameManager
-import com.example.kotclash.controllers.MapLoader
 import kotlin.math.*
 
 

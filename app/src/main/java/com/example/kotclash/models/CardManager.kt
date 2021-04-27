@@ -1,6 +1,4 @@
-package com.example.kotclash.controllers
-
-import com.example.kotclash.models.TroopFactory
+package com.example.kotclash.models
 
 
 class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) {

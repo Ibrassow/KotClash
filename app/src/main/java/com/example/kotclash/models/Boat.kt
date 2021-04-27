@@ -1,5 +1,4 @@
 package com.example.kotclash.models
-import com.example.kotclash.controllers.GameManager
 
 
 class Boat(enemy: Boolean,

@@ -1,7 +1,6 @@
 package com.example.kotclash.models
 
 import android.graphics.RectF
-import com.example.kotclash.controllers.Map
 import kotlin.math.atan2
 
 

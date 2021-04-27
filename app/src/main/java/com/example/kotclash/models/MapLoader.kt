@@ -1,7 +1,8 @@
-package com.example.kotclash.controllers
+package com.example.kotclash.models
 
 import android.graphics.Paint
 import android.util.Log
+import com.example.kotclash.App
 
 
 class MapLoader() {
@@ -61,9 +62,14 @@ class MapLoader() {
                         "A" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posBases.put("ally", Pair(xi, yi))
-                            posSimpleTowers1.put("ally", Pair(xi-5, yi-1))
-                            posSimpleTowers2.put("ally", Pair(xi+5, yi-1))
+                            //posSimpleTowers1.put("ally", Pair(xi-5, yi-1))
+                            //posSimpleTowers2.put("ally", Pair(xi+5, yi-1))
                             Log.d("allyPosBase", "$xi $yi")
+                        }
+
+                        "At" -> {
+                            posSimpleTowers1.put("ally", Pair(xi+5, yi))
+                            posSimpleTowers2.put("ally", Pair(xi, yi))
                         }
                         "E" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))

@@ -1,8 +1,6 @@
-package com.example.kotclash.controllers
+package com.example.kotclash.models
 
 import android.util.Log
-import com.example.kotclash.models.Entity
-import com.example.kotclash.models.GameObject
 import java.lang.IndexOutOfBoundsException
 
 
@@ -11,11 +9,11 @@ class Map()  {
     val grid = mutableListOf<MutableList<Tile>>()
 
     fun getRowSize() : Int {
-        return grid[0].size
+        return grid.size
     }
 
     fun getColSize() : Int {
-        return grid.size
+        return grid[0].size
     }
 
     fun clearMap(){

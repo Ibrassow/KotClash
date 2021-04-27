@@ -1,7 +1,6 @@
-package com.example.kotclash.controllers
+package com.example.kotclash.models
 
 import android.util.Log
-import com.example.kotclash.models.*
 import kotlin.math.floor
 
 class GameManager {
@@ -33,7 +32,7 @@ class GameManager {
     var resources = 0f
 
 
-    //card not played when clicked on but when player clicks on apparition spot
+
     //this variable stores the nb of the card clicked on
     var nbCardClicked = 0
 
@@ -117,7 +116,7 @@ class GameManager {
         }
         updateResourceBar(elapsedTimeMS)
         resources = getResourceBar()
-        takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+        //takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
         autonomousEnemyGeneration(map)
 
     }
