@@ -21,6 +21,9 @@ class GameManager {
                 }
                 return instance!!
             }
+        fun destroy() {
+            instance = null
+        }
     }
 
 
@@ -133,7 +136,7 @@ class GameManager {
             }
             updateResourceBar(elapsedTimeMS)
             resources = getResourceBar()
-            //takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
             //autonomousEnemyGeneration(map)
         }
 

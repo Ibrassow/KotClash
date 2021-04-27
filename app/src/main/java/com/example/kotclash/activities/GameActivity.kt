@@ -86,6 +86,10 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         gameView.resume()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        GameManager.destroy()
+    }
 
 
     }

@@ -8,7 +8,7 @@ open class Troop(enemy: Boolean,
                  coordinates : Pair<Float,Float>
 ) : Entity(enemy, coordinates), Movable{
 
-    open val speed  = 10f
+    open val speed  = 35f
     var targetOfMotion: Entity? = null
 
     //serve to direct movement of troops
@@ -48,7 +48,7 @@ open class Troop(enemy: Boolean,
                 Pair(lookAheadPoint.first, lookAheadPoint.second))*/
 
         val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
-                Pair(500f, 500f))
+                Pair(0f, 0f))
 
         val previousCoordinates = coordinates
         val dx = speed*interval*cos(currentOrientation)
