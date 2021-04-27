@@ -53,7 +53,6 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
-                    //holder.unlockCanvasAndPost(canvas)
                     if (canvas != null) {
                         try {
                             //Unlocking

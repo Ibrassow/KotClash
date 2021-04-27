@@ -16,14 +16,14 @@ open class Troop(enemy: Boolean,
     val gate2 = Pair(0f,0f)
 
     override fun takeAction(ElapsedTimeMS: Long, grid: Map){
-        if(target != null){
+       /* if(target != null){
             //target = selectTarget(grid)
             if(readyForAttack() ) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
                 attack(target!!)
             }
         }else{
             move(ElapsedTimeMS)
-        }
+        }*/
     }
     /*override fun takeAction(ElapsedTimeMS: Long, grid:Map){
         if(readyForAttack()){
@@ -61,7 +61,7 @@ open class Troop(enemy: Boolean,
 
         //val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
                 //Pair(lookAheadPoint.first, lookAheadPoint.second))
-         var previousCoordinates = coordinates
+        /*TODO var previousCoordinates = coordinates
         Log.wtf("temps", previousCoordinates.toString())
         /*coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
                 coordinates.second + speed*interval*sin(currentOrientation))*/
@@ -74,7 +74,7 @@ open class Troop(enemy: Boolean,
         }
             else{coordinates = Pair(previousCoordinates.first,previousCoordinates.second - speed)
             currentOrientation = -2f
-        Log.wtf("temps", coordinates.toString())}
+        Log.wtf("temps", coordinates.toString())}*/
 
         //val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
 

@@ -53,7 +53,6 @@ class MapView() {
                     //"soil" -> canvas.drawBitmap(soil, xx, yy, paint)
                     "grass" -> canvas.drawBitmap(grass, null, cell.cellRectangle, paint)
                     "soil" -> canvas.drawBitmap(soil, null, cell.cellRectangle, paint)
-
                 }
             }
         }

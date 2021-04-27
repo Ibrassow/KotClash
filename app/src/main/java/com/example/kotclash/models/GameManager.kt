@@ -104,7 +104,7 @@ class GameManager {
         }
 
 
-        /*gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))*/
+        gameObjectList.add(troopFactory.getTroop(false, "submarine", mapLoader.posAllySpawn[0]!!))
 
 
         for (elem in gameObjectList) {

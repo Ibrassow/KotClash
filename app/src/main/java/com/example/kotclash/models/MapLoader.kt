@@ -91,13 +91,13 @@ class MapLoader() {
                         }
                         "As" -> { //Spawn Ally
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posEnemySpawn[enemy_s_id] = Pair(xi, yi)
-                            enemy_s_id++
+                            posAllySpawn[ally_s_id] = Pair(xi, yi)
+                            ally_s_id++
                         }
                         "Es" -> { //Spawn Enemy
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posAllySpawn[ally_s_id] = Pair(xi, yi)
-                            ally_s_id++
+                            posEnemySpawn[enemy_s_id] = Pair(xi, yi)
+                            enemy_s_id++
                         }
                     }
                     xi++

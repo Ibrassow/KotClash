@@ -46,13 +46,10 @@ open class GameObject(
         rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
     }
 
-
-
     open fun takeAction(elapsedTimeMS: Long, grid: Map){}
 
     /*fun isObstacle(){
     }*/
-
 
     fun isAlive():Boolean{
         return !dead

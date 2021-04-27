@@ -25,6 +25,7 @@ class GameObjectView(val view : GameView) {
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
         simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
         projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.radiobutton_off_background)
+        submarine = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
     }
 
 
@@ -35,12 +36,14 @@ class GameObjectView(val view : GameView) {
                 when (obj.type) {
                     "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
                     "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
-                    /*"submarine" -> {
+                    "submarine" -> {
                         var cc = obj.currentOrientation.toInt()
-                        submarine = createSubImageAt(BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank),(cc+5).toInt(),1,8,6)
-                        canvas.drawBitmap(submarine, null, obj.rectF, paint)
+                        val submarineE = createSubImageAt(submarine,(cc+5).toInt(),1,8,6)
+                        //submarine = createSubImageAt("Nord-Ouest")
+                        canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        Log.e("dd", "TRUE")
                     }
-                    "projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
+                    /*"projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
                 }
             }
 
@@ -56,27 +59,16 @@ class GameObjectView(val view : GameView) {
         val rendW = (view.screenWidth / view.game.map.getColSize())
         val rendH = (view.screenHeight / view.game.map.getRowSize())
 
-        //val cols = map.getColSize()
-        //val rows = map.getRowSize()
-
-        //val rendW = (w / cols)
-        //val rendH = (h / rows)
 
         for (obj in objectList){
-            /*val xx = obj.coordinates.first
-            val yy = obj.coordinates.second
-            val szx = obj.size.first
-            val szy = obj.size.second
-            //RESIZING
-            obj.rectF.set(xx-(szx/2f)*rendW, yy-(szy/2f)*rendH, xx+(szx/2f)*rendW, yy+(szy/2f)*rendH)*/
-
             obj.setRect(rendW, rendH)
         }
     }
 
     fun createSubImageAt(image: Bitmap, row:Int, col:Int, rowCount: Int,colCount:Int): Bitmap  {
+
         var width = image.getWidth()/ colCount;
-        var height= image.getHeight()/ rowCount;
+        var height = image.getHeight()/ rowCount;
         var subImage :Bitmap  = Bitmap.createBitmap(image, col* width, row* height ,width,height);
         return subImage;
     }
