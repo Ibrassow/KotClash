@@ -42,6 +42,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card3))
 
         configureGame(mapSelected, troopSelected)
+        game.start()
+
 
     }
 

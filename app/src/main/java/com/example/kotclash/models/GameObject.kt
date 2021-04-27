@@ -8,13 +8,15 @@ open class GameObject(
         val enemy: Boolean,
         var coordinates: Pair<Float, Float>,
         var currentOrientation: Float,
-        open var size : Pair<Int, Int> = Pair(5,3)
+        open var size : Pair<Float, Float> = Pair(3f,3f)
 ) {
 
     open var type = ""
 
-    init{
+    lateinit var initCoord : Pair<Float, Float>
 
+    init{
+        initCoord = coordinates
     }
 
     //Needed for view and common to each object
@@ -35,6 +37,16 @@ open class GameObject(
     //TODO For each "movable" object -> Offset the rectangle
 
 
+
+
+    fun setRect(rendW : Float, rendH : Float){
+        val x = (initCoord.first * rendW)
+        val y = (initCoord.second * rendH)
+        coordinates = Pair(x,y)
+        val endx = x + rendW
+        val endy = y + rendH
+        rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
+    }
 
 
 

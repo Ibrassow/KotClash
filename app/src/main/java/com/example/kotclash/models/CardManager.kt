@@ -11,9 +11,9 @@ class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) 
     fun playCard(cardNumber: Int, resources: Double, coordinates: Pair<Float,Float>, grid: Map){
         when(cardNumber){
             1 -> if(resources > costBoat){gameManager.gameObjectList.
-            add(troopFactory.getTroop(false,"boat",null, coordinates, 0f))}
+            add(troopFactory.getTroop(false,"boat", coordinates, 0f))}
             2 -> if(resources > costSubmarine){gameManager.gameObjectList.
-            add(troopFactory.getTroop(false,"submarine",null, coordinates, 0f))}
+            add(troopFactory.getTroop(false,"submarine", coordinates, 0f))}
         }
     }
 

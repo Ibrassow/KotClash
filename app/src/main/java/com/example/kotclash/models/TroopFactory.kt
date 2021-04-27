@@ -7,9 +7,9 @@ class TroopFactory(val gameManager: GameManager) {
 
     fun getTroop(enemy : Boolean,
                  type : String,
-                 target : Entity?,
                  coordinates: Pair<Float,Float>,
-                 currentOrientation: Float): GameObject {
+                 currentOrientation: Float,
+                 target : Entity? = null): GameObject {
 
         //TODO : gameObjectFactory
         when (type){

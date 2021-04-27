@@ -30,6 +30,7 @@ class GameManager {
 
 
     private var GAMEOVER = false
+    private var STARTED = false
 
 
     private val enemyGenerationFreq = 0f
@@ -65,24 +66,31 @@ class GameManager {
     // -------------------- INIT ------------------- //
 
 
-    init {
-        initEntityList()
+
+    fun start(){
+        initializeObjects()
+        STARTED = true
+    }
+
+    fun setMap(mapName: String) {
+        mapLoader.loadMap(mapName)
+        map = mapLoader.returnMap()
+        val ss = map.grid.isNotEmpty()
+        Log.d("InitGM", "got map : $ss")
     }
 
 
+    fun initializeObjects() {
 
-    //TODO
-    fun initEntityList() {
-
-        //Verif - default map
+        //default map
         if (map.grid.isEmpty()){
             setMap("spring")
         }
 
 
         //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "base", null,mapLoader.posBases["enemy"]!!, 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "base", null, mapLoader.posBases["ally"]!!, 0f))
+        gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!, 0f))
+        gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!, 0f))
         /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers1["ally"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers1["enemy"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers2["ally"]!!,  0f))
@@ -101,27 +109,25 @@ class GameManager {
     }
 
 
-    fun setMap(mapName: String) {
-        mapLoader.loadMap(mapName)
-        map = mapLoader.returnMap()
-        val ss = map.grid.isNotEmpty()
-        Log.d("InitGM", "got map : $ss")
-    }
+
 
 
 
     fun update(elapsedTimeMS: Long) {
 
-        timeLeft -= elapsedTimeMS / 10000000000.0
-        Log.d("GM", "$timeLeft")
+        if (STARTED){
+            timeLeft -= elapsedTimeMS / 10000000000.0
+            Log.d("GM", "$timeLeft")
 
-        if (timeLeft <= 0) {
-            endGame()
+            if (timeLeft <= 0) {
+                endGame()
+            }
+            updateResourceBar(elapsedTimeMS)
+            resources = getResourceBar()
+            //takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            //autonomousEnemyGeneration(map)
         }
-        updateResourceBar(elapsedTimeMS)
-        resources = getResourceBar()
-        //takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
-        autonomousEnemyGeneration(map)
+
 
     }
 
@@ -156,9 +162,9 @@ class GameManager {
         return ready
     }
 
-
+    //TODO target at the end
     fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>, orientation: Float) {
-        gameObjectList.add(troopFactory.getTroop(enemy, type, target, coordinates, orientation))
+        gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, orientation, target))
     }
 
 
