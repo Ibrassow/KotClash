@@ -79,11 +79,11 @@ class GameManager {
         //here one base per side and two simpleTowers
         gameObjectList.add(troopFactory.getTroop(true, "base", null,mapLoader.posBases["enemy"]!!, 0f))
         gameObjectList.add(troopFactory.getTroop(false, "base", null, mapLoader.posBases["ally"]!!, 0f))
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers1["ally"]!!,  0f))
+        /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers1["ally"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers1["enemy"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers2["ally"]!!,  0f))
         gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers2["enemy"]!!,  0f))
-        gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))
+        gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))*/
 
 
         for (elem in gameObjectList) {

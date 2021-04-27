@@ -36,13 +36,13 @@ class GameObjectView(val view : GameView) {
             when (obj.type) {
                 "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
                 "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
-                "submarine" -> {
+                /*"submarine" -> {
                     var  cc= obj.currentOrientation.toInt()
                     submarine = createSubImageAt(BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank),(cc+5).toInt(),1,8,6)
                     canvas.drawBitmap(submarine, null, obj.rectF, paint)
                     Log.d("GOV", "dessin effectué pour " + obj.toString())
                 }
-                "projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)
+                "projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
 
             }
 
@@ -62,18 +62,17 @@ class GameObjectView(val view : GameView) {
 
         val rendW = (view.screenWidth / view.game.map.getRowSize())
         val rendH = (view.screenHeight / view.game.map.getColSize())
-        Log.d("GOV", "okay on a" + view.toString()+"-"+view.game.map.getRowSize().toString())
 
         for (obj in objectList){
             val c = 3f
             val xx = obj.coordinates.first
             val yy = obj.coordinates.second
             val a =(yy+50)/(14+50)
-            Log.d("print", a.toString())
+            //Log.d("print", a.toString())
             //RESIZING
             //val a= 3f
             obj.rectF.set((xx-c/2)*rendW, (yy-c/2)* rendH*a, (xx+c/2)*rendW, (yy+c/2)* rendH*a)
-            Log.d("govi", obj.rectF.toString())
+            //Log.d("govi", obj.rectF.toString())
 
         }
 

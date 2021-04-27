@@ -23,6 +23,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     }
 
 
+
     override fun run() {
         var startTime: Long
         val targetTime = (1000 / MAX_FPS).toLong()
@@ -34,42 +35,52 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
             startTime = System.nanoTime()
             timeElapsed = (startTime - lastTime) / 1000000
 
-            if (timeElapsed >= targetTime) { //Null pointer exception is our friend
-                canvas = null
+            if (timeElapsed >= targetTime){
+
+                if (holder.surface.isValid) {
                 try {
                     // locking the canvas allows us to draw on to it
-                    canvas = this.holder.lockCanvas()
-                    synchronized(holder) {
-                        game.update(timeElapsed)
-                        gameView.draw(canvas!!)
-                        Log.d("thread", "calling draw and update from thread : $timeElapsed")
-                        lastTime = System.nanoTime()
-                        //locked = true
-                    }
-                    //holder.unlockCanvasAndPost(canvas)
+                    if (!locked){
+                    canvas = holder.lockCanvas()
+                    locked = true}
 
+                    synchronized(holder) {
+                            game.update(timeElapsed)
+                            gameView.draw(canvas!!)
+                            Log.d("thread", "calling draw and update from thread : $timeElapsed")
+                            lastTime = System.nanoTime()
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
-                    if (canvas != null){
+                    //holder.unlockCanvasAndPost(canvas)
+                    if (canvas != null) {
                         try {
-                            holder.unlockCanvasAndPost(canvas)
+                            //Unlocking
+                            if (locked){
+                                holder.unlockCanvasAndPost(canvas)
+                                locked = false
+                            }
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     }
                 }
+
+                }
+
             }
 
 
         }
     }
 
-
-        companion object {
-            private var canvas: Canvas? = null
-        }
-
+    companion object {
+        private var canvas: Canvas? = null
     }
+
+}
+
 
 

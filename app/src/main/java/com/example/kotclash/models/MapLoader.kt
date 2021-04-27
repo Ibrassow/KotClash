@@ -79,7 +79,7 @@ class MapLoader() {
                             Log.d("enemyPosBase", "$xi $yi")
                         }
                     }
-                    j++
+                    //j++
                     //xi += Renderable.RENDERABLE_WIDTH
                     xi++
                 }

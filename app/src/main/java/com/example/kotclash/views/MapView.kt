@@ -1,5 +1,6 @@
 package com.example.kotclash.views
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -8,57 +9,73 @@ import com.example.kotclash.App
 import com.example.kotclash.models.Map
 import com.example.kotclash.R
 
+
+/**
+*Map drawer
+*
+ * This class draw the background map
+ *
+ * @constructor initialize the bitmap resources
+ */
 class MapView() {
+
 
     var paint = Paint()
 
-    // I repeat, Don't touch if you don't want to die
-    //val grass : Bitmap = BitmapFactory.decodeResource(context.resources, com.example.kotclash.R.drawable.grass)
+    lateinit var grass: Bitmap
+    lateinit var soil: Bitmap
 
+
+    init{
+        initBitmaps()
+    }
+
+    fun initBitmaps(){
+        //TODO Handle failure
+        grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.grass)
+        soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soil)
+    }
+
+    /**
+     * Draw the map
+     */
     fun drawGrid(canvas: Canvas, map : Map) {
 
-        val grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.grass)
-        val soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soil)
-
-        for (x in 0 until map.getRowSize()) {
-            for (y in 0 until map.getColSize()) {
+        for (y in 0 until map.getRowSize()) {
+            for (x in 0 until map.getColSize()) {
 
                 val cell = map.grid[y][x]
-
-                val xx = cell.position.first
-                val yy = cell.position.second
+                //val xx = cell.position.first
+                //val yy = cell.position.second
 
                 when(cell.tileElement) {
-
-                    "grass" -> canvas.drawBitmap(grass, xx, yy, paint)
-                    "soil" -> canvas.drawBitmap(soil, xx, yy, paint)
+                    //"grass" -> canvas.drawBitmap(grass, xx, yy, paint) //Keep for preference - different visual effect
+                    //"soil" -> canvas.drawBitmap(soil, xx, yy, paint)
+                    "grass" -> canvas.drawBitmap(grass, null, cell.cellRectangle, paint)
+                    "soil" -> canvas.drawBitmap(soil, null, cell.cellRectangle, paint)
 
                 }
             }
         }
     }
 
+    /**
+     * Rescale each tile to the new screen size
+     */
     fun setRects(map : Map, w : Float, h : Float){
 
         val cols = map.getColSize()
         val rows = map.getRowSize()
 
-
-        val rendW = (w / rows)
-        val rendH = (h / cols)
-
-
-        Log.d("hm", "$rows $cols")
+        val rendW = (w / cols)
+        val rendH = (h / rows)
 
         for (y in 0 until rows) {
             for (x in 0 until cols) {
-                Log.d("n", "x : $x, y : $y")
+                Log.d("StRcts", "x : $x, y : $y")
                 map.grid[y][x].setRect(rendW, rendH)
-                //Log.d("inMapView", "Doing the setRect : $rendW --- $rendH")
             }
         }
     }
-
-
 
 }
