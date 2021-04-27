@@ -15,7 +15,6 @@ class GameObjectView(val view : GameView) {
     lateinit var troop3: Bitmap
     lateinit var projectile: Bitmap
 
-    //TODO Check P
     var paint = Paint()
 
     init{
@@ -34,12 +33,11 @@ class GameObjectView(val view : GameView) {
         for (obj in objectList) {
             when (obj.type) {
                 "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
-                //"simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
+                "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
                 /*"submarine" -> {
-                    var  cc= obj.currentOrientation.toInt()
+                    var cc = obj.currentOrientation.toInt()
                     submarine = createSubImageAt(BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank),(cc+5).toInt(),1,8,6)
                     canvas.drawBitmap(submarine, null, obj.rectF, paint)
-                    Log.d("GOV", "dessin effectué pour " + obj.toString())
                 }
                 "projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
 
@@ -74,18 +72,13 @@ class GameObjectView(val view : GameView) {
         }
     }
 
-
-
-}
-
-
-
-
-
-/*    fun createSubImageAt(image: Bitmap, row:Int, col:Int, rowCount: Int,colCount:Int): Bitmap  {
+    fun createSubImageAt(image: Bitmap, row:Int, col:Int, rowCount: Int,colCount:Int): Bitmap  {
         var width = image.getWidth()/ colCount;
         var height= image.getHeight()/ rowCount;
         var subImage :Bitmap  = Bitmap.createBitmap(image, col* width, row* height ,width,height);
         return subImage;
     }
-    */
+
+
+}
+
