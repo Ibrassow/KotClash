@@ -98,20 +98,10 @@ class GameManager {
             gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value,  0f))
         }
 
-
-        //gameObjectList.add(troopFactory.getTroop(true, "simpleTower", mapLoader.posSimpleTowers1["enemy"]!!,  0f))
-        //gameObjectList.add(troopFactory.getTroop(true, "simpleTower", mapLoader.posSimpleTowers2["enemy"]!!,  0f))
-
-
         //Additional towers for the ally side
         for (position in mapLoader.posAllyTower){
             gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value,  0f))
         }
-
-
-        //gameObjectList.add(troopFactory.getTroop(false, "simpleTower", mapLoader.posSimpleTowers1["ally"]!!,  0f))
-        //gameObjectList.add(troopFactory.getTroop(false, "simpleTower", mapLoader.posSimpleTowers2["ally"]!!,  0f))
-
 
 
         /*gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))*/

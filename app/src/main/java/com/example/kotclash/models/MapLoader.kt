@@ -14,6 +14,8 @@ class MapLoader() {
     val posBases = mutableMapOf<String, Pair<Float, Float>>()
     val posAllyTower = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
     val posEnemyTower = mutableMapOf<Int, Pair<Float, Float>>()
+    val posAllySpawn = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
+    val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
 
 
     fun returnMap() : Map {
@@ -41,8 +43,11 @@ class MapLoader() {
         posAllyTower.clear()
         posEnemyTower.clear()
 
-        var enemy_t_id = 0
+
         var ally_t_id = 0
+        var enemy_t_id = 0
+        var ally_s_id = 0
+        var enemy_s_id = 0
 
         //val inputStream = context.assets.open("$filename.txt")
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
@@ -68,12 +73,9 @@ class MapLoader() {
                         "A" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posBases.put("ally", Pair(xi, yi))
-                            //posSimpleTowers1.put("ally", Pair(xi-5, yi-1))
-                            //posSimpleTowers2.put("ally", Pair(xi+5, yi-1))
-                            Log.d("allyPosBase", "$xi $yi")
                         }
 
-                        "L" -> {
+                        "At" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posAllyTower[ally_t_id] = Pair(xi, yi)
                             ally_t_id++
@@ -81,14 +83,21 @@ class MapLoader() {
                         "E" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posBases.put("enemy", Pair(xi, yi))
-                            //posSimpleTowers1.put("enemy", Pair(xi-5, yi+1))
-                            //posSimpleTowers2.put("enemy", Pair(xi+5, yi+1))
-                            Log.d("enemyPosBase", "$xi $yi")
                         }
-                        "N" -> {
+                        "Et" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posEnemyTower[enemy_t_id] = Pair(xi, yi)
                             enemy_t_id++
+                        }
+                        "As" -> { //Spawn Ally
+                            map.grid[i].add(Tile(xi, yi, "soil"))
+                            posEnemySpawn[enemy_s_id] = Pair(xi, yi)
+                            enemy_s_id++
+                        }
+                        "Es" -> { //Spawn Enemy
+                            map.grid[i].add(Tile(xi, yi, "soil"))
+                            posAllySpawn[ally_s_id] = Pair(xi, yi)
+                            ally_s_id++
                         }
                     }
                     xi++

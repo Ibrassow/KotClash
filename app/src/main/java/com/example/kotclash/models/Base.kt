@@ -5,6 +5,8 @@ class Base(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: 
 
     override var type = "base"
 
+    override var size = Pair(5f,3f)
+
     override val freqShoot = 0f
     override val damage = 0
     override var health = 100

@@ -14,10 +14,11 @@ class TroopFactory(val gameManager: GameManager) {
         //TODO : gameObjectFactory
         when (type){
             "base" -> troopSelect = Base(enemy, coordinates, currentOrientation, gameManager)
+            "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, currentOrientation, gameManager)
             "submarine" -> troopSelect = Submarine(enemy, coordinates, currentOrientation, gameManager)
             //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, currentOrientation, gameManager)
             //"boat" -> troopSelect = Boat(true, coordinates, currentOrientation, gameManager)
-            "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, currentOrientation, gameManager)
+
 
 
             //TODO : redefine missile for each entity - mdr
