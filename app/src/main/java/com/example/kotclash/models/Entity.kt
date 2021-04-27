@@ -25,6 +25,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
 
 
 
+
     //TODO : should be overridden, as each troop will create its own projectile
     //TODO : Attack as an interface? -> close/distance/..
     override fun attack(entity: Entity){

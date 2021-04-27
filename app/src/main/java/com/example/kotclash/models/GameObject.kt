@@ -8,43 +8,41 @@ open class GameObject(
         val enemy: Boolean,
         var coordinates: Pair<Float, Float>,
         var currentOrientation: Float,
-        open var size : Pair<Float, Float> = Pair(3f,3f)
+        open var size : Pair<Float, Float> = Pair(1f,1f)
 ) {
 
     open var type = ""
 
-    lateinit var initCoord : Pair<Float, Float>
+    var initCoord : Pair<Float, Float> = coordinates
+    var endx = coordinates.first
+    var endy = coordinates.second
 
-    init{
-        initCoord = coordinates
-    }
 
-    //Needed for view and common to each object
-    //Size for the grid
-    //open var size = Pair(0,0)
-
-    //open var name: String
 
     var dead = false
     val range = 0
     open val damage = 0
 
     //Parcelable
-    var rectF: RectF = RectF(coordinates.first, coordinates.second, coordinates.first, coordinates.second)
+    var rectF: RectF = RectF(coordinates.first, coordinates.second, endx, endy)
 
+
+    var oldRendW = 1f
+    var oldRendH = 1f
 
 
     //TODO For each "movable" object -> Offset the rectangle
 
 
 
-    //Don't
     fun setRect(rendW : Float, rendH : Float){
-        val x = (initCoord.first * rendW)
-        val y = (initCoord.second * rendH)
+        val x = (coordinates.first / oldRendW * rendW)
+        val y = (coordinates.second / oldRendH * rendH)
         coordinates = Pair(x,y)
-        val endx = x + rendW
-        val endy = y + rendH
+        endx = x + rendW
+        endy = y + rendH
+        oldRendW = rendW
+        oldRendH = rendH
         rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
     }
 
