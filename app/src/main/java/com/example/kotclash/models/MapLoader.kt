@@ -10,9 +10,10 @@ class MapLoader() {
     var paint = Paint()
     var map = Map()
 
+    //Only the base - doesn't care about the specific type of tower
     val posBases = mutableMapOf<String, Pair<Float, Float>>()
-    val posSimpleTowers1 = mutableMapOf<String, Pair<Float, Float>>()
-    val posSimpleTowers2 = mutableMapOf<String, Pair<Float, Float>>()
+    val posAllyTower = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
+    val posEnemyTower = mutableMapOf<Int, Pair<Float, Float>>()
 
 
     fun returnMap() : Map {
@@ -37,24 +38,29 @@ class MapLoader() {
     fun parseFile(filename : String) : Map {
 
         posBases.clear()
-        posSimpleTowers1.clear()
-        posSimpleTowers2.clear()
+        posAllyTower.clear()
+        posEnemyTower.clear()
+
+        var enemy_t_id = 0
+        var ally_t_id = 0
 
         //val inputStream = context.assets.open("$filename.txt")
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
         var lineList = mutableListOf<String>()
 
-        //Temporary
+
+
         var xi = 0f
         var yi = 0f
         var i = 0
-        var j = 0
+
 
         inputStream.bufferedReader().use(){
             it.forEachLine {
                 line -> lineList = line.split(" ") as MutableList<String>
 
                 map.grid.add(mutableListOf()) //Add a new row
+                Log.d("tt", "$lineList")
                 for (tileElement in lineList){
                     when(tileElement){
                         "G" -> map.grid[i].add(Tile(xi, yi, "grass"))
@@ -67,23 +73,29 @@ class MapLoader() {
                             Log.d("allyPosBase", "$xi $yi")
                         }
 
-                        "At" -> {
-                            posSimpleTowers1.put("ally", Pair(xi+5, yi))
-                            posSimpleTowers2.put("ally", Pair(xi, yi))
+                        "L" -> {
+                            map.grid[i].add(Tile(xi, yi, "soil"))
+                            posAllyTower[ally_t_id] = Pair(xi, yi)
+                            ally_t_id++
                         }
                         "E" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posBases.put("enemy", Pair(xi, yi))
-                            posSimpleTowers1.put("enemy", Pair(xi-5, yi+1))
-                            posSimpleTowers2.put("enemy", Pair(xi+5, yi+1))
+                            //posSimpleTowers1.put("enemy", Pair(xi-5, yi+1))
+                            //posSimpleTowers2.put("enemy", Pair(xi+5, yi+1))
                             Log.d("enemyPosBase", "$xi $yi")
                         }
+                        "N" -> {
+                            map.grid[i].add(Tile(xi, yi, "soil"))
+                            posEnemyTower[enemy_t_id] = Pair(xi, yi)
+                            enemy_t_id++
+                        }
                     }
-                    //j++
-                    //xi += Renderable.RENDERABLE_WIDTH
                     xi++
+
                 }
-                //yi += Renderable.RENDERABLE_HEIGHT
+                val m = map.grid[i].size
+                Log.e("e", "$m")
                 yi++
                 i++
                 xi = 0f

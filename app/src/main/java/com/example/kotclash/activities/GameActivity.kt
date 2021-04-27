@@ -28,11 +28,13 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         /*TODO INTENT should give the following:
         TODO - mapSelected : String
         TODO - cardList : List of 3 strings with the troop choice
+        TODO - Initial set of towers!
         TODO - Difficulty level
          */
 
         val mapSelected = "spring"
         val troopSelected = mutableListOf<String>("test1", "test2", "test3")
+
 
         gameView = findViewById(R.id.gameView)
         progressBar = findViewById(R.id.progressBar)
@@ -49,7 +51,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     fun configureGame(mapSelected : String, cardSelected : MutableList<String>){
         game.setMap(mapSelected)
-        gameView.bindToGame(game)
 
         for (i in 0 until cardList.size){
             cardList[i].setCard(cardSelected[i])

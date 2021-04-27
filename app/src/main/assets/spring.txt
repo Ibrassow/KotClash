@@ -1,6 +1,9 @@
 G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * E * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G
+G * * * G G * * * * * * * G G * * * G
+G * N * G G * * * * * * * G G * N * G
+G * * * G G * * * * * * * G G * * * G
 G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G
@@ -9,12 +12,9 @@ G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G
-G G G G G G * * * * * * * G G G G G G
-G G G G G G * * * * * * * G G G G G G
-G G G G G G * * * * * * * G G G G G G
-G G G G G G * * * * * * * G G G G G G
-G G G G G G * * * * * * * G G G G G G
-G G G G G G * * * * * * * G G G G G G
+G * * * G G * * * * * * * G G * * * G
+G * L * G G * * * * * * * G G * L * G
+G * * * G G * * * * * * * G G * * * G
 G G G G G G * * * * * * * G G G G G G
 G G G G G G * * * A * * * G G G G G G
 G G G G G G * * * * * * * G G G G G G

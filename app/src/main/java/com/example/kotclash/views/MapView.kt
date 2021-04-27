@@ -11,8 +11,8 @@ import com.example.kotclash.R
 
 
 /**
-*Map drawer
-*
+ *Map drawer
+ *
  * This class draw the background map
  *
  * @constructor initialize the bitmap resources
@@ -26,11 +26,11 @@ class MapView() {
     lateinit var soil: Bitmap
 
 
-    init{
+    init {
         initBitmaps()
     }
 
-    fun initBitmaps(){
+    fun initBitmaps() {
         //TODO Handle failure
         grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.grass)
         soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soil)
@@ -39,7 +39,7 @@ class MapView() {
     /**
      * Draw the map
      */
-    fun drawGrid(canvas: Canvas, map : Map) {
+    fun drawGrid(canvas: Canvas, map: Map) {
 
         for (y in 0 until map.getRowSize()) {
             for (x in 0 until map.getColSize()) {
@@ -48,7 +48,7 @@ class MapView() {
                 //val xx = cell.position.first
                 //val yy = cell.position.second
 
-                when(cell.tileElement) {
+                when (cell.tileElement) {
                     //"grass" -> canvas.drawBitmap(grass, xx, yy, paint) //Keep for preference - different visual effect
                     //"soil" -> canvas.drawBitmap(soil, xx, yy, paint)
                     "grass" -> canvas.drawBitmap(grass, null, cell.cellRectangle, paint)
@@ -62,7 +62,7 @@ class MapView() {
     /**
      * Rescale each tile to the new screen size
      */
-    fun setRects(map : Map, w : Float, h : Float){
+    fun setRects(map: Map, w: Float, h: Float) {
 
         val cols = map.getColSize()
         val rows = map.getRowSize()

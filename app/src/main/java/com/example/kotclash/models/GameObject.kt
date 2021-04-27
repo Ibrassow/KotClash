@@ -38,7 +38,7 @@ open class GameObject(
 
 
 
-
+    //Don't
     fun setRect(rendW : Float, rendH : Float){
         val x = (initCoord.first * rendW)
         val y = (initCoord.second * rendH)
@@ -47,7 +47,6 @@ open class GameObject(
         val endy = y + rendH
         rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
     }
-
 
 
 

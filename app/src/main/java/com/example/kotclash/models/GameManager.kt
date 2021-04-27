@@ -30,7 +30,7 @@ class GameManager {
 
 
     private var GAMEOVER = false
-    private var STARTED = false
+    var STARTED = false
 
 
     private val enemyGenerationFreq = 0f
@@ -82,20 +82,39 @@ class GameManager {
 
     fun initializeObjects() {
 
+
         //default map
         if (map.grid.isEmpty()){
             setMap("spring")
         }
 
 
-        //here one base per side and two simpleTowers
+        //Two bases - One per side
         gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!, 0f))
         gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!, 0f))
-        /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers1["ally"]!!,  0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers1["enemy"]!!,  0f))
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, mapLoader.posSimpleTowers2["ally"]!!,  0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, mapLoader.posSimpleTowers2["enemy"]!!,  0f))
-        gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))*/
+
+        //Additional towers for the enemy side
+        for (position in mapLoader.posEnemyTower){
+            gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value,  0f))
+        }
+
+
+        //gameObjectList.add(troopFactory.getTroop(true, "simpleTower", mapLoader.posSimpleTowers1["enemy"]!!,  0f))
+        //gameObjectList.add(troopFactory.getTroop(true, "simpleTower", mapLoader.posSimpleTowers2["enemy"]!!,  0f))
+
+
+        //Additional towers for the ally side
+        for (position in mapLoader.posAllyTower){
+            gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value,  0f))
+        }
+
+
+        //gameObjectList.add(troopFactory.getTroop(false, "simpleTower", mapLoader.posSimpleTowers1["ally"]!!,  0f))
+        //gameObjectList.add(troopFactory.getTroop(false, "simpleTower", mapLoader.posSimpleTowers2["ally"]!!,  0f))
+
+
+
+        /*gameObjectList.add(troopFactory.getTroop(false, "submarine", null,Pair(10f,10f),  0f))*/
 
 
         for (elem in gameObjectList) {

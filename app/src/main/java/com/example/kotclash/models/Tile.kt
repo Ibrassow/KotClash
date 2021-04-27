@@ -5,9 +5,6 @@ import android.graphics.RectF
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
-    //Temporary
-    val RENDERABLE_WIDTH = 1
-    val RENDERABLE_HEIGHT = 1
 
     //TODO -> GameObject preferably
     var occupants : MutableList<Entity> = mutableListOf()
@@ -20,8 +17,8 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     //TODO change this attribute when reading the map
     var walkable : Boolean = true
 
-    var endx = x + RENDERABLE_WIDTH
-    var endy = y + RENDERABLE_HEIGHT
+    var endx = x
+    var endy = y
 
     //Will serve later on
     var cellRectangle: RectF = RectF(x, y, endx, endy)
