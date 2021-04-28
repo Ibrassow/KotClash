@@ -3,6 +3,7 @@ package com.example.kotclash.models
 import android.util.Log
 import kotlin.math.floor
 
+
 /**
  * Main manager of the game - Singleton
  *
@@ -38,7 +39,7 @@ class GameManager {
 
     private val enemyGenerationFreq = 0f
     var previousEnemyGenerationTime = System.currentTimeMillis()
-    var resources = 0f
+    var resources = 2000000000000f //Test
 
 
 
@@ -107,7 +108,7 @@ class GameManager {
         }
 
 
-        gameObjectList.add(troopFactory.getTroop(false, "submarine", mapLoader.posAllySpawn[0]!!))
+        //gameObjectList.add(troopFactory.getTroop(false, "submarine", mapLoader.posAllySpawn[0]!!))
 
 
         for (elem in gameObjectList) {
@@ -138,6 +139,9 @@ class GameManager {
             resources = getResourceBar()
             takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
             //autonomousEnemyGeneration(map)
+
+            val nn = gameObjectList.size
+            Log.e("sizeObjList", "$nn")
         }
 
 
@@ -205,8 +209,10 @@ class GameManager {
     }
 
 
-    fun playCard(coordinates: Pair<Float, Float>) {
-        cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates, map)
+    fun playCard(nbCard : Int) {
+        val nbRand = kotlin.random.Random.Default.nextInt(3)
+        cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 
 

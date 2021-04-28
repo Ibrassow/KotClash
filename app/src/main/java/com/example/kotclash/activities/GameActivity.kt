@@ -1,19 +1,18 @@
 package com.example.kotclash.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
-import com.example.kotclash.models.GameManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotclash.R
-import com.example.kotclash.models.ResourceBar
+import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView
 
 
-
 class GameActivity : AppCompatActivity(), View.OnClickListener {
-
+    //, View.OnClickListener
     var game = GameManager.gameInstance
 
     lateinit var gameView : GameView
@@ -43,6 +42,11 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card2))
         cardList.add(findViewById(R.id.card3))
 
+        for (card in cardList){
+            card.setOnClickListener(this)
+        }
+
+
         configureGame(mapSelected, troopSelected)
         game.start()
 
@@ -54,24 +58,29 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
         for (i in 0 until cardList.size){
             cardList[i].setCard(cardSelected[i])
+            /*cardList[i].setOnClickListener {
+                game.playCard(i-1)
+                Log.e("HE", "OHHHHHHHHHHHHH")
+            }*/
         }
 
     }
 
     override fun onClick(v: View) {
-        /*when (v.id) {
+        when (v.id) {
             R.id.card1 -> {
-                game.saveCard(1)
+                game.playCard(1)
+                Log.e("HE", "OHHHHHHHHHHHHH")
             }
 
             R.id.card2 -> {
-                game.saveCard(2)
+                game.playCard(2)
             }
 
             R.id.card3 -> {
-                game.saveCard(3)
+                game.playCard(3)
             }
-        }*/
+        }
     }
 
 

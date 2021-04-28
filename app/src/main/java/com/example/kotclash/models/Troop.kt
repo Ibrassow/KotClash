@@ -15,7 +15,7 @@ open class Troop(enemy: Boolean,
     val gate1 = Pair(0f,0f)
     val gate2 = Pair(0f,0f)
 
-    override fun takeAction(ElapsedTimeMS: Long, grid: Map){
+    override fun takeAction(ElapsedTimeMS: Long, map: Map){
        /* if(target != null){
             //target = selectTarget(grid)
             if(readyForAttack() ) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
@@ -25,7 +25,7 @@ open class Troop(enemy: Boolean,
             move(ElapsedTimeMS)
         }*/
 
-        move(ElapsedTimeMS)
+        move(ElapsedTimeMS, map)
     }
 
 
@@ -42,7 +42,15 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun move(interval : Long){
+    fun move(interval : Long, map: Map){
+
+        lateinit var lookAheadPoint : Pair<Float,Float>
+        /*if(onOwnSide()){
+            lookAheadPoint = getClosestGate()
+        }else{
+            targetOfMotion = findTargetOfMotion()
+            lookAheadPoint = targetOfMotion!!.coordinates
+        }*/
 
         /*val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
                 Pair(lookAheadPoint.first, lookAheadPoint.second))*/
@@ -62,12 +70,12 @@ open class Troop(enemy: Boolean,
         Log.e("EE", "dx : $dx, dy : $dy")
         Log.e("RR", "coord : $coordinates")
 
-        val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+        //val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
 
 
         if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
                         && ceil(coordinates.second) == ceil(previousCoordinates.second))){
-            //grid.displace(this,coordinatesIdx, currentOrientation)
+            map.displace(this, previousCoordinates)
 
     }
 
@@ -143,7 +151,7 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun findTargetOfMotion():Entity?{
+    fun findTargetOfMotion():GameObject?{
         if(target == null){
             if(isEnemy()) {
                 //target = getClosestEnemy(gameManager.enemyTowersList) //TODO pass gameManager in parameters not as attribute

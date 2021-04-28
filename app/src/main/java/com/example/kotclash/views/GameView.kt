@@ -58,18 +58,24 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         return true
     }*/
 
+    //Temporary solution
 
-    //TODO MAIN FUNCTION
+    var objListSize = game.gameObjectList.size
+
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
                     height.toFloat(), backgroundPaint)
         Log.d("View", "GameView drawing")
         mapView.drawGrid(canvas, game.map)
-        //objectDrawer.setRect(game.gameObjectList)
-        objectDrawer.drawObjects(canvas, game.gameObjectList)
 
-        Log.d("checking", "$width and $height")
+        if (objListSize != game.gameObjectList.size){
+            objectDrawer.setRect(game.gameObjectList)
+            objListSize = game.gameObjectList.size
+        }
+
+        objectDrawer.drawObjects(canvas, game.gameObjectList)
+        Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
     }
 
 

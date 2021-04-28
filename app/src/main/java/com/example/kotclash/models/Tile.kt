@@ -1,13 +1,14 @@
 package com.example.kotclash.models
 
 import android.graphics.RectF
+import android.util.Log
 
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
 
     //TODO -> GameObject preferably
-    var occupants : MutableList<Entity> = mutableListOf()
+    var occupants : MutableList<GameObject> = mutableListOf()
 
     var x = xi
     var y = yi
@@ -55,10 +56,12 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     }
 
 
-    fun setOccupant(entity : Entity){
-        occupants.add(entity)
-    //occupant = entity
-    //occupant!!.position = position
+    fun setOccupant(obj : GameObject){
+        if (obj !in occupants){
+            occupants.add(obj)//works
+        }
+        //val m = occupants.size
+        //Log.e("Tile", "size : $m")
     }
 
 
@@ -66,8 +69,8 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         return sqrt((posE.x - x).toDouble().pow(2) + (posE.y - y).toDouble().pow(2))
     }*/
 
-    //TODO -> GameObject preferably
-    fun getEntity() : MutableList<Entity>{
+    //TODO -> GameObject preferably (rename)
+    fun getEntity() : MutableList<GameObject>{
         return occupants
     }
 

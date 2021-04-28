@@ -38,9 +38,11 @@ class GameObjectView(val view : GameView) {
                     "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
                     "submarine" -> {
                         var cc = obj.currentOrientation.toInt()
-                        val submarineE = createSubImageAt(submarine,(cc+5).toInt(),1,8,6)
+                        val submarineE = createSubImageAt(submarine,(cc+3).toInt(),1,8,6)
                         //submarine = createSubImageAt("Nord-Ouest")
                         canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        val k =obj.coordinates
+                        Log.e("posObj", "$k")
                     }
                     /*"projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
                 }

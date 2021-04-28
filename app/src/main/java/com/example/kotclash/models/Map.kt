@@ -2,6 +2,7 @@ package com.example.kotclash.models
 
 import android.util.Log
 import java.lang.IndexOutOfBoundsException
+import kotlin.math.ceil
 
 
 class Map()  {
@@ -48,9 +49,9 @@ class Map()  {
 
 
     //returns the entities found in the given range
-    fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<Entity> {
+    fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<GameObject> {
 
-        val entityFound = mutableListOf<Entity>()
+        val objectFound = mutableListOf<GameObject>()
 
         val x = actualPos.first
         val y = actualPos.second
@@ -59,12 +60,12 @@ class Map()  {
         for (column in y-range..y+range+1){
             for (row in x-range..x+range+1){
                 if (grid[row][column].isOccupied()){
-                    grid[row][column].getEntity().let { entityFound.addAll(it) }
+                    grid[row][column].getEntity().let { objectFound.addAll(it) }
                 }
             }
         }
 
-        return entityFound
+        return objectFound
     }
 
 
@@ -83,8 +84,23 @@ class Map()  {
     }
 
     //TODO Check if movement is possible, where, etc
-    fun displace(entity : Entity, dx : Int, dy : Int){
-        var actualPos = entity.coordinates
+    fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
+        var newPos = obj.coordinates
+
+        val oldX = ceil(prevCoord.first/obj.oldRendW).toInt()
+        val oldY = ceil(prevCoord.second/obj.oldRendH).toInt()
+
+
+        try {
+            grid[oldY][oldX].setOccupant(obj)
+            Log.e("kk", "SUCCESS")
+            //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
+            //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
+        }
+        catch(e: IndexOutOfBoundsException){
+            Log.d("Exception grid - displace", "Index out of bounds")
+        }
+
 
         //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
         //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)

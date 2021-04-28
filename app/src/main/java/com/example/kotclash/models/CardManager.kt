@@ -1,21 +1,29 @@
 package com.example.kotclash.models
 
-
-class CardManager(val troopFactory: TroopFactory, val gameManager : GameManager) {
-
+import android.util.Log
 
 
-    val costBoat = 0
-    val costSubmarine = 0
+class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
+
+
+
+    val costBoat = 0f
+    val costSubmarine = 0f
 
 
     //TODO: could also use CardManager for autonomousEnemyGeneration()
-    fun playCard(cardNumber: Int, resources: Double, coordinates: Pair<Float,Float>, grid: Map){
+    fun playCard(cardNumber: Int, resources: Double, coordinates: Pair<Float,Float>){
+        var i : Boolean = (resources > costSubmarine)
+        Log.e("BOOL", "$i")
         when(cardNumber){
-            1 -> if(resources > costBoat){gameManager.gameObjectList.
-            add(troopFactory.getTroop(false,"boat", coordinates))}
-            2 -> if(resources > costSubmarine){gameManager.gameObjectList.
-            add(troopFactory.getTroop(false,"submarine", coordinates))}
+            1 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))}
+            Log.e("cardM", "please")
+                val nn = game.gameObjectList.size
+                Log.e("sizeObjListCM", "$nn")}
+            2 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))}
+                Log.e("cardM", "please")}
+            3 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))}
+                Log.e("cardM", "please")}
         }
     }
 

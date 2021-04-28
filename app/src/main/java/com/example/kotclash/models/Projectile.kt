@@ -60,7 +60,7 @@ class Projectile(enemy: Boolean,
     }
 
 
-    override fun attack(entity: Entity) {
+    override fun attack(entity: GameObject) {
         //could depend on type of projectile -> could also repel troops
         //one option:
         entity.getDamaged(projectileDamage)

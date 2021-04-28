@@ -61,15 +61,18 @@ open class GameObject(
     }
 
 
-    fun getEnemiesInRange(grid: Map): MutableList<Entity>{
+    fun getEnemiesInRange(grid: Map): MutableList<GameObject>{
         val xx = Math.ceil(coordinates.first.toDouble()).toInt()
         val yy = Math.ceil(coordinates.second.toDouble()).toInt()
         return grid.scanArea(Pair(xx, yy), range)
     }
 
 
-    open fun attack(entity: Entity) {
+    open fun attack(entity: GameObject) {
         //entity.getDamaged(damage)
+    }
+
+    open fun getDamaged(dmg: Int) {
     }
 
 
