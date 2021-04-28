@@ -1,10 +1,9 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.GameManager
-import com.example.kotclash.Map
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, val gameManager: GameManager) : GameObject(enemy, coordinates, currentOrientation) {
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
+    : GameObject(enemy, coordinates) {
 
 
     open var health = 0
@@ -12,26 +11,23 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
     open val freqShoot = 0f
     var previousAttackTime = System.currentTimeMillis()
 
-    var target : Entity? = null
+    var target : GameObject? = null
 
 
     //getDamaged should remain an abstract method
     //substracts healthpoints, and sets dead = true when dies
-
-
-    open fun getDamaged(dmg: Int) {
+    override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
-        if (health <= 0){
+        if (health <= 0) {
             dead = true
         }
     }
 
-
     //TODO : should be overridden, as each troop will create its own projectile
     //TODO : Attack as an interface? -> close/distance/..
-    override fun attack(entity: Entity){
+    override fun attack(entity: GameObject){
         val orientation = getInitAngleProjectile(entity)
-        gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
+        //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
     }
 
 
@@ -47,9 +43,9 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
 
 
     //allows to determine the closest enemy
-    fun distToEnemy(entity: Entity): Float{
+    fun distToEnemy(entity: GameObject): Float{
         val distEnemy = sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
-        return distEnemy.toFloat()
+        return distEnemy
     }
 
 
@@ -79,7 +75,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
 
 
 
-    fun selectTarget(grid: Map) : Entity? {
+    fun selectTarget(grid: Map) : GameObject? {
         val listEnemiesInRange = getEnemiesInRange(grid)
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
@@ -97,7 +93,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
 
 
     //finds closest enemy and checks at the same time that it is truly within range
-    fun getClosestEnemy(listEnemiesInRange: MutableList<Entity>): Entity?{
+    fun getClosestEnemy(listEnemiesInRange: MutableList<GameObject>): GameObject?{
         target = null //ATTENTION ! Artifice pour pas utiliser nullable
         var minDist = range.toFloat();
         for(elem in listEnemiesInRange){
@@ -111,7 +107,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
     }
 
 
-    fun getInitAngleProjectile(entity: Entity):Float{
+    fun getInitAngleProjectile(entity: GameObject):Float{
         val angle = getAngleVector(Pair(coordinates.first,coordinates.second),
                 Pair(entity.coordinates.first,
                         entity.coordinates.second))

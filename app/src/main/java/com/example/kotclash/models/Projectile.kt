@@ -1,26 +1,22 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
 
 class Projectile(enemy: Boolean,
                  val target: Entity,
-                 coordinates : Pair<Float,Float>,
-                 currentOrientation : Float,
-                 gameManager: GameManager
-) : GameObject(enemy, coordinates, currentOrientation), Movable {
+                 coordinates : Pair<Float,Float>
+) : GameObject(enemy, coordinates), Movable {
 
 
 
     //TODO : def projectile for each troop
-    val projectileDamage = 0
-    val speed = 0f
+    private val projectileDamage = 0
+    private val speed = 0f
 
 
-    override fun takeAction(elapsedTimeMS: Long, grid:Map) {
+    override fun takeAction(elapsedTimeMS: Long, grid: Map) {
         val enemyInRange = getEnemiesInRange(grid)
         if(enemyInRange.isNotEmpty()){
             for(entity in enemyInRange) {
@@ -38,8 +34,15 @@ class Projectile(enemy: Boolean,
         val direction = getDirection()
 
         val previousCoordinates = coordinates
-        coordinates = Pair(coordinates.first + speed*elapsedTimeMS*cos(direction),
-                coordinates.second + speed*elapsedTimeMS*sin(direction))
+        val dx = speed*elapsedTimeMS*cos(currentOrientation)
+        val dy = speed*elapsedTimeMS*sin(currentOrientation)
+        //make sure to homogenise order of magnitude of speeds (unit time: s/ms?)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx,dy)
 
         //notify view of movement
         if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
@@ -57,7 +60,7 @@ class Projectile(enemy: Boolean,
     }
 
 
-    override fun attack(entity: Entity) {
+    override fun attack(entity: GameObject) {
         //could depend on type of projectile -> could also repel troops
         //one option:
         entity.getDamaged(projectileDamage)

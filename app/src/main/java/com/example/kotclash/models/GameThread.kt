@@ -1,15 +1,15 @@
-package com.example.kotclash
+package com.example.kotclash.models
 
 import android.graphics.Canvas
 import android.util.Log
 import android.view.SurfaceHolder
-import android.widget.ProgressBar
+import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.GameView
-import kotlin.math.floor
 
 
-class GameThread(private val holder: SurfaceHolder, private val gameView: GameView, val progressBar: ProgressBar) : Thread() {
+class GameThread(private val holder: SurfaceHolder, private val gameView: GameView) : Thread() {
     private var running: Boolean = false
+    private var locked = false
 
     private val MAX_FPS = 50
     private val game: GameManager = GameManager.gameInstance
@@ -21,6 +21,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     fun setRunning(isRunning: Boolean) {
         this.running = isRunning
     }
+
 
 
     override fun run() {
@@ -35,30 +36,37 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
             timeElapsed = (startTime - lastTime) / 1000000
 
             if (timeElapsed >= targetTime){
-                canvas = null //Null pointer exception is our friend
 
+                if (holder.surface.isValid) {
                 try {
                     // locking the canvas allows us to draw on to it
-                    canvas = this.holder.lockCanvas()
-                    synchronized(holder) {
+                    if (!locked){
+                    canvas = holder.lockCanvas()
+                    locked = true}
 
-                        game.update(timeElapsed)
-                        gameView.draw(canvas!!)
-                        progressBar.progress = floor(game.getResourceBar()).toInt()*20
-                        //mutliply by 20 as need percentage -> might be temporary
-                        Log.d("thread", "calling draw and update from thread : $timeElapsed")
-                        lastTime = System.nanoTime()
+                    synchronized(holder) {
+                            game.update(timeElapsed)
+                            gameView.draw(canvas!!)
+                            Log.d("thread", "calling draw and update from thread : $timeElapsed")
+                            lastTime = System.nanoTime()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
                     if (canvas != null) {
                         try {
-                            holder.unlockCanvasAndPost(canvas)
+                            //Unlocking
+                            if (locked){
+                                holder.unlockCanvasAndPost(canvas)
+                                locked = false
+                            }
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     }
+                }
+
                 }
 
             }
@@ -72,5 +80,6 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     }
 
 }
+
 
 

@@ -1,12 +1,18 @@
-package com.example.kotclash
+package com.example.kotclash.models
 
 import android.util.Log
-import com.example.kotclash.models.*
+import kotlin.math.floor
 
+
+/**
+ * Main manager of the game - Singleton
+ *
+ * This class controls the logic of the game
+ *
+ * @constructor Initiliazes the first towers and the map
+ */
 class GameManager {
 
-
-    //"Singleton" - So we get a single instance of the game
     companion object {
         private var instance: GameManager? = null
         val gameInstance: GameManager
@@ -16,6 +22,9 @@ class GameManager {
                 }
                 return instance!!
             }
+        fun destroy() {
+            instance = null
+        }
     }
 
 
@@ -25,14 +34,15 @@ class GameManager {
 
 
     private var GAMEOVER = false
+    var STARTED = false
 
 
     private val enemyGenerationFreq = 0f
     var previousEnemyGenerationTime = System.currentTimeMillis()
-    var resources = 0f
+    var resources = 2000000000000f //Test
 
 
-    //card not played when clicked on but when player clicks on apparition spot
+
     //this variable stores the nb of the card clicked on
     var nbCardClicked = 0
 
@@ -48,11 +58,11 @@ class GameManager {
 
     private val resourceBar = ResourceBar()
 
-    var timeLeft = 0.0
+    var timeLeft = 40.0
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
-    val cardManager = CardManager(troopFactory, this)
+    val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<Entity>() //to use fctn already def for entities
     val allyTowersList = mutableListOf<Entity>()
@@ -60,30 +70,45 @@ class GameManager {
     // -------------------- INIT ------------------- //
 
 
-    init {
-        initEntityList()
 
+    fun start(){
+        initializeObjects()
+        STARTED = true
+    }
+
+    fun setMap(mapName: String) {
+        mapLoader.loadMap(mapName)
+        map = mapLoader.returnMap()
+        val ss = map.grid.isNotEmpty()
+        Log.d("InitGM", "got map : $ss")
     }
 
 
+    fun initializeObjects() {
 
-    //TODO
-    fun initEntityList() {
 
-        //Verif - default map
+        //default map
         if (map.grid.isEmpty()){
             setMap("spring")
         }
 
 
-        //here one base per side and two simpleTowers
-        gameObjectList.add(troopFactory.getTroop(true, "base", null, mapLoader.posBases["enemy"]!!, 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "base", null, mapLoader.posBases["ally"]!!, 0f))
-        /*gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(true, "simpleTower", null, Pair(0f, 0f), 0f))
-        gameObjectList.add(troopFactory.getTroop(false, "simpleTower", null, Pair(0f, 0f), 0f))*/
+        //Two bases - One per side
+        gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!))
+        gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!))
 
+        //Additional towers for the enemy side
+        for (position in mapLoader.posEnemyTower){
+            gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value))
+        }
+
+        //Additional towers for the ally side
+        for (position in mapLoader.posAllyTower){
+            gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
+        }
+
+
+        //gameObjectList.add(troopFactory.getTroop(false, "submarine", mapLoader.posAllySpawn[0]!!))
 
 
         for (elem in gameObjectList) {
@@ -97,27 +122,28 @@ class GameManager {
     }
 
 
-    fun setMap(mapName: String) {
-        mapLoader.loadMap(mapName)
-        map = mapLoader.returnMap()
-        val ss = map.grid.isNotEmpty()
-        Log.d("InitGM", "got map : $ss")
-    }
+
 
 
 
     fun update(elapsedTimeMS: Long) {
 
-        timeLeft -= elapsedTimeMS / 1000.0
-        Log.d("GM", "$timeLeft")
+        if (STARTED){
+            timeLeft -= elapsedTimeMS / 10000000000.0
+            Log.d("GM", "$timeLeft")
 
-        if (timeLeft <= 0) {
-            endGame()
+            if (timeLeft <= 0) {
+                endGame()
+            }
+            updateResourceBar(elapsedTimeMS)
+            resources = getResourceBar()
+            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            //autonomousEnemyGeneration(map)
+
+            val nn = gameObjectList.size
+            Log.e("sizeObjList", "$nn")
         }
-        updateResourceBar(elapsedTimeMS)
-        resources = getResourceBar()
-        takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
-        autonomousEnemyGeneration(map)
+
 
     }
 
@@ -126,6 +152,7 @@ class GameManager {
         for (entity in gameObjectList) {
             if (entity.isAlive()) {
                 entity.takeAction(elapsedTimeMS, map)
+                Log.d("GM", "ACTION TAKEN FOR " + entity.toString())
             }
         }
     }
@@ -151,9 +178,9 @@ class GameManager {
         return ready
     }
 
-
-    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>, orientation: Float) {
-        gameObjectList.add(troopFactory.getTroop(enemy, type, target, coordinates, orientation))
+    //TODO target at the end
+    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>) {
+        gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, target))
     }
 
 
@@ -182,11 +209,16 @@ class GameManager {
     }
 
 
-    fun playCard(coordinates: Pair<Float, Float>) {
-        cardManager.playCard(nbCardClicked, kotlin.math.floor(resources.toDouble()), coordinates, map)
+    fun playCard(nbCard : Int) {
+        val nbRand = kotlin.random.Random.Default.nextInt(3)
+        cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 
 
+
+
+    //Pas trop compris ici
     fun endGame() {
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
