@@ -22,8 +22,7 @@ abstract class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var gameView : GameView
     lateinit var progressBar : ProgressBar
-    val cardList = mutableListOf<CardView>()
-
+    private val cardList = mutableListOf<CardView>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,9 +94,10 @@ abstract class GameActivity : AppCompatActivity(), View.OnClickListener {
         gameView.resume()
     }
 
-    override fun onDestroy(){
+    //This one is redundant
+    /*override fun onDestroy(){
         super.onDestroy()
-    }
+    }*/
 
 
     //This will be called to update everything

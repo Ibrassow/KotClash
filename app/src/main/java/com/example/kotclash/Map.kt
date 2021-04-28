@@ -59,7 +59,8 @@ class Map()  {
         //TODO add conditions for walls -- existence of cells
         for (column in y-range..y+range+1){
             for (row in x-range..x+range+1){
-                if (grid[row][column].isOccupied()){
+                val tileIsOccupied = grid[row][column].isOccupied()
+                if (tileIsOccupied){
                     grid[row][column].getEntity().let { entityFound.addAll(it) }
                 }
             }

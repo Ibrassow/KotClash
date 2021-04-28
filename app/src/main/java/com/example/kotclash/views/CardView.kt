@@ -20,7 +20,7 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
 
-    fun initView(cardName : String) {
+    private fun initView(cardName : String) {
 
         //imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
 

@@ -44,7 +44,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
                         game.update(timeElapsed)
                         gameView.draw(canvas!!)
-                        progressBar.progress = floor(game.getResourceBar()).toInt()*20
+                        progressBar.progress = floor(game.resourceBar.resources.toDouble()).toInt()*20
                         //mutliply by 20 as need percentage -> might be temporary
                         Log.d("thread", "calling draw and update from thread : $timeElapsed")
                         lastTime = System.nanoTime()

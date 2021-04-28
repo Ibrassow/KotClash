@@ -15,4 +15,9 @@ class ResourceBar {
     fun updateResourceBar(elapsedTimeMS: Long){
         resources += elapsedTimeMS*speedFill
     }
+
+
+    fun useResources(resourcesUsed: Float){
+        resources -= resourcesUsed
+    }
 }

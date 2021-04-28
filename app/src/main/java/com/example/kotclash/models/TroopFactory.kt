@@ -4,16 +4,15 @@ import com.example.kotclash.GameManager
 
 class TroopFactory(val gameManager: GameManager) {
 
-    lateinit var troopSelect : GameObject
-
-
     fun getTroop(enemy : Boolean,
                  type : String,
                  target : Entity?,
                  coordinates: Pair<Float,Float>,
                  currentOrientation: Float): GameObject {
 
+
         //TODO : gameObjectFactory
+        lateinit var troopSelect : GameObject
         when (type){
             "base" -> troopSelect = Base(enemy, coordinates, currentOrientation, gameManager)
             //"submarine" -> troopSelect = Submarine(enemy, coordinates, currentOrientation, gameManager)

@@ -22,7 +22,7 @@ class GameObjectView(val view : GameView) {
     }
 
 
-    fun initImages(){
+    private fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
     }
 

@@ -7,27 +7,32 @@ import kotlin.math.*
 
 open class Troop(enemy: Boolean,
                  coordinates : Pair<Float,Float>,
-                 currentOrientation: Float, gameManager: GameManager
-) : Entity(enemy, coordinates, currentOrientation, gameManager), Movable{
+                 currentOrientation: Float,
+                 gameManager: GameManager
+                    ) : Entity(enemy, coordinates, currentOrientation, gameManager), Movable{
 
 
     open val speed  = 0f
     var targetOfMotion: Entity? = null
 
+
     //serve to direct movement of troops
-    val gate1 = Pair(0f,0f)
-    val gate2 = Pair(0f,0f)
+    private val gate1 = Pair(0f,0f)
+    private val gate2 = Pair(0f,0f)
+
 
     override fun takeAction(ElapsedTimeMS: Long, grid:Map){
-        if(readyForAttack()){
+        val readyForAttack = readyForAttack()
+        if(readyForAttack){
             target = selectTarget(grid)
-            if(!(target == null)) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
+            if(target != null) {
                 attack(target!!)
             }
         }else{
             move(ElapsedTimeMS)
         }
     }
+
 
     /*fun move(interval : Double){
         var dy = 0f
@@ -67,8 +72,8 @@ open class Troop(enemy: Boolean,
         val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
 
 
-        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
-                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
+        if(ceil(coordinates.first) != ceil(previousCoordinates.first)
+                        || ceil(coordinates.second) != ceil(previousCoordinates.second)){
             //grid.displace(this,coordinatesIdx, currentOrientation)
             //TODO
         }

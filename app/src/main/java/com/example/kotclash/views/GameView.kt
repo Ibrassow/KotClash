@@ -32,13 +32,13 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     //Map
     var map : Map = Map()
-    val mapLoader: MapLoader = MapLoader()
-    val mapView = MapView()
+    private val mapLoader: MapLoader = MapLoader()
+    private val mapView = MapView()
 
-    val objectDrawer : GameObjectView = GameObjectView(this)
+    private val objectDrawer : GameObjectView = GameObjectView(this)
 
     //misc
-    val backgroundPaint = Paint()
+    private val backgroundPaint = Paint()
     var screenWidth = 0f
     var screenHeight = 0f
 
@@ -55,8 +55,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         thread = GameThread(holder, this, progressBar)
 
     }
-
-
 
 
     fun bindToGame(g : GameManager){

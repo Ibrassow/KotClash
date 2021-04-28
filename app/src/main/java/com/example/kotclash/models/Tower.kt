@@ -12,7 +12,7 @@ open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrienta
     override fun takeAction(elapsedTimeMS: Long, grid:Map) {
         /*if(readyForAttack()){
             target = selectTarget(grid)
-            if(!(target == null)){   //ARTIFICE EN PRINCIPE TEMPORAIRE
+            if(target != null){
                 attack(target!!)
             }
         }*/
