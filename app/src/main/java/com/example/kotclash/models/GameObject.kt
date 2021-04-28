@@ -1,6 +1,7 @@
 package com.example.kotclash.models
 
 import android.graphics.RectF
+import android.util.Log
 import kotlin.math.atan2
 
 
@@ -33,6 +34,7 @@ open class GameObject(
 
     //TODO For each "movable" object -> Offset the rectangle
 
+    val ix = getIx()
 
 
     fun setRect(rendW : Float, rendH : Float){
@@ -45,6 +47,12 @@ open class GameObject(
         oldRendH = rendH
         rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
     }
+
+
+
+
+
+
 
     open fun takeAction(elapsedTimeMS: Long, grid: Map){}
 
@@ -88,6 +96,14 @@ open class GameObject(
         return angle
     }
 
+    companion object {
+        var count:Int = 0
+        private fun getIx():Int{
+            count++
+            return count
+        }
+
+    }
 
 
 

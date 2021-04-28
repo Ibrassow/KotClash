@@ -21,7 +21,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     var endx = x
     var endy = y
 
-    //Will serve later on
     var cellRectangle: RectF = RectF(x, y, endx, endy)
 
     init{
@@ -41,18 +40,21 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         return occupants.isNotEmpty()
     }
 
-    fun setRect(renderable_Width : Float, renderable_Height : Float){
-        x = (xi * renderable_Width)
-        y = (yi * renderable_Height)
+    fun setRect(renderableWidth : Float, renderableHeight : Float){
+        x = (xi * renderableWidth)
+        y = (yi * renderableHeight)
         position = Pair(x,y)
-        endx = x + renderable_Width
-        endy = y + renderable_Height
+        endx = x + renderableWidth
+        endy = y + renderableHeight
         cellRectangle.set(x, y, endx, endy)
     }
 
-    //TODO
-    fun removeOccupant(){
-        //occupant = null
+    fun removeOccupant(obj: GameObject){
+        for (i in 0..(occupants.size)){
+            if (occupants[i].ix == obj.ix){
+                occupants.remove(obj)
+            }
+        }
     }
 
 
@@ -60,8 +62,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         if (obj !in occupants){
             occupants.add(obj)//works
         }
-        //val m = occupants.size
-        //Log.e("Tile", "size : $m")
     }
 
 

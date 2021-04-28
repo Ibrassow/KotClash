@@ -37,7 +37,7 @@ class MapLoader() {
     }
 
 
-    fun parseFile(filename : String) : Map {
+    private fun parseFile(filename : String) : Map {
 
         posBases.clear()
         posAllyTower.clear()

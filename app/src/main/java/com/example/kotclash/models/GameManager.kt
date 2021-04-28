@@ -86,7 +86,6 @@ class GameManager {
 
     fun initializeObjects() {
 
-
         //default map
         if (map.grid.isEmpty()){
             setMap("spring")
@@ -107,8 +106,6 @@ class GameManager {
             gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
         }
 
-
-        //gameObjectList.add(troopFactory.getTroop(false, "submarine", mapLoader.posAllySpawn[0]!!))
 
 
         for (elem in gameObjectList) {
@@ -149,10 +146,10 @@ class GameManager {
 
 
     fun takeAction(elapsedTimeMS: Long, map: Map) {
-        for (entity in gameObjectList) {
-            if (entity.isAlive()) {
-                entity.takeAction(elapsedTimeMS, map)
-                Log.d("GM", "ACTION TAKEN FOR " + entity.toString())
+        for (obj in gameObjectList) {
+            if (obj.isAlive()) {
+                obj.takeAction(elapsedTimeMS, map)
+                Log.d("GM", "ACTION TAKEN FOR " + obj.toString())
             }
         }
     }
@@ -240,28 +237,6 @@ class GameManager {
             //"Vous ave perdu"
         }
     }
-
-
-    /*override fun run(){
-    var previousFrameTime = System.currentTimeMillis()
-
-    while (running){
-        val currentTime = System.currentTimeMillis()
-        val elapsedTimeMS = (currentTime - previousFrameTime)
-        timeLeft -= elapsedTimeMS/1000.0
-
-        if(timeLeft <= 0){
-            endGame()
-        }
-        updateResourceBar(elapsedTimeMS)
-        resources = getResourceBar()
-        takeAction(elapsedTimeMS, map)
-        autonomousEnemyGeneration(map)
-    }
-}*/
-
-
-
 
 
 }

@@ -35,16 +35,14 @@ class Map()  {
             for (y in (yy-szy).toInt()..(yy+szy).toInt()){
                 //to account for non-existing tiles
                 try {
-                    grid[y][x].setOccupant(gameObject as Entity) //TODO we need to decide if we add objects or entities
+                    grid[y][x].setOccupant(gameObject)
                 }
                 catch(e: IndexOutOfBoundsException){
                     Log.d("Exception grid - place", "Index out of bounds")
                 }
             }
         }
-
     }
-
 
 
 
@@ -69,20 +67,6 @@ class Map()  {
     }
 
 
-    fun showOccupancyGrid(){
-        for (y in 0 until getRowSize()){
-            for (x in 0 until getColSize()){
-                if (grid[x][y].isOccupied()){
-                    print(1)
-                }
-                else{print(0)}
-                print(" ")
-            }
-            println("")
-        }
-        println("--------------------")
-    }
-
     //TODO Check if movement is possible, where, etc
     fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
         var newPos = obj.coordinates
@@ -90,20 +74,13 @@ class Map()  {
         val oldX = ceil(prevCoord.first/obj.oldRendW).toInt()
         val oldY = ceil(prevCoord.second/obj.oldRendH).toInt()
 
-
         try {
-            grid[oldY][oldX].setOccupant(obj)
-            Log.e("kk", "SUCCESS")
-            //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
-            //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
+            grid[(newPos.second/obj.oldRendH).toInt()][(newPos.first/obj.oldRendW).toInt()].setOccupant(obj)
+            grid[oldY][oldX].removeOccupant(obj)
         }
         catch(e: IndexOutOfBoundsException){
-            Log.d("Exception grid - displace", "Index out of bounds")
+            Log.d("Exception grid-displace", "Index out of bounds")
         }
-
-
-        //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
-        //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
 
     }
 
