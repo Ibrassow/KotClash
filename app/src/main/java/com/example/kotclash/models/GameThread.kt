@@ -1,8 +1,9 @@
-package com.example.kotclash.controllers
+package com.example.kotclash.models
 
 import android.graphics.Canvas
 import android.util.Log
 import android.view.SurfaceHolder
+import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.GameView
 
 
@@ -15,7 +16,6 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
     init {
         Log.d("thread", "created")
-
     }
 
     fun setRunning(isRunning: Boolean) {
@@ -23,59 +23,63 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     }
 
 
+
     override fun run() {
         var startTime: Long
         val targetTime = (1000 / MAX_FPS).toLong()
         var timeElapsed: Long
         var lastTime: Long = 0
-        lateinit  var canvas : Canvas
+
         while (running) {
 
             startTime = System.nanoTime()
             timeElapsed = (startTime - lastTime) / 1000000
 
-            if (timeElapsed >= targetTime){ //Null pointer exception is our friend
+            if (timeElapsed >= targetTime){
 
+                if (holder.surface.isValid) {
                 try {
                     // locking the canvas allows us to draw on to it
+                    if (!locked){
+                    canvas = holder.lockCanvas()
+                    locked = true}
 
                     synchronized(holder) {
-                        canvas = this.holder.lockCanvas()
-                        game.update(timeElapsed)
-                        gameView.draw(canvas!!)
-                        Log.d("thread", "calling draw and update from thread : $timeElapsed")
-                        lastTime = System.nanoTime()
-                        locked = true
+                            game.update(timeElapsed)
+                            gameView.draw(canvas!!)
+                            Log.d("thread", "calling draw and update from thread : $timeElapsed")
+                            lastTime = System.nanoTime()
                     }
-                    holder.unlockCanvasAndPost(canvas)
-                    Log.wtf("essaie", "il a unlock")
                 } catch (e: Exception) {
                     e.printStackTrace()
-                }
+                } finally {
+                    if (canvas != null) {
+                        try {
+                            //Unlocking
+                            if (locked){
+                                holder.unlockCanvasAndPost(canvas)
+                                locked = false
+                            }
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
 
+                }
 
+            }
 
 
         }
     }
 
-    /*companion object {
+    companion object {
         private var canvas: Canvas? = null
-    }*/
+    }
 
 }
-/*private boolean cLocked = false;
 
 
-//Locking
- if (!cLocked){
-    canvas = this.surfaceHolder.lockCanvas();
-    cLocked = true;
-}
 
-//Unlocking
-if (cLocked) {
-    surfaceHolder.unlockCanvasAndPost(canvas);
-    cLocked = false;
-}*/

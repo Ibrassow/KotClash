@@ -1,14 +1,17 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.controllers.GameManager
+import android.util.Log
 
 class Submarine(enemy: Boolean,
-                coordinates : Pair<Float,Float>,
-                currentOrientation: Float, gameManager: GameManager
-) : Troop(enemy, coordinates, currentOrientation, gameManager) {    //open var view:GameObjectView,
+                coordinates : Pair<Float,Float>
+) : Troop(enemy, coordinates) {
     override var type = "submarine"
     override val freqShoot = 0f
     override val damage = 0
     override var health = 0
-    override val speed = 0.03f
+    override val speed = 1f
+
+    init {
+        Log.e("Submarine", "CREATED")
+    }
 }

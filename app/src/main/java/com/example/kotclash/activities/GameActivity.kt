@@ -1,62 +1,88 @@
 package com.example.kotclash.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
-import com.example.kotclash.controllers.GameManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotclash.R
-import com.example.kotclash.models.ResourceBar
+import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView
 
 
-
-abstract class GameActivity : AppCompatActivity() {
-
+class GameActivity : AppCompatActivity(), View.OnClickListener {
+    //, View.OnClickListener
     var game = GameManager.gameInstance
 
     lateinit var gameView : GameView
     lateinit var progressBar : ProgressBar
     val cardList = mutableListOf<CardView>()
-    abstract var resBar : ResourceBar
-
-
+    //var resBar : ResourceBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_game)
 
-        //TODO Send String instead with the correct name
-        //val mapSelected = intent.getIntExtra("mapSelected", 414) //Default value ?
-        //Log.d("Map received", "         "+mapnb.toString())
+        /*TODO INTENT should give the following:
+        TODO - mapSelected : String
+        TODO - cardList : List of 3 strings with the troop choice
+        TODO - Initial set of towers!
+        TODO - Difficulty level
+         */
+
         val mapSelected = "spring"
-        game.setMap(mapSelected)
+        val troopSelected = mutableListOf<String>("test1", "test2", "test3")
+
 
         gameView = findViewById(R.id.gameView)
-        gameView.bindToGame(game)
-
         progressBar = findViewById(R.id.progressBar)
-        cardList.add(findViewById(R.id.card1))
-        cardList[0].setCard("test1")
-        cardList.add(findViewById(R.id.card2))
-        cardList[1].setCard("test2")
-        cardList.add(findViewById(R.id.card3))
-        cardList[2].setCard("test3")
 
-        for (i in 0..3 ){
-            cardList[i].setOnClickListener {
-                //TODO  MAY BE BETTER IN CARD MANAGER
-            }
+        cardList.add(findViewById(R.id.card1))
+        cardList.add(findViewById(R.id.card2))
+        cardList.add(findViewById(R.id.card3))
+
+        for (card in cardList){
+            card.setOnClickListener(this)
         }
-        //Success
-        /*cardList[0].setOnClickListener{
-                Toast.makeText(this, "test", Toast.LENGTH_SHORT).show()
-                notifyViews()
-        }*/
+
+
+        configureGame(mapSelected, troopSelected)
+        game.start()
 
 
     }
+
+    fun configureGame(mapSelected : String, cardSelected : MutableList<String>){
+        game.setMap(mapSelected)
+
+        for (i in 0 until cardList.size){
+            cardList[i].setCard(cardSelected[i])
+            /*cardList[i].setOnClickListener {
+                game.playCard(i-1)
+                Log.e("HE", "OHHHHHHHHHHHHH")
+            }*/
+        }
+
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.card1 -> {
+                game.playCard(1)
+                Log.e("HE", "OHHHHHHHHHHHHH")
+            }
+
+            R.id.card2 -> {
+                game.playCard(2)
+            }
+
+            R.id.card3 -> {
+                game.playCard(3)
+            }
+        }
+    }
+
 
     override fun onPause() {
         super.onPause()
@@ -69,30 +95,30 @@ abstract class GameActivity : AppCompatActivity() {
         gameView.resume()
     }
 
-    override fun onDestroy(){
+    override fun onDestroy() {
         super.onDestroy()
+        GameManager.destroy()
     }
 
 
+    }
 
 
-    //This will be called to update everything
-    /*fun notifyViews(){
-        //gameView.invalidate()
-        //gameView.draw() //Temp
-        progressBar.invalidate()
-        for (card in cardList){
-            card.invalidate()
+//TODO Send String instead with the correct name
+//val mapSelected = intent.getIntExtra("mapSelected", 414) //Default value ?
+
+
+
+//var gameState: String? = null
+
+// recovering the instance state - in onCreate
+//gameState = savedInstanceState?.getString(GAME_STATE_KEY) //Ideas for later
+
+
+/*  override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.run {
+            //Some actions
         }
-        Log.d("Push", "Views notified")
+
+        super.onSaveInstanceState(outState)
     }*/
-
-
-
-
-
-
-
-
-
-}

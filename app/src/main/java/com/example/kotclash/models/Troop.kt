@@ -1,45 +1,33 @@
 package com.example.kotclash.models
 
 import android.util.Log
-import com.example.kotclash.controllers.Map
-import com.example.kotclash.controllers.GameManager
-import com.example.kotclash.controllers.MapLoader
 import kotlin.math.*
 
 
 open class Troop(enemy: Boolean,
-                 coordinates : Pair<Float,Float>,
-                 currentOrientation: Float, gameManager: GameManager
-) : Entity(enemy, coordinates, currentOrientation, gameManager), Movable{
+                 coordinates : Pair<Float,Float>
+) : Entity(enemy, coordinates), Movable{
 
-    open val speed  = 0f
+    open val speed  = 35f
     var targetOfMotion: Entity? = null
 
     //serve to direct movement of troops
     val gate1 = Pair(0f,0f)
     val gate2 = Pair(0f,0f)
 
-    override fun takeAction(ElapsedTimeMS: Long, grid: Map){
-        if(target != null){
+    override fun takeAction(ElapsedTimeMS: Long, map: Map){
+       /* if(target != null){
             //target = selectTarget(grid)
             if(readyForAttack() ) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
-                attack(target!!)
-            };Log.wtf("attack","il a attacké")
-        }else{
-            move(ElapsedTimeMS)
-            Log.d("troop", "dep effectué pour " + this.toString())
-        }
-    }
-    /*override fun takeAction(ElapsedTimeMS: Long, grid:Map){
-        if(readyForAttack()){
-            target = selectTarget(grid)
-            if(!(target == null)) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
                 attack(target!!)
             }
         }else{
             move(ElapsedTimeMS)
-        }
-    }*/
+        }*/
+
+        move(ElapsedTimeMS, map)
+    }
+
 
     /*fun move(interval : Double){
         var dy = 0f
@@ -54,10 +42,50 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun move(interval : Long){ //move forced
-        Log.d("troop", "interval = " + interval.toString())
-        //lookAheadPoint=mapLoader.posBases["enemy"]!!
+    fun move(interval : Long, map: Map){
+
+        lateinit var lookAheadPoint : Pair<Float,Float>
         /*if(onOwnSide()){
+            lookAheadPoint = getClosestGate()
+        }else{
+            targetOfMotion = findTargetOfMotion()
+            lookAheadPoint = targetOfMotion!!.coordinates
+        }*/
+
+        /*val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
+                Pair(lookAheadPoint.first, lookAheadPoint.second))*/
+
+        val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
+                Pair(0f, 0f))
+
+        val previousCoordinates = coordinates
+        val dx = speed*interval*cos(currentOrientation)
+        val dy = speed*interval*sin(currentOrientation)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx,dy)
+        Log.e("EE", "dx : $dx, dy : $dy")
+        Log.e("RR", "coord : $coordinates")
+
+        //val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+
+
+        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
+                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
+            map.displace(this, previousCoordinates)
+
+    }
+
+
+
+
+    /*fun move(interval : Long){
+
+        //lookAheadPoint=mapLoader.posBases["enemy"]!!
+        if(onOwnSide()){
             lookAheadPoint = getClosestGate()
         }else{
             targetOfMotion = findTargetOfMotion()
@@ -66,7 +94,7 @@ open class Troop(enemy: Boolean,
 
         //val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
                 //Pair(lookAheadPoint.first, lookAheadPoint.second))
-         var previousCoordinates = coordinates
+        /*TODO var previousCoordinates = coordinates
         Log.wtf("temps", previousCoordinates.toString())
         /*coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
                 coordinates.second + speed*interval*sin(currentOrientation))*/
@@ -79,7 +107,7 @@ open class Troop(enemy: Boolean,
         }
             else{coordinates = Pair(previousCoordinates.first,previousCoordinates.second - speed)
             currentOrientation = -2f
-        Log.wtf("temps", coordinates.toString())}
+        Log.wtf("temps", coordinates.toString())}*/
 
         //val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
 
@@ -87,8 +115,8 @@ open class Troop(enemy: Boolean,
                         && ceil(coordinates.second) == ceil(previousCoordinates.second))){
             //grid.displace(this,coordinatesIdx, currentOrientation)
             //TODO
-        }*/
-    }
+        }
+    }*/
     /*private fun move(interval : Long){
         lateinit var lookAheadPoint : Pair<Float,Float>
         /*if(onOwnSide()){
@@ -123,7 +151,7 @@ open class Troop(enemy: Boolean,
     }*/
 
 
-    fun findTargetOfMotion():Entity?{
+    fun findTargetOfMotion():GameObject?{
         if(target == null){
             if(isEnemy()) {
                 //target = getClosestEnemy(gameManager.enemyTowersList) //TODO pass gameManager in parameters not as attribute
@@ -160,4 +188,4 @@ open class Troop(enemy: Boolean,
         return closestGate
     }
 
-}
+}}

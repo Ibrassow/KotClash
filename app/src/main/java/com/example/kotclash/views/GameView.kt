@@ -10,14 +10,14 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.ProgressBar
-import com.example.kotclash.controllers.*
-import com.example.kotclash.controllers.Map
+import com.example.kotclash.models.*
+import com.example.kotclash.models.Map
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
 
 
-    lateinit var game : GameManager
+    var game : GameManager = GameManager.gameInstance
     lateinit var progressBar: ProgressBar
     lateinit var cardManager: CardManager
 
@@ -39,11 +39,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     init{
         backgroundPaint.color = Color.WHITE
 
-        //Temporary
-        /*mapLoader.loadMap("spring")
-        map = mapLoader.returnMap()*/
-        //Log.d("map", "test")
-
         holder.addCallback( this)
         this.isFocusable = true
         thread = GameThread(holder, this)
@@ -52,14 +47,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
 
 
-
-
-
-    fun bindToGame(g : GameManager){
-        game = g
-    }
-
-    override fun onTouchEvent(e: MotionEvent): Boolean {
+    /*override fun onTouchEvent(e: MotionEvent): Boolean {
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 val x = e.rawX - 100f
@@ -68,36 +56,33 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             }
         }
         return true
-    }
+    }*/
 
+    //Temporary solution
 
-    //TODO MAIN FUNCTION
+    var objListSize = game.gameObjectList.size
+
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-
-        canvas!!.drawRect(0f, 0f, width.toFloat(),
+        canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
                     height.toFloat(), backgroundPaint)
         Log.d("View", "GameView drawing")
         mapView.drawGrid(canvas, game.map)
-        objectDrawer.setRect(game.gameObjectList)
+
+        if (objListSize != game.gameObjectList.size){
+            objectDrawer.setRect(game.gameObjectList)
+            objListSize = game.gameObjectList.size
+        }
+
         objectDrawer.drawObjects(canvas, game.gameObjectList)
-
-        Log.d("checking", "$width and $height")
+        Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
     }
 
 
-    //Future
-    fun changeMap(mapName : String){
-        //TODO read map from gameManager
-        mapLoader.loadMap("spring")
-        map = mapLoader.returnMap()
-    }
 
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
-
         super.onSizeChanged(w, h, oldw, oldh)
-
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
         mapView.setRects(game.map, screenWidth, screenHeight)
@@ -105,13 +90,23 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
 
+    override fun surfaceCreated(holder: SurfaceHolder) {
+
+        while (!game.STARTED){
+            Log.d("GameView", "Waiting game to start")
+        }
+        Log.d("GameView", "surface created")
+        thread = GameThread(getHolder(), this)
+        thread.setRunning(true)
+        thread.start()
+    }
+
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
     }
 
 
-
-    override fun surfaceCreated(holder: SurfaceHolder) {
-        Log.d("GameView", "surface created")
+    fun resume() {
+        Log.d("GameView", "resumed")
         thread = GameThread(getHolder(), this)
         thread.setRunning(true)
         thread.start()
@@ -127,39 +122,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         thread.setRunning(false)
         thread.join()
     }
-
-    fun resume() {
-        Log.d("GameView", "Game resumed")
-        thread = GameThread(getHolder(), this)
-        thread.setRunning(true)
-        thread.start()
-    }
-
-
-
-    /*override fun run(){
-    while(drawing){
-       //draw()
-    }
-}*/
-
-    /*fun draw(){
-
-    if (holder.surface.isValid) {
-        canvas = holder.lockCanvas()
-        canvas.drawRect(0f, 0f, canvas.width.toFloat(),
-                canvas.height.toFloat(), backgroundPaint)
-
-        //mapView.drawGrid(canvas, map)
-        mapView.drawGrid(canvas, game.grid)
-        Log.d("View", "GameView drawing")
-
-        //Ultra-important
-        holder.unlockCanvasAndPost(canvas)
-}
-}*/
-
-
 
 
 }

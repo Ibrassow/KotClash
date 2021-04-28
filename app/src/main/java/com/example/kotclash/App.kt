@@ -1,4 +1,4 @@
-package com.example.kotclash.controllers
+package com.example.kotclash
 
 import android.app.Application
 import android.content.Context
