@@ -2,8 +2,9 @@ package com.example.kotclash.models
 
 
 class Boat(enemy: Boolean,
-           coordinates : Pair<Float,Float>
-) : Troop(enemy, coordinates) {
+           coordinates : Pair<Float,Float>,
+           game : GameManager
+) : Troop(enemy, coordinates,game) {
     override var type = "boat"
     override val freqShoot = 0f
     override val damage = 0

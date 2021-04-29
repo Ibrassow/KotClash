@@ -37,7 +37,7 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq = 0f
+    private val enemyGenerationFreq = 10000f
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 2000000000000f //Test
 
@@ -47,7 +47,7 @@ class GameManager {
     var nbCardClicked = 0
 
 
-    //TODO : define spots
+    //TODO : define spots where enemies generated
     val rightGenerationSpot = listOf(0f, 0f)
     val leftGenerationSpot = listOf(0f, 0f)
 
@@ -64,8 +64,8 @@ class GameManager {
     val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
     val gameObjectList = mutableListOf<GameObject>()
-    val enemyTowersList = mutableListOf<Entity>() //to use fctn already def for entities
-    val allyTowersList = mutableListOf<Entity>()
+    val enemyTowersList = mutableListOf<GameObject>() //to use fctn already def for entities
+    val allyTowersList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -123,9 +123,6 @@ class GameManager {
 
 
 
-
-
-
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
@@ -161,7 +158,7 @@ class GameManager {
     //TODO : define more complex generation pattern (preferably one that respects resources)
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
-            //gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
+            gameObjectList.add(troopFactory.getTroop(true, "submarine", Pair(9f, 3f),null))
         }
     }
 
@@ -211,7 +208,8 @@ class GameManager {
 
     fun playCard(nbCard : Int) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
-        cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        //cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        cardManager.playCard(nbCard, floor(resources.toDouble()), Pair(9f,17f))
         //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 

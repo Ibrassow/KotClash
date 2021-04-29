@@ -51,14 +51,16 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     }
 
     //TODO
-    fun removeOccupant(){
-        //occupant = null
+    fun removeOccupant(obj:GameObject){
+        occupants.remove(obj)
+        Log.e("occupantsRemove","$occupants")
     }
 
 
     fun setOccupant(obj : GameObject){
         if (obj !in occupants){
             occupants.add(obj)//works
+            Log.e("occupants","$occupants")
         }
         //val m = occupants.size
         //Log.e("Tile", "size : $m")

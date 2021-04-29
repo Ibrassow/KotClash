@@ -1,14 +1,15 @@
 package com.example.kotclash.models
 
+import android.util.Log
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
-    : GameObject(enemy, coordinates) {
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, game:GameManager)
+    : GameObject(enemy, coordinates, game) {
 
 
     open var health = 0
 
-    open val freqShoot = 0f
+    open val freqShoot = 2000f
     var previousAttackTime = System.currentTimeMillis()
 
     var target : GameObject? = null
@@ -24,11 +25,10 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     }
 
     //TODO : should be overridden, as each troop will create its own projectile
-    //TODO : Attack as an interface? -> close/distance/..
-    override fun attack(entity: GameObject){
-        val orientation = getInitAngleProjectile(entity)
+    /*override fun attack(entity: GameObject){
+    val orientation = getInitAngleProjectile(entity)
         //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
-    }
+    }*/
 
 
     //target under range
@@ -68,7 +68,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
         val deltaTime = (currentAttackTime - previousAttackTime)
         if (deltaTime > freqShoot) {
             ready = true
-            previousAttackTime = currentAttackTime
+            Log.e("readyForAttack","ready $ready")
         }
         return ready
     }
@@ -76,30 +76,28 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
 
     fun selectTarget(grid: Map) : GameObject? {
+        //Log.e("selectTargetLaunched","launched")
         val listEnemiesInRange = getEnemiesInRange(grid)
+        Log.e("listEnemies","enem:$listEnemiesInRange")
+        target = null
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
             val distToClosestEnemy = distToEnemy(closestEnemy!!)
-            if (distToClosestEnemy > range){
-                target = null //ATTENTION! Artifice pour pas utiliser nullable
-            }else{
+            if (distToClosestEnemy < rangePix) {
                 target = closestEnemy
             }
-        }else{
-            target = null //ATTENTION! Artifice pour pas utiliser nullable
         }
         return target
     }
 
 
-    //finds closest enemy and checks at the same time that it is truly within range
-    fun getClosestEnemy(listEnemiesInRange: MutableList<GameObject>): GameObject?{
-        target = null //ATTENTION ! Artifice pour pas utiliser nullable
-        var minDist = range.toFloat();
-        for(elem in listEnemiesInRange){
+    //finds closest enemy
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
+        var smallestDist = 20000f;
+        for(elem in listEnemies){
             var distToEnemy = distToEnemy(elem)
-            if(distToEnemy < minDist){
-                minDist = distToEnemy
+            if(distToEnemy < smallestDist){
+                smallestDist = distToEnemy
                 target = elem
             }
         }

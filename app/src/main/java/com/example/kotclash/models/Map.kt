@@ -1,7 +1,7 @@
 package com.example.kotclash.models
 
 import android.util.Log
-import java.lang.IndexOutOfBoundsException
+import kotlin.IndexOutOfBoundsException
 import kotlin.math.ceil
 
 
@@ -47,7 +47,6 @@ class Map()  {
 
 
 
-
     //returns the entities found in the given range
     fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<GameObject> {
 
@@ -56,12 +55,17 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
+        Log.e("scanArea","x:$x")
+        Log.e("scanArea","y:$y")
+
         //TODO add conditions for walls -- existence of cells
         for (column in y-range..y+range+1){
             for (row in x-range..x+range+1){
-                if (grid[row][column].isOccupied()){
-                    grid[row][column].getEntity().let { objectFound.addAll(it) }
-                }
+                try {
+                    if (grid[row][column].isOccupied()) {
+                        grid[row][column].getEntity().let { objectFound.addAll(it) }
+                    }
+                }catch(e:IndexOutOfBoundsException){null}
             }
         }
 
@@ -85,22 +89,28 @@ class Map()  {
 
     //TODO Check if movement is possible, where, etc
     fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
-        var newPos = obj.coordinates
+        val newX = ceil(obj.coordinates.first/obj.oldRendW).toInt()
+        val newY = ceil(obj.coordinates.second/obj.oldRendH).toInt()
 
         val oldX = ceil(prevCoord.first/obj.oldRendW).toInt()
         val oldY = ceil(prevCoord.second/obj.oldRendH).toInt()
 
+        Log.e("displace","$oldX")
+        Log.e("displace","$oldY")
 
-        try {
-            grid[oldY][oldX].setOccupant(obj)
-            Log.e("kk", "SUCCESS")
-            //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
-            //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
-        }
-        catch(e: IndexOutOfBoundsException){
-            Log.d("Exception grid - displace", "Index out of bounds")
-        }
+        Log.e("displace","$newX")
+        Log.e("displace","$newY")
 
+        if(newX != oldX || newY != oldY) {
+            try {
+                grid[oldX][oldY].removeOccupant(obj)
+                grid[newX][newY].setOccupant(obj)
+                //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
+                //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
+            } catch (e: IndexOutOfBoundsException) {
+                Log.d("Exception grid displace", "Index out of bounds")
+            }
+        }
 
         //grid[actualPos.first][actualPos.second].removeOccupant() //free cell
         //grid[actualPos.first + dx][actualPos.second + dy].setOccupant(entity)
