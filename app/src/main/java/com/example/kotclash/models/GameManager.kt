@@ -60,6 +60,8 @@ class GameManager {
 
     var timeLeft = 40.0
 
+    lateinit var currentMap:String
+
     /////////////////////////
     val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
@@ -81,6 +83,7 @@ class GameManager {
         map = mapLoader.returnMap()
         val ss = map.grid.isNotEmpty()
         Log.d("InitGM", "got map : $ss")
+        currentMap = mapName
     }
 
 

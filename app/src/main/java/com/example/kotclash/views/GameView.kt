@@ -18,15 +18,12 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
 
     var game : GameManager = GameManager.gameInstance
-    lateinit var progressBar: ProgressBar
-    lateinit var cardManager: CardManager
 
     //lateinit var canvas: Canvas
     var thread: GameThread
 
     //Map
     var map : Map = Map()
-    val mapLoader: MapLoader = MapLoader()
     val mapView = MapView()
 
     val objectDrawer : GameObjectView = GameObjectView(this)

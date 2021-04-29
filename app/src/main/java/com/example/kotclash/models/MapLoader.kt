@@ -16,6 +16,7 @@ class MapLoader() {
     val posEnemyTower = mutableMapOf<Int, Pair<Float, Float>>()
     val posAllySpawn = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
     val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
+    val posGate = mutableMapOf<Int, Pair<Float, Float>>()
 
 
     fun returnMap() : Map {
@@ -32,6 +33,7 @@ class MapLoader() {
         //TODO Add other maps
         when (mapName){
             "spring" -> map = parseFile("spring")
+            "lava" -> map = parseFile("lava")
         }
         return map
     }
@@ -68,7 +70,7 @@ class MapLoader() {
                 Log.d("tt", "$lineList")
                 for (tileElement in lineList){
                     when(tileElement){
-                        "G" -> map.grid[i].add(Tile(xi, yi, "grass"))
+                        "°" -> map.grid[i].add(Tile(xi, yi, "grass"))
                         "*" -> map.grid[i].add(Tile(xi, yi, "soil"))
                         "A" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
@@ -98,6 +100,12 @@ class MapLoader() {
                             map.grid[i].add(Tile(xi, yi, "soil"))
                             posEnemySpawn[enemy_s_id] = Pair(xi, yi)
                             enemy_s_id++
+                        }
+                        "W" -> { //Wall
+                            map.grid[i].add(Tile(xi, yi, "wall"))
+                        }
+                        "G" -> { //Gate
+                            map.grid[i].add(Tile(xi, yi, "soil"))
                         }
                     }
                     xi++

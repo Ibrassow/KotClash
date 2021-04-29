@@ -8,6 +8,7 @@ import android.util.Log
 import com.example.kotclash.App
 import com.example.kotclash.models.Map
 import com.example.kotclash.R
+import com.example.kotclash.models.GameManager
 
 
 /**
@@ -19,27 +20,46 @@ import com.example.kotclash.R
  */
 class MapView() {
 
-
+    var game = GameManager.gameInstance
     var paint = Paint()
 
     lateinit var grass: Bitmap
     lateinit var soil: Bitmap
+    lateinit var wall: Bitmap
+    //lateinit var gate: Bitmap
+
+    private var INIT : Boolean = false
 
 
-    init {
-        initBitmaps()
-    }
 
     fun initBitmaps() {
-        //TODO Handle failure
-        grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.grass)
-        soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soil)
+
+        when(game.currentMap){
+            "spring" -> {
+                grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.grass)
+                soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soil)
+                wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.dark_wall)
+            }
+            "lava" -> {
+                grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.lava_soil)
+                soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.brown_soil)
+                wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.lave)
+
+            }
+        }
+
+        INIT = true
     }
 
     /**
      * Draw the map
      */
     fun drawGrid(canvas: Canvas, map: Map) {
+
+        if (INIT == false){
+            initBitmaps()
+        }
+
 
         for (y in 0 until map.getRowSize()) {
             for (x in 0 until map.getColSize()) {
@@ -53,6 +73,7 @@ class MapView() {
                     //"soil" -> canvas.drawBitmap(soil, xx, yy, paint)
                     "grass" -> canvas.drawBitmap(grass, null, cell.cellRectangle, paint)
                     "soil" -> canvas.drawBitmap(soil, null, cell.cellRectangle, paint)
+                    "wall" -> canvas.drawBitmap(wall, null, cell.cellRectangle, paint)
                 }
             }
         }
