@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotclash.R
 import com.example.kotclash.models.GameManager
+import com.example.kotclash.models.ResourceBar
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView
 
@@ -14,7 +15,6 @@ import com.example.kotclash.views.GameView
 class GameActivity : AppCompatActivity(), View.OnClickListener {
     //, View.OnClickListener
     var game = GameManager.gameInstance
-
     lateinit var gameView : GameView
     lateinit var progressBar : ProgressBar
     val cardList = mutableListOf<CardView>()
@@ -42,20 +42,18 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card2))
         cardList.add(findViewById(R.id.card3))
 
-        for (card in cardList){
+        for (card in cardList) {
             card.setOnClickListener(this)
         }
 
 
         configureGame(mapSelected, troopSelected)
         game.start()
-
-
+        game.resourceBar.linkWidget(progressBar) // hum hum hum
     }
 
-    fun configureGame(mapSelected : String, cardSelected : MutableList<String>){
+    fun configureGame(mapSelected : String,cardSelected : MutableList<String>){
         game.setMap(mapSelected)
-
         for (i in 0 until cardList.size){
             cardList[i].setCard(cardSelected[i])
             /*cardList[i].setOnClickListener {
@@ -63,8 +61,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 Log.e("HE", "OHHHHHHHHHHHHH")
             }*/
         }
-
     }
+
 
     override fun onClick(v: View) {
         when (v.id) {

@@ -1,6 +1,14 @@
 package com.example.kotclash.models
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
+import com.example.kotclash.App
+import com.example.kotclash.activities.GameActivity
+import com.example.kotclash.activities.StartActivity
+import com.google.android.material.internal.ContextUtils.getActivity
 import kotlin.math.floor
 
 
@@ -24,6 +32,7 @@ class GameManager {
             }
         fun destroy() {
             instance = null
+
         }
     }
 
@@ -34,7 +43,7 @@ class GameManager {
 
 
     private var GAMEOVER = false
-    var STARTED = false
+    var STARTED = true
 
 
     private val enemyGenerationFreq = 0f
@@ -56,9 +65,9 @@ class GameManager {
     var allyTowersDestroyed = 0
 
 
-    private val resourceBar = ResourceBar()
+    val resourceBar = ResourceBar()
 
-    var timeLeft = 40.0
+    var timeLeft = 180.0
 
     lateinit var currentMap:String
 
@@ -129,8 +138,9 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= elapsedTimeMS / 10000000000.0
-            Log.d("GM", "$timeLeft")
+            timeLeft -= (elapsedTimeMS / 1000.0)
+            Log.d("GM", "time : $elapsedTimeMS")
+            Log.d("GM", "time : $timeLeft")
 
             if (timeLeft <= 0) {
                 endGame()
@@ -212,6 +222,7 @@ class GameManager {
     fun playCard(nbCard : Int) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        resourceBar.useResource(15)
         //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 
@@ -229,15 +240,18 @@ class GameManager {
     }
 
 
+
     fun setGameOver(gameWon: Boolean?) {
         //GAMEOVER = false
         GAMEOVER = true
         if (gameWon == null) {
             //"Egalité"
+            destroy()
         } else if (gameWon == true) {
             //"Vous avez gagné"
         } else {
-            //"Vous ave perdu"
+            //"Vous avez perdu"
+
         }
     }
 

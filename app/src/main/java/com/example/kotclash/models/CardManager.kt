@@ -1,6 +1,7 @@
 package com.example.kotclash.models
 
 import android.util.Log
+import com.example.kotclash.views.CardView
 
 
 class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
@@ -9,7 +10,8 @@ class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
 
     val costBoat = 0f
     val costSubmarine = 0f
-
+    lateinit var list: Any
+    lateinit var troopsCard : Any
 
     //TODO: could also use CardManager for autonomousEnemyGeneration()
     fun playCard(cardNumber: Int, resources: Double, coordinates: Pair<Float,Float>){
@@ -26,6 +28,17 @@ class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
                 Log.e("cardM", "please")}
         }
     }
+
+
+    /*fun updateCard(cardList : Any,cardSelected: Any){
+        for (i in 0 until cardList.size){
+            cardList[i].setCard(cardSelected[i])
+            /*cardList[i].setOnClickListener {
+                game.playCard(i-1)
+                Log.e("HE", "OHHHHHHHHHHHHH")
+            }*/
+        }
+    }*/
 
 
 }
