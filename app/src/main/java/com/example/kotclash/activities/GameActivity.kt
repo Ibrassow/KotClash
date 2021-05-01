@@ -28,7 +28,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         TODO - Difficulty level
          */
 
-        val mapSelected = "spring"
+        val mapSelected = "lava"
         val troopSelected = mutableListOf<String>("test1", "test2", "test3")
 
 

@@ -220,8 +220,7 @@ class GameManager {
     fun playCard(nbCard : Int) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nbCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
-        //cardManager.playCard(nbCard, floor(resources.toDouble()), Pair(9f,17f))
-        resourceBar.useResource(15)
+
         //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 
