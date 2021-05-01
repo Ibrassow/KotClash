@@ -6,12 +6,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.widget.ProgressBar
 import com.example.kotclash.models.*
 import com.example.kotclash.models.Map
+import kotlin.math.floor
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
@@ -33,13 +32,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     var screenWidth = 0f
     var screenHeight = 0f
 
+
     init{
         backgroundPaint.color = Color.WHITE
+
 
         holder.addCallback( this)
         this.isFocusable = true
         thread = GameThread(holder, this)
-
     }
 
 
@@ -63,7 +63,9 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         super.draw(canvas)
         canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
                     height.toFloat(), backgroundPaint)
-        Log.d("View", "GameView drawing")
+        var time = game.timeLeft
+        var minute = ( floor(time/60))
+        var second = (time - minute*60)
         mapView.drawGrid(canvas, game.map)
 
         if (objListSize != game.gameObjectList.size){
@@ -73,8 +75,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         objectDrawer.drawObjects(canvas, game.gameObjectList)
         Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
-    }
 
+        backgroundPaint.textSize =(screenWidth/20f)
+        if (time <= 20f && (time%2).toInt()==0){backgroundPaint.color = Color.RED}
+        canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
+        backgroundPaint.color = Color.WHITE }
 
 
 
