@@ -18,13 +18,16 @@ class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
         var i : Boolean = (resources > costSubmarine)
         Log.e("BOOL", "$i")
         when(cardNumber){
-            1 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))}
+            1 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))
+                game.resourceBar.useResource(1)}
             Log.e("cardM", "please")
                 val nn = game.gameObjectList.size
                 Log.e("sizeObjListCM", "$nn")}
-            2 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))}
+            2 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))
+                game.resourceBar.useResource(1)}
                 Log.e("cardM", "please")}
-            3 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))}
+            3 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))
+                game.resourceBar.useResource(1)}
                 Log.e("cardM", "please")}
         }
     }

@@ -96,6 +96,8 @@ class MapView() {
                 map.grid[y][x].setRect(rendW, rendH)
             }
         }
+
+        map.posSetRect(rendW, rendH)
     }
 
 }

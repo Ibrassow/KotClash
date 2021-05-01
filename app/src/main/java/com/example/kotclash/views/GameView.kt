@@ -18,7 +18,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     var game : GameManager = GameManager.gameInstance
 
-    //lateinit var canvas: Canvas
     var thread: GameThread
 
     //Map
@@ -58,14 +57,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     //Temporary solution
 
     var objListSize = game.gameObjectList.size
+    var minute : Double = 0.0
+    var second : Double = 0.0
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
                     height.toFloat(), backgroundPaint)
-        var time = game.timeLeft
-        var minute = ( floor(time/60))
-        var second = (time - minute*60)
+
         mapView.drawGrid(canvas, game.map)
 
         if (objListSize != game.gameObjectList.size){
@@ -76,10 +75,26 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         objectDrawer.drawObjects(canvas, game.gameObjectList)
         Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
 
-        backgroundPaint.textSize =(screenWidth/20f)
-        if (time <= 20f && (time%2).toInt()==0){backgroundPaint.color = Color.RED}
+
+
+
+        //TODO Timer is slow ?
+
+        //var time = game.timeLeft
+        minute = (floor(game.timeLeft/60.0))
+        second = (game.timeLeft - minute*60.0)
+
+        backgroundPaint.textSize = (screenWidth/20f)
+        if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
         canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
-        backgroundPaint.color = Color.WHITE }
+
+        backgroundPaint.color = Color.WHITE
+
+
+        }
+
+
+
 
 
 
