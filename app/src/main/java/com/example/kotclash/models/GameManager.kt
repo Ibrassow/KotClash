@@ -144,7 +144,7 @@ class GameManager {
             updateResourceBar(elapsedTimeMS)
             resources = getResourceBar()
             takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
-            //autonomousEnemyGeneration(map)
+            autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
             Log.e("sizeObjList", "$nn")
