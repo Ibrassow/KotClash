@@ -46,7 +46,7 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq = 0f
+    private val enemyGenerationFreq : Long = 10
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 2000000000000f //Test
 
@@ -56,9 +56,6 @@ class GameManager {
     var nbCardClicked = 0
 
 
-    //TODO : define spots
-    val rightGenerationSpot = listOf(0f, 0f)
-    val leftGenerationSpot = listOf(0f, 0f)
 
 
     var enemyTowersDestroyed = 0
@@ -75,8 +72,8 @@ class GameManager {
     val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
     val gameObjectList = mutableListOf<GameObject>()
-    val enemyTowersList = mutableListOf<Entity>() //to use fctn already def for entities
-    val allyTowersList = mutableListOf<Entity>()
+    val enemyTowersList = mutableListOf<GameObject>() //TODO Tower directly ?
+    val allyTowersList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -148,7 +145,7 @@ class GameManager {
             updateResourceBar(elapsedTimeMS)
             resources = getResourceBar()
             takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
-            //autonomousEnemyGeneration(map)
+            autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
             Log.e("sizeObjList", "$nn")
@@ -168,24 +165,27 @@ class GameManager {
     }
 
 
-    //TODO : define more complex generation pattern (preferably one that respects resources)
+
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
-            //gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
+            val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
+            gameObjectList.add(troopFactory.getTroop(true, "submarine", mapLoader.posEnemySpawn[nbRand]!!))
         }
     }
 
-
+    private var readyEnemyGen = false
     //checks whether set time between two enemy creations passed
     fun readyForEnemyGeneration(): Boolean {
-        var ready = false
+        readyEnemyGen = false
+
         val currentGenerationTime = System.currentTimeMillis()
-        val deltaTime = (currentGenerationTime - previousEnemyGenerationTime)
+        val deltaTime = (currentGenerationTime - previousEnemyGenerationTime)/1000
         if (deltaTime > enemyGenerationFreq) {
-            ready = true
+            readyEnemyGen = true
             previousEnemyGenerationTime = currentGenerationTime
         }
-        return ready
+
+        return readyEnemyGen
     }
 
     //TODO target at the end

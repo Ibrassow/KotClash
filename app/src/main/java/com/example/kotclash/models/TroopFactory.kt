@@ -1,6 +1,6 @@
 package com.example.kotclash.models
 
-class TroopFactory(val gameManager : GameManager) {
+class TroopFactory(val game : GameManager) {
 
     fun getTroop(enemy : Boolean,
                  type : String,
@@ -14,8 +14,8 @@ class TroopFactory(val gameManager : GameManager) {
             "base" -> troopSelect = Base(enemy, coordinates)
             "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates)
             "submarine" -> troopSelect = Submarine(enemy, coordinates)
-            //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, gameManager)
-            //"boat" -> troopSelect = Boat(true, coordinates,  gameManager)
+            //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates)
+            "boat" -> troopSelect = Boat(true, coordinates)
 
         }
 
