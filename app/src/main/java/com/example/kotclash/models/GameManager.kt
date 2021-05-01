@@ -55,9 +55,6 @@ class GameManager {
     //this variable stores the nb of the card clicked on
     var nbCardClicked = 0
 
-
-
-
     var enemyTowersDestroyed = 0
     var allyTowersDestroyed = 0
 
@@ -66,14 +63,14 @@ class GameManager {
 
     var timeLeft = 180.0
 
-    lateinit var currentMap:String
+    lateinit var currentMap: String
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
     val gameObjectList = mutableListOf<GameObject>()
-    val enemyTowersList = mutableListOf<GameObject>() //TODO Tower directly ?
-    val allyTowersList = mutableListOf<GameObject>()
+    val enemyTowersList = mutableListOf<Tower>() //TODO Tower directly ?
+    val allyTowersList = mutableListOf<Tower>()
 
     // -------------------- INIT ------------------- //
 
@@ -119,9 +116,9 @@ class GameManager {
 
         for (elem in gameObjectList) {
             if (elem.isEnemy()) {
-                enemyTowersList.add(elem as Entity)
+                enemyTowersList.add(elem as Tower)
             } else {
-                allyTowersList.add(elem as Entity)
+                allyTowersList.add(elem as Tower)
             }
         }
         //temporary, initialisation will depend on choices made by player

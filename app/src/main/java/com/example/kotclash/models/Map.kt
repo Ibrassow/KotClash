@@ -57,8 +57,12 @@ class Map()  {
         //TODO add conditions for walls -- existence of cells
         for (column in y-range..y+range+1){
             for (row in x-range..x+range+1){
-                if (grid[row][column].isOccupied()){
-                    grid[row][column].getEntity().let { objectFound.addAll(it) }
+                try {
+                    if (grid[row][column].isOccupied()) {
+                        grid[row][column].getEntity().let { objectFound.addAll(it) }
+                    }
+                }catch(e:IndexOutOfBoundsException){
+                    Log.d("E: ScanArea", "Index out of bounds")
                 }
             }
         }
@@ -69,18 +73,26 @@ class Map()  {
 
     //TODO Check if movement is possible, where, etc
     fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
-        var newPos = obj.coordinates
 
         val oldX = ceil(prevCoord.first/obj.oldRendW).toInt()
         val oldY = ceil(prevCoord.second/obj.oldRendH).toInt()
 
-        try {
-            grid[(newPos.second/obj.oldRendH).toInt()][(newPos.first/obj.oldRendW).toInt()].setOccupant(obj)
-            grid[oldY][oldX].removeOccupant(obj)
+        val newX = ceil(obj.coordinates.first/obj.oldRendW).toInt()
+        val newY = ceil(obj.coordinates.second/obj.oldRendH).toInt()
+
+        if(newX != oldX || newY != oldY){
+            try {
+                grid[newY][newX].setOccupant(obj)
+                grid[oldY][oldX].removeOccupant(obj)
+            }
+            catch(e: IndexOutOfBoundsException){
+                Log.d("E: Grid displace", "Index out of bounds")
+            }
+
+
         }
-        catch(e: IndexOutOfBoundsException){
-            Log.d("Exception grid-displace", "Index out of bounds")
-        }
+
+
 
     }
 

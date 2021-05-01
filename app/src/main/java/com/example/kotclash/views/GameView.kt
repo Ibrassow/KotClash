@@ -18,7 +18,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     var game : GameManager = GameManager.gameInstance
 
-    //lateinit var canvas: Canvas
     var thread: GameThread
 
     //Map
@@ -82,13 +81,20 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         //TODO Timer is slow ?
 
         //var time = game.timeLeft
-        minute = (floor(game.timeLeft/60))
-        second = (game.timeLeft - minute*60)
+        minute = (floor(game.timeLeft/60.0))
+        second = (game.timeLeft - minute*60.0)
 
         backgroundPaint.textSize = (screenWidth/20f)
-        if (game.timeLeft <= 20f && (game.timeLeft%2).toInt()==0) {backgroundPaint.color = Color.RED}
+        if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
         canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
-        backgroundPaint.color = Color.WHITE}
+
+        backgroundPaint.color = Color.WHITE
+
+
+        }
+
+
+
 
 
 
