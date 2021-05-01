@@ -43,10 +43,11 @@ open class Troop(enemy: Boolean,
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)
+        Log.e("orientation","$this orientation = $currentOrientation")
 
         val previousCoordinates = coordinates
         val dx = speed * interval * cos(currentOrientation)
-        val dy = speed * interval * sin(currentOrientation)
+        val dy = speed * interval * -sin(currentOrientation)
 
         //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)

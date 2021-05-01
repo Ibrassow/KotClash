@@ -98,12 +98,21 @@ open class GameObject(
     fun getAngleVector(initPoint:Pair<Float,Float>, finalPoint:Pair<Float,Float>):Float{
         val vector = Pair(finalPoint.first - initPoint.first, finalPoint.second - initPoint.second)
 
-        var angle = if(vector.first >= 0){
-                        atan(vector.second/vector.first.toDouble())
+        var angle = if (vector.first == 0f){
+                        if (vector.second <=0 ){
+                            PI/2 }
+                        else{
+                            -PI/2}
+                    }
+                    else if(vector.first > 0){
+                        -atan((vector.second/vector.first).toDouble())
+                    }
+                    else if (vector.first < 0 && vector.second <=0 ){
+                        PI-atan((vector.second/vector.first).toDouble())
                     }
                     else{
-                        atan(vector.second/vector.first.toDouble()) + PI
-                    }
+                        -PI-atan((vector.second/vector.first).toDouble())
+        }
         return angle.toFloat()
     }
 
