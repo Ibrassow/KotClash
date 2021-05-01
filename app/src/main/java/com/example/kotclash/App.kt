@@ -12,11 +12,9 @@ class App : Application() {
 
     companion object {
         private lateinit var mContext: Context
-
         fun getContext(): Context {
             return mContext
         }
-
     }
 
 

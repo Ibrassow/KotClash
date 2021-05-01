@@ -11,7 +11,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     private var running: Boolean = false
     private var locked = false
 
-    private val MAX_FPS = 50
+    private val MAX_FPS = 60
     private val game: GameManager = GameManager.gameInstance
 
     init {
@@ -28,7 +28,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
         var startTime: Long
         val targetTime = (1000 / MAX_FPS).toLong()
         var timeElapsed: Long
-        var lastTime: Long = 0
+        var lastTime: Long = System.nanoTime()
 
         while (running) {
 
@@ -49,6 +49,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
                             gameView.draw(canvas!!)
                             Log.d("thread", "calling draw and update from thread : $timeElapsed")
                             lastTime = System.nanoTime()
+
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -72,7 +73,8 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
             }
 
 
-        }
+            }
+
     }
 
     companion object {

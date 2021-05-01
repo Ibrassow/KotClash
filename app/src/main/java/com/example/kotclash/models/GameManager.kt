@@ -1,6 +1,14 @@
 package com.example.kotclash.models
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
+import com.example.kotclash.App
+import com.example.kotclash.activities.GameActivity
+import com.example.kotclash.activities.StartActivity
+import com.google.android.material.internal.ContextUtils.getActivity
 import kotlin.math.floor
 
 
@@ -24,6 +32,7 @@ class GameManager {
             }
         fun destroy() {
             instance = null
+
         }
     }
 
@@ -37,7 +46,7 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq = 0f
+    private val enemyGenerationFreq : Long = 10
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 2000000000000f //Test
 
@@ -46,26 +55,22 @@ class GameManager {
     //this variable stores the nb of the card clicked on
     var nbCardClicked = 0
 
-
-    //TODO : define spots
-    val rightGenerationSpot = listOf(0f, 0f)
-    val leftGenerationSpot = listOf(0f, 0f)
-
-
     var enemyTowersDestroyed = 0
     var allyTowersDestroyed = 0
 
 
-    private val resourceBar = ResourceBar()
+    val resourceBar = ResourceBar()
 
-    var timeLeft = 40.0
+    var timeLeft = 180.0
+
+    lateinit var currentMap: String
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
-    val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
+    val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
-    val enemyTowersList = mutableListOf<Entity>() //to use fctn already def for entities
-    val allyTowersList = mutableListOf<Entity>()
+    val enemyTowersList = mutableListOf<GameObject>()
+    val allyTowersList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -81,11 +86,11 @@ class GameManager {
         map = mapLoader.returnMap()
         val ss = map.grid.isNotEmpty()
         Log.d("InitGM", "got map : $ss")
+        currentMap = mapName
     }
 
 
     fun initializeObjects() {
-
 
         //default map
         if (map.grid.isEmpty()){
@@ -94,29 +99,29 @@ class GameManager {
 
 
         //Two bases - One per side
-        gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!))
-        gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!))
+        gameObjectList.add(troopFactory.getTroop(true, "base", map.posBases["enemy"]!!))
+        gameObjectList.add(troopFactory.getTroop(false, "base", map.posBases["ally"]!!))
 
         //Additional towers for the enemy side
-        for (position in mapLoader.posEnemyTower){
+        for (position in map.posEnemyTower){
             gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value))
         }
 
         //Additional towers for the ally side
-        for (position in mapLoader.posAllyTower){
+        for (position in map.posAllyTower){
             gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
         }
 
 
-        //gameObjectList.add(troopFactory.getTroop(false, "submarine", mapLoader.posAllySpawn[0]!!))
-
 
         for (elem in gameObjectList) {
             if (elem.isEnemy()) {
-                enemyTowersList.add(elem as Entity)
+                enemyTowersList.add(elem as Tower)
             } else {
-                allyTowersList.add(elem as Entity)
+                allyTowersList.add(elem as Tower)
             }
+
+            map.placeTowers(elem)
         }
         //temporary, initialisation will depend on choices made by player
     }
@@ -129,8 +134,9 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= elapsedTimeMS / 10000000000.0
-            Log.d("GM", "$timeLeft")
+            timeLeft -= (elapsedTimeMS / 1000.0)
+            Log.d("GM", "time : $elapsedTimeMS")
+            Log.d("GM", "time : $timeLeft")
 
             if (timeLeft <= 0) {
                 endGame()
@@ -138,7 +144,7 @@ class GameManager {
             updateResourceBar(elapsedTimeMS)
             resources = getResourceBar()
             takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
-            //autonomousEnemyGeneration(map)
+            autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
             Log.e("sizeObjList", "$nn")
@@ -149,33 +155,35 @@ class GameManager {
 
 
     fun takeAction(elapsedTimeMS: Long, map: Map) {
-        for (entity in gameObjectList) {
-            if (entity.isAlive()) {
-                entity.takeAction(elapsedTimeMS, map)
-                Log.d("GM", "ACTION TAKEN FOR " + entity.toString())
+        for (obj in gameObjectList) {
+            if (obj.isAlive()) {
+                obj.takeAction(elapsedTimeMS, map)
             }
         }
     }
 
 
-    //TODO : define more complex generation pattern (preferably one that respects resources)
+
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
-            //gameObjectList.add(troopFactory.getTroop(true, "boat", null, Pair(0f, 0f), 0f))
+            val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
+            gameObjectList.add(troopFactory.getTroop(true, "submarine", map.posEnemySpawn[nbRand]!!))
         }
     }
 
-
+    private var readyEnemyGen = false
     //checks whether set time between two enemy creations passed
     fun readyForEnemyGeneration(): Boolean {
-        var ready = false
+        readyEnemyGen = false
+
         val currentGenerationTime = System.currentTimeMillis()
-        val deltaTime = (currentGenerationTime - previousEnemyGenerationTime)
+        val deltaTime = (currentGenerationTime - previousEnemyGenerationTime)/1000
         if (deltaTime > enemyGenerationFreq) {
-            ready = true
+            readyEnemyGen = true
             previousEnemyGenerationTime = currentGenerationTime
         }
-        return ready
+
+        return readyEnemyGen
     }
 
     //TODO target at the end
@@ -211,14 +219,15 @@ class GameManager {
 
     fun playCard(nbCard : Int) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
-        cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        cardManager.playCard(nbCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
+        //cardManager.playCard(nbCard, floor(resources.toDouble()), Pair(9f,17f))
+        resourceBar.useResource(15)
         //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 
 
 
 
-    //Pas trop compris ici
     fun endGame() {
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
@@ -229,39 +238,20 @@ class GameManager {
     }
 
 
+
     fun setGameOver(gameWon: Boolean?) {
         //GAMEOVER = false
         GAMEOVER = true
         if (gameWon == null) {
             //"Egalité"
+            destroy()
         } else if (gameWon == true) {
             //"Vous avez gagné"
         } else {
-            //"Vous ave perdu"
+            //"Vous avez perdu"
+
         }
     }
-
-
-    /*override fun run(){
-    var previousFrameTime = System.currentTimeMillis()
-
-    while (running){
-        val currentTime = System.currentTimeMillis()
-        val elapsedTimeMS = (currentTime - previousFrameTime)
-        timeLeft -= elapsedTimeMS/1000.0
-
-        if(timeLeft <= 0){
-            endGame()
-        }
-        updateResourceBar(elapsedTimeMS)
-        resources = getResourceBar()
-        takeAction(elapsedTimeMS, map)
-        autonomousEnemyGeneration(map)
-    }
-}*/
-
-
-
 
 
 }

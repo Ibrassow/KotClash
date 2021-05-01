@@ -8,12 +8,12 @@ import com.example.kotclash.models.GameObject
 
 class GameObjectView(val view : GameView) {
 
-    lateinit var base: Bitmap
-    lateinit var simpleTower: Bitmap
-    lateinit var submarine: Bitmap
-    lateinit var troop2: Bitmap
-    lateinit var troop3: Bitmap
-    lateinit var projectile: Bitmap
+    private lateinit var base: Bitmap
+    private lateinit var simpleTower: Bitmap
+    private lateinit var submarine: Bitmap
+    private lateinit var troop2: Bitmap
+    private lateinit var troop3: Bitmap
+    private lateinit var projectile: Bitmap
 
     var paint = Paint()
 
@@ -47,19 +47,14 @@ class GameObjectView(val view : GameView) {
                     /*"projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
                 }
             }
-
-
             Log.d("GameObjectView", "drawing object")
-
         }
     }
 
 
     fun setRect(objectList : MutableList<GameObject> ){
-
         val rendW = (view.screenWidth / view.game.map.getColSize())
         val rendH = (view.screenHeight / view.game.map.getRowSize())
-
 
         for (obj in objectList){
             obj.setRect(rendW, rendH)
@@ -67,7 +62,6 @@ class GameObjectView(val view : GameView) {
     }
 
     fun createSubImageAt(image: Bitmap, row:Int, col:Int, rowCount: Int,colCount:Int): Bitmap  {
-
         var width = image.getWidth()/ colCount;
         var height = image.getHeight()/ rowCount;
         var subImage :Bitmap  = Bitmap.createBitmap(image, col*width, row* height ,width,height);
