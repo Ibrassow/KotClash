@@ -60,6 +60,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     var minute : Double = 0.0
     var second : Double = 0.0
 
+
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
@@ -74,8 +75,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         objectDrawer.drawObjects(canvas, game.gameObjectList)
         Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
-
-
 
 
         //TODO Timer is slow ?
