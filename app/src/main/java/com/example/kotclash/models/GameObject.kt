@@ -82,21 +82,6 @@ open class GameObject(
     }
 
 
-    /*fun getAngleVector(initPoint:Pair<Float,Float>, finalPoint:Pair<Float,Float>):Float {
-        val vector = Pair(finalPoint.first - initPoint.first, finalPoint.second - initPoint.second)
-        val angle = getAngleBetweenVectors(Pair(1f,0f),vector)
-        return angle
-    }
-
-
-    fun getAngleBetweenVectors(v1:Pair<Float,Float>, v2:Pair<Float,Float>): Float{
-        val angle = atan2(v1.first*v2.first-v2.first*v1.second,v1.first*v2.first+v1.second*v2.second)
-        return angle
-    }*/
-
-
-
-
     fun getAngleVector(initPoint:Pair<Float,Float>, finalPoint:Pair<Float,Float>):Float{
         val vector = Pair(finalPoint.first - initPoint.first, finalPoint.second - initPoint.second)
 
@@ -110,12 +95,7 @@ open class GameObject(
     }
 
 
-
-
-
-
-
-
+    //Specific ID for each object
     companion object {
         var count:Int = 0
         private fun getIx():Int{

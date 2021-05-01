@@ -9,13 +9,15 @@ class TroopFactory(val game : GameManager) {
 
         lateinit var troopSelect : GameObject
 
-        //TODO : gameObjectFactory
+        //TODO if enemy -> coordinates
+
+
         when (type){
             "base" -> troopSelect = Base(enemy, coordinates)
             "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates)
             "submarine" -> troopSelect = Submarine(enemy, coordinates)
             //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates)
-            "boat" -> troopSelect = Boat(true, coordinates)
+            "boat" -> troopSelect = Boat(enemy, coordinates)
 
         }
 

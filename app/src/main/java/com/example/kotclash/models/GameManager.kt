@@ -67,10 +67,10 @@ class GameManager {
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
-    val cardManager = CardManager(troopFactory, this) //TODO: might need to be in MainActivity instead
+    val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
-    val enemyTowersList = mutableListOf<Tower>() //TODO Tower directly ?
-    val allyTowersList = mutableListOf<Tower>()
+    val enemyTowersList = mutableListOf<GameObject>()
+    val allyTowersList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -156,7 +156,6 @@ class GameManager {
         for (obj in gameObjectList) {
             if (obj.isAlive()) {
                 obj.takeAction(elapsedTimeMS, map)
-                Log.d("GM", "ACTION TAKEN FOR " + obj.toString())
             }
         }
     }

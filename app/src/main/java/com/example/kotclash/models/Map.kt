@@ -17,6 +17,10 @@ class Map()  {
     val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
     val posGate = mutableMapOf<Int, Pair<Float, Float>>()
 
+    //Don't change
+    var oldRendW = 1f
+    var oldRendH = 1f
+
     fun clearAllPos(){
         posBases.clear()
         posAllyTower.clear()
@@ -116,7 +120,15 @@ class Map()  {
 
     }
 
+    fun posSetRect(rendW: Float, rendH: Float){
 
+       posGate.forEach { (gate, pos) ->
+           posGate[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
+       }
+        oldRendW = rendW
+        oldRendH = rendH
+
+    }
 
 
 

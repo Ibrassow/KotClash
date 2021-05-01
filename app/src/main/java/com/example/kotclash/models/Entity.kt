@@ -1,5 +1,6 @@
 package com.example.kotclash.models
 
+import android.util.Log
 import kotlin.math.*
 
 open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
@@ -8,13 +9,12 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     open var health = 0
 
-    open val freqShoot = 0f
+    open val freqShoot = 2000f
     var previousAttackTime = System.currentTimeMillis()
 
     var target : GameObject? = null
 
 
-    //getDamaged should remain an abstract method
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
@@ -25,40 +25,18 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     //TODO : should be overridden, as each troop will create its own projectile
     //TODO : Attack as an interface? -> close/distance/..
-    override fun attack(entity: GameObject){
+    /*override fun attack(entity: GameObject){
         val orientation = getInitAngleProjectile(entity)
         //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
-    }
-
-
-    //target under range
-    /*fun enemyAttackable(entity : Entity): Boolean {
-        var proxEnemy = false
-        val distEnemy = this.distToEnemy(entity)
-        if (distEnemy < range) {
-            proxEnemy = true
-        }
-        return proxEnemy
     }*/
+
+
 
 
     //allows to determine the closest enemy
     fun distToEnemy(entity: GameObject): Float{
-        val distEnemy = sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
-        return distEnemy
+        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
     }
-
-
-    //target neither dead nor too far
-    /*fun checkTargetValid(entity : Entity): Boolean{
-        var valid = true
-        if (!entity.isAlive()){
-            valid = false
-        }else if (!enemyAttackable(entity)){
-            valid = false
-        }
-        return valid
-    }*/
 
 
     //checks whether the set time between 2 attacks has been reached
@@ -68,7 +46,6 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
         val deltaTime = (currentAttackTime - previousAttackTime)
         if (deltaTime > freqShoot) {
             ready = true
-            previousAttackTime = currentAttackTime
         }
         return ready
     }
@@ -77,29 +54,32 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     fun selectTarget(grid: Map) : GameObject? {
         val listEnemiesInRange = getEnemiesInRange(grid)
+        Log.e("listEnemies","enem:$listEnemiesInRange")
+        target = null
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
-            val distToClosestEnemy = distToEnemy(closestEnemy!!)
-            if (distToClosestEnemy > range){
-                target = null //ATTENTION! Artifice pour pas utiliser nullable
-            }else{
-                target = closestEnemy
+            if (closestEnemy == null){
+                return null
             }
-        }else{
-            target = null //ATTENTION! Artifice pour pas utiliser nullable
+            else {
+                val distToClosestEnemy = distToEnemy(closestEnemy!!)
+                if (distToClosestEnemy < range*oldRendW) {
+                    return closestEnemy
+                }
+            }
+
         }
-        return target
+        return null
     }
 
 
-    //finds closest enemy and checks at the same time that it is truly within range
-    fun getClosestEnemy(listEnemiesInRange: MutableList<GameObject>): GameObject?{
-        target = null //ATTENTION ! Artifice pour pas utiliser nullable
-        var minDist = range.toFloat();
-        for(elem in listEnemiesInRange){
+    //finds closest enemy
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
+        var smallestDist = 20000f;
+        for(elem in listEnemies){
             var distToEnemy = distToEnemy(elem)
-            if(distToEnemy < minDist){
-                minDist = distToEnemy
+            if(distToEnemy < smallestDist){
+                smallestDist = distToEnemy
                 target = elem
             }
         }
