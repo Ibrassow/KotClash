@@ -8,7 +8,7 @@ class Projectile(enemy: Boolean,
                  val target: Entity,
                  coordinates : Pair<Float,Float>,
                  game: GameManager
-                ) : GameObject(enemy, coordinates, game), Movable {
+                ) : GameObject(enemy, coordinates), Movable {
 
 
 

@@ -86,6 +86,15 @@ open class GameObject(
     }
 
 
+    fun isEnemyOf(obj : GameObject):Boolean{
+        var isEnemy = false
+        if(enemy != obj.enemy){
+            isEnemy = true
+        }
+        return isEnemy
+    }
+
+
     fun getAngleVector(initPoint:Pair<Float,Float>, finalPoint:Pair<Float,Float>):Float{
         val vector = Pair(finalPoint.first - initPoint.first, finalPoint.second - initPoint.second)
 

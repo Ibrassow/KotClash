@@ -55,6 +55,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     fun selectTarget(map: Map) : GameObject? {
 
         val listEnemiesInRange = getEnemiesInRange(map)
+        Log.e("this","$this")
         Log.e("listEnemies","enem:$listEnemiesInRange")
 
         var target2 : GameObject? = null
@@ -62,33 +63,40 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
-            val distToClosestEnemy = distToEnemy(closestEnemy)
+            val distToClosestEnemy = distToEnemy(closestEnemy!!)
             //sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)
-            if (distToClosestEnemy < range*oldRendW) {
-                target2 = closestEnemy
-            }
+            //if (distToClosestEnemy < range*oldRendH) { //TODO: put that back
+            target2 = closestEnemy
+            val xCoord = coordinates.first/oldRendW
+            val yCoord = coordinates.second/oldRendH
+            val targetXCoord = target2!!.coordinates.first/oldRendW
+            val targetYCoord = target2!!.coordinates.second/oldRendH
+            Log.e("target2","$target2")
+            Log.e("coordinates","$xCoord,$yCoord")
+            Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
+            //}
         }
         return target2
     }
 
 
     //finds closest enemy
-    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject{
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
         var smallestDist = 20000f;
-        lateinit var target3 : GameObject
+        var target3:GameObject? = null
 
         val m = listEnemies.size
-        Log.d("TARGETPOINTSIZE", "$m")
+        //Log.d("TARGETPOINTSIZE", "$m")
 
         for(elem in listEnemies){
             var distToEnemy = distToEnemy(elem) //TODO HERE NaN
-            Log.d("TARGETPOINTDIST", "$distToEnemy")
+            //Log.d("TARGETPOINTDIST", "$distToEnemy")
             if(distToEnemy < smallestDist){
                 smallestDist = distToEnemy
                 target3 = elem
             }
         }
-        Log.e("TARGETPOINT", "$target")
+        //Log.e("TARGETPOINT", "$target")
         return target3
     }
 

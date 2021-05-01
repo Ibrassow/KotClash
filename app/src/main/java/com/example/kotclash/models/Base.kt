@@ -1,9 +1,8 @@
 package com.example.kotclash.models
 
 class Base(enemy: Boolean,
-           coordinates : Pair<Float,Float>,
-           game:GameManager
-) : Tower(enemy, coordinates,game) {
+           coordinates : Pair<Float,Float>
+) : Tower(enemy, coordinates) {
 
     val gameManager = GameManager.gameInstance
 

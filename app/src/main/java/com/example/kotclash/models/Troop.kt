@@ -18,6 +18,7 @@ open class Troop(enemy: Boolean,
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         if (readyForAttack()) {
             target = selectTarget(map)
+            Log.e("target","$target")
             if (target != null) {
                 //attack(target!!)
                 //previousAttackTime = System.currentTimeMillis()
@@ -27,6 +28,7 @@ open class Troop(enemy: Boolean,
         }else{
             move(elapsedTimeMS,map)
         }
+        //move(elapsedTimeMS,map)
     }
 
 
@@ -37,6 +39,7 @@ open class Troop(enemy: Boolean,
             lookAheadPoint = getClosestGate(map.posGate)
         }else {
             lookAheadPoint = findTargetOfMotion()
+            //Log.e("lookAhead","target:$lookAheadPoint")
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)
@@ -54,19 +57,13 @@ open class Troop(enemy: Boolean,
         Log.e("RR", "prevCoord : $previousCoordinates")
         Log.e("RR", "coord : $coordinates")*/
 
-
-
         map.displace(this, previousCoordinates)
 
     }
 
 
 
-
-
-
     private fun findTargetOfMotion():Pair<Float,Float>{
-
         if(target == null){
             if(isEnemy()) {
                 target = getClosestEnemy(game.allyTowersList)
@@ -77,6 +74,7 @@ open class Troop(enemy: Boolean,
         val targetCoord = target!!.coordinates
         return targetCoord
     }
+
 
 
     fun onOwnSide():Boolean{

@@ -85,26 +85,34 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
+        Log.e("posObj","$x,$y")
+
         //val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
         //val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
 
         //TODO add conditions for walls -- existence of cells
-        for (column in y-range..y+range+1){
-            for (row in x-range..x+range+1){
+        for (row in y-range..y+range+1){
+            for (column in x-range..x+range+1){
                 try {
                     if (grid[row][column].isOccupied()) {
-                        grid[row][column].getEntity().let { objectFound.addAll(it) }
-                        Log.e("ScanArea", "evrything is alright $row $column")
+                        val entitiesScanned = grid[row][column].getEntity()
+                        for(entityScanned in entitiesScanned){
+                            if(entityScanned.isEnemyOf(obj)) {
+                                //entityScanned.let { objectFound.add(it) }
+                                objectFound.add(entityScanned)
+                                Log.e("ScanArea", "object detected $row $column $entityScanned")
+                            }
+                        }
                     }
                 }catch(e:IndexOutOfBoundsException){
                     val xx = row
                     val yy = column
-                    Log.d("E: ScanArea", "X : $xx, Y: $yy")
-                    Log.e("E: ScanArea", "Index out of bounds")
+                    //Log.d("E: ScanArea", "X : $xx, Y: $yy")
+                    //Log.e("E: ScanArea", "Index out of bounds")
                 }
             }
         }
-
+        Log.e("objectFound","$objectFound")
         return objectFound
     }
 
@@ -123,12 +131,14 @@ class Map()  {
             try {
                 val x = getColSize()
                 val y = getRowSize()
-                Log.d("SIZEGRID", "X : $x, Y: $y")
+                //Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
+                //Log.e("newPosition","$newX,$newY")
                 grid[oldY][oldX].removeOccupant(obj)
+                //Log.e("oldPosition","$oldX,$oldY")
             }
             catch(e: IndexOutOfBoundsException){
-                Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
+                //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
             }
 
 
@@ -147,8 +157,6 @@ class Map()  {
         oldRendH = rendH
 
     }
-
-
 
 
 
