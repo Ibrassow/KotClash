@@ -6,27 +6,22 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.widget.ProgressBar
 import com.example.kotclash.models.*
 import com.example.kotclash.models.Map
+import kotlin.math.floor
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
 
 
     var game : GameManager = GameManager.gameInstance
-    lateinit var progressBar: ProgressBar
-    lateinit var cardManager: CardManager
 
-    //lateinit var canvas: Canvas
     var thread: GameThread
 
     //Map
     var map : Map = Map()
-    val mapLoader: MapLoader = MapLoader()
     val mapView = MapView()
 
     val objectDrawer : GameObjectView = GameObjectView(this)
@@ -36,13 +31,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     var screenWidth = 0f
     var screenHeight = 0f
 
+
     init{
         backgroundPaint.color = Color.WHITE
+
 
         holder.addCallback( this)
         this.isFocusable = true
         thread = GameThread(holder, this)
-
     }
 
 
@@ -61,12 +57,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     //Temporary solution
 
     var objListSize = game.gameObjectList.size
+    var minute : Double = 0.0
+    var second : Double = 0.0
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
                     height.toFloat(), backgroundPaint)
-        Log.d("View", "GameView drawing")
+
         mapView.drawGrid(canvas, game.map)
 
         if (objListSize != game.gameObjectList.size){
@@ -76,7 +74,26 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         objectDrawer.drawObjects(canvas, game.gameObjectList)
         Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
-    }
+
+
+
+
+        //TODO Timer is slow ?
+
+        //var time = game.timeLeft
+        minute = (floor(game.timeLeft/60.0))
+        second = (game.timeLeft - minute*60.0)
+
+        backgroundPaint.textSize = (screenWidth/20f)
+        if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
+        canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
+
+        backgroundPaint.color = Color.WHITE
+
+
+        }
+
+
 
 
 

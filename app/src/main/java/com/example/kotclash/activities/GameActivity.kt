@@ -1,7 +1,6 @@
 package com.example.kotclash.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -12,13 +11,11 @@ import com.example.kotclash.views.GameView
 
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
-    //, View.OnClickListener
-    var game = GameManager.gameInstance
 
+    val game = GameManager.gameInstance
     lateinit var gameView : GameView
     lateinit var progressBar : ProgressBar
     val cardList = mutableListOf<CardView>()
-    //var resBar : ResourceBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +28,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         TODO - Difficulty level
          */
 
-        val mapSelected = "spring"
+        val mapSelected = "lava"
         val troopSelected = mutableListOf<String>("test1", "test2", "test3")
 
 
@@ -42,35 +39,31 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card2))
         cardList.add(findViewById(R.id.card3))
 
-        for (card in cardList){
+        for (card in cardList) {
             card.setOnClickListener(this)
         }
 
 
         configureGame(mapSelected, troopSelected)
         game.start()
-
-
+        game.resourceBar.linkWidget(progressBar) // hum hum hum
     }
 
-    fun configureGame(mapSelected : String, cardSelected : MutableList<String>){
+    fun configureGame(mapSelected : String,cardSelected : MutableList<String>){
         game.setMap(mapSelected)
-
         for (i in 0 until cardList.size){
             cardList[i].setCard(cardSelected[i])
             /*cardList[i].setOnClickListener {
                 game.playCard(i-1)
-                Log.e("HE", "OHHHHHHHHHHHHH")
             }*/
         }
-
     }
+
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.card1 -> {
                 game.playCard(1)
-                Log.e("HE", "OHHHHHHHHHHHHH")
             }
 
             R.id.card2 -> {

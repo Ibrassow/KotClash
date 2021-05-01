@@ -3,19 +3,18 @@ package com.example.kotclash.models
 import android.util.Log
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, game:GameManager)
-    : GameObject(enemy, coordinates, game) {
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
+    : GameObject(enemy, coordinates) {
 
 
     open var health = 0
 
-    open val freqShoot = 2000f
+    open val freqShoot = 1500f
     var previousAttackTime = System.currentTimeMillis()
 
     var target : GameObject? = null
 
 
-    //getDamaged should remain an abstract method
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
@@ -25,40 +24,19 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, game:GameMana
     }
 
     //TODO : should be overridden, as each troop will create its own projectile
+    //TODO : Attack as an interface? -> close/distance/..
     /*override fun attack(entity: GameObject){
-    val orientation = getInitAngleProjectile(entity)
+        val orientation = getInitAngleProjectile(entity)
         //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
     }*/
 
 
-    //target under range
-    /*fun enemyAttackable(entity : Entity): Boolean {
-        var proxEnemy = false
-        val distEnemy = this.distToEnemy(entity)
-        if (distEnemy < range) {
-            proxEnemy = true
-        }
-        return proxEnemy
-    }*/
 
 
     //allows to determine the closest enemy
     fun distToEnemy(entity: GameObject): Float{
-        val distEnemy = sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
-        return distEnemy
+        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
     }
-
-
-    //target neither dead nor too far
-    /*fun checkTargetValid(entity : Entity): Boolean{
-        var valid = true
-        if (!entity.isAlive()){
-            valid = false
-        }else if (!enemyAttackable(entity)){
-            valid = false
-        }
-        return valid
-    }*/
 
 
     //checks whether the set time between 2 attacks has been reached
@@ -68,40 +46,50 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, game:GameMana
         val deltaTime = (currentAttackTime - previousAttackTime)
         if (deltaTime > freqShoot) {
             ready = true
-            Log.e("readyForAttack","ready $ready")
         }
         return ready
     }
 
 
 
-    fun selectTarget(grid: Map) : GameObject? {
-        //Log.e("selectTargetLaunched","launched")
-        val listEnemiesInRange = getEnemiesInRange(grid)
+    fun selectTarget(map: Map) : GameObject? {
+
+        val listEnemiesInRange = getEnemiesInRange(map)
         Log.e("listEnemies","enem:$listEnemiesInRange")
-        target = null
+
+        var target2 : GameObject? = null
+
+
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
-            val distToClosestEnemy = distToEnemy(closestEnemy!!)
-            if (distToClosestEnemy < rangePix) {
-                target = closestEnemy
+            val distToClosestEnemy = distToEnemy(closestEnemy)
+            //sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)
+            if (distToClosestEnemy < range*oldRendW) {
+                target2 = closestEnemy
             }
         }
-        return target
+        return target2
     }
 
 
     //finds closest enemy
-    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject{
         var smallestDist = 20000f;
+        lateinit var target3 : GameObject
+
+        val m = listEnemies.size
+        Log.d("TARGETPOINTSIZE", "$m")
+
         for(elem in listEnemies){
-            var distToEnemy = distToEnemy(elem)
+            var distToEnemy = distToEnemy(elem) //TODO HERE NaN
+            Log.d("TARGETPOINTDIST", "$distToEnemy")
             if(distToEnemy < smallestDist){
                 smallestDist = distToEnemy
-                target = elem
+                target3 = elem
             }
         }
-        return target
+        Log.e("TARGETPOINT", "$target")
+        return target3
     }
 
 
