@@ -1,24 +1,21 @@
 package com.example.kotclash.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotclash.R
 import com.example.kotclash.models.GameManager
-import com.example.kotclash.models.ResourceBar
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView
 
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
-    //, View.OnClickListener
-    var game = GameManager.gameInstance
+
+    val game = GameManager.gameInstance
     lateinit var gameView : GameView
     lateinit var progressBar : ProgressBar
     val cardList = mutableListOf<CardView>()
-    //var resBar : ResourceBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +28,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         TODO - Difficulty level
          */
 
-        val mapSelected = "lava"
+        val mapSelected = "spring"
         val troopSelected = mutableListOf<String>("test1", "test2", "test3")
 
 
@@ -58,7 +55,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             cardList[i].setCard(cardSelected[i])
             /*cardList[i].setOnClickListener {
                 game.playCard(i-1)
-                Log.e("HE", "OHHHHHHHHHHHHH")
             }*/
         }
     }
@@ -68,7 +64,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         when (v.id) {
             R.id.card1 -> {
                 game.playCard(1)
-                Log.e("HE", "OHHHHHHHHHHHHH")
             }
 
             R.id.card2 -> {

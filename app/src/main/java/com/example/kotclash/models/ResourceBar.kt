@@ -31,7 +31,6 @@ class ResourceBar() {
         Handler(Looper.getMainLooper()).post(
                 Runnable { animResourceBar().start() })
 
-
     }
 
     private fun animResourceBar(): ObjectAnimator {

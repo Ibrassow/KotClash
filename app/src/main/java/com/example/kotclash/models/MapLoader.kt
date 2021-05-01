@@ -51,7 +51,7 @@ class MapLoader() {
         var ally_s_id = 0
         var enemy_s_id = 0
 
-        //val inputStream = context.assets.open("$filename.txt")
+
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
         var lineList = mutableListOf<String>()
 
@@ -111,8 +111,6 @@ class MapLoader() {
                     xi++
 
                 }
-                val m = map.grid[i].size
-                Log.e("e", "$m")
 
                 yi++
                 i++

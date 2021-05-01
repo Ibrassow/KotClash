@@ -43,7 +43,7 @@ class GameManager {
 
 
     private var GAMEOVER = false
-    var STARTED = true
+    var STARTED = false
 
 
     private val enemyGenerationFreq = 0f
