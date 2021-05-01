@@ -15,31 +15,20 @@ open class Troop(enemy: Boolean,
     val gate1 = Pair(0f,0f)
     val gate2 = Pair(0f,0f)
 
-    override fun takeAction(ElapsedTimeMS: Long, map: Map){
-       /* if(target != null){
-            //target = selectTarget(grid)
-            if(readyForAttack() ) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
+    override fun takeAction(ElapsedTimeMS: Long, map: Map) {
+        if (readyForAttack()) {
+            target = selectTarget(map)
+            if (target != null) {
                 attack(target!!)
+                previousAttackTime = System.currentTimeMillis()
+            }else{
+                move(ElapsedTimeMS,map)
             }
         }else{
-            move(ElapsedTimeMS)
-        }*/
-
-        move(ElapsedTimeMS, map)
+            move(ElapsedTimeMS,map)
+        }
     }
 
-
-    /*fun move(interval : Double){
-        var dy = 0f
-        if (enemy) {
-            dy += (speed * interval).toFloat()
-        }
-        else{
-            dy -= (speed * interval).toFloat()
-        }
-        r.offset(0f, dy)
-        //println(r.top)
-    }*/
 
 
     fun move(interval : Long, map: Map){
@@ -80,75 +69,52 @@ open class Troop(enemy: Boolean,
     }
 
 
+        /*fun move2(interval : Long, map: Map) {
+
+            val gate1 = Pair(4f*conversionW,10f*conversionH)
+            val gate2 = Pair(14f*conversionW,10f*conversionH)
+
+            if (onOwnSide()) {
+                val nbGate = getClosestGate()
+                if(nbGate == 1){
+                    lookAheadPoint = gate1
+                }else{
+                    lookAheadPoint = gate2
+                }
+                //Log.e("LOOKAHEADPOINT","coord $lookAheadPoint")
+            }else {
+                //Log.e("TARGETOFMOTION","SUCCESS")
+                lookAheadPoint = findTargetOfMotion()
+                //Log.e("TARGETOFMOTION","SUCCESS2")
+                //lookAheadPoint = targetOfMotion!!.coordinates
+                //val test = lookAheadPoint.first
+                Log.e("TARGETOFMOTION","SUCCESS2")
+            }
+
+            currentOrientation = getAngleVector(coordinates,lookAheadPoint)
 
 
-    /*fun move(interval : Long){
 
-        //lookAheadPoint=mapLoader.posBases["enemy"]!!
-        if(onOwnSide()){
-            lookAheadPoint = getClosestGate()
-        }else{
-            targetOfMotion = findTargetOfMotion()
-            lookAheadPoint = targetOfMotion!!.coordinates
-        } *///TODO
 
-        //val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
-                //Pair(lookAheadPoint.first, lookAheadPoint.second))
-        /*TODO var previousCoordinates = coordinates
-        Log.wtf("temps", previousCoordinates.toString())
-        /*coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
-                coordinates.second + speed*interval*sin(currentOrientation))*/
-        if (previousCoordinates.second <=5){coordinates = Pair(previousCoordinates.first- speed,previousCoordinates.second )
-            currentOrientation = -4f
-            Log.wtf("temps", coordinates.toString())
-        }else if (1 <= previousCoordinates.second && previousCoordinates.second<5){coordinates = Pair(previousCoordinates.first- speed,previousCoordinates.second -speed )
-            currentOrientation = 3f
-            Log.wtf("temps", coordinates.toString())
-        }
-            else{coordinates = Pair(previousCoordinates.first,previousCoordinates.second - speed)
-            currentOrientation = -2f
-        Log.wtf("temps", coordinates.toString())}*/
+            val previousCoordinates = coordinates
+            val dx = speed * interval * cos(currentOrientation)
+            val dy = speed * interval * sin(currentOrientation)
 
-        //val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+            //update x & y in model
+            coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
 
-        /*if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
-                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
-            //grid.displace(this,coordinatesIdx, currentOrientation)
-            //TODO
-        }
-    }*/
-    /*private fun move(interval : Long){
-        lateinit var lookAheadPoint : Pair<Float,Float>
-        /*if(onOwnSide()){
-            lookAheadPoint = getClosestGate()
-        }else{
-            targetOfMotion = findTargetOfMotion()
-            lookAheadPoint = targetOfMotion!!.coordinates
+            //used to update view
+            rectF.offset(dx, dy)
+            Log.e("EE", "dx : $dx, dy : $dy")
+            Log.e("RR", "prevCoord : $previousCoordinates")
+            Log.e("RR", "coord : $coordinates")
+
+
+            map.displace(this,previousCoordinates)
+
         }*/
 
-        val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
-                Pair(lookAheadPoint.first, lookAheadPoint.second))
 
-        val previousCoordinates = coordinates
-        val dx = speed*interval*cos(currentOrientation)
-        val dy = speed*interval*sin(currentOrientation)
-
-        //update x & y in model
-        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
-
-        //used to update view
-        rectF.offset(dx,dy)
-
-        val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
-
-
-        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
-                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
-            //grid.displace(this,coordinatesIdx, currentOrientation)
-            //TODO
-        }
-
-    }*/
 
 
     fun findTargetOfMotion():GameObject?{

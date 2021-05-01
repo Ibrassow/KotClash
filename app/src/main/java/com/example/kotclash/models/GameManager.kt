@@ -99,16 +99,16 @@ class GameManager {
 
 
         //Two bases - One per side
-        gameObjectList.add(troopFactory.getTroop(true, "base", mapLoader.posBases["enemy"]!!))
-        gameObjectList.add(troopFactory.getTroop(false, "base", mapLoader.posBases["ally"]!!))
+        gameObjectList.add(troopFactory.getTroop(true, "base", map.posBases["enemy"]!!))
+        gameObjectList.add(troopFactory.getTroop(false, "base", map.posBases["ally"]!!))
 
         //Additional towers for the enemy side
-        for (position in mapLoader.posEnemyTower){
+        for (position in map.posEnemyTower){
             gameObjectList.add(troopFactory.getTroop(true, "simpleTower", position.value))
         }
 
         //Additional towers for the ally side
-        for (position in mapLoader.posAllyTower){
+        for (position in map.posAllyTower){
             gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
         }
 
@@ -166,7 +166,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "submarine", mapLoader.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "submarine", map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -218,7 +218,7 @@ class GameManager {
 
     fun playCard(nbCard : Int) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
-        cardManager.playCard(nbCard, floor(resources.toDouble()), mapLoader.posAllySpawn[nbRand]!!)
+        cardManager.playCard(nbCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         resourceBar.useResource(15)
         //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }

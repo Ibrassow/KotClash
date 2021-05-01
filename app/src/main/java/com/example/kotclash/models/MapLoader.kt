@@ -10,14 +10,6 @@ class MapLoader() {
     var paint = Paint()
     var map = Map()
 
-    //Only the base - doesn't care about the specific type of tower
-    val posBases = mutableMapOf<String, Pair<Float, Float>>()
-    val posAllyTower = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
-    val posEnemyTower = mutableMapOf<Int, Pair<Float, Float>>()
-    val posAllySpawn = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
-    val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
-    val posGate = mutableMapOf<Int, Pair<Float, Float>>()
-
 
     fun returnMap() : Map {
         return map
@@ -41,15 +33,14 @@ class MapLoader() {
 
     private fun parseFile(filename : String) : Map {
 
-        posBases.clear()
-        posAllyTower.clear()
-        posEnemyTower.clear()
+        map.clearAllPos()
 
 
         var ally_t_id = 0
         var enemy_t_id = 0
         var ally_s_id = 0
         var enemy_s_id = 0
+        var gate_id = 0
 
 
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
@@ -74,31 +65,31 @@ class MapLoader() {
                         "*" -> map.grid[i].add(Tile(xi, yi, "soil"))
                         "A" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posBases.put("ally", Pair(xi, yi))
+                            map.posBases.put("ally", Pair(xi, yi))
                         }
 
                         "At" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posAllyTower[ally_t_id] = Pair(xi, yi)
+                            map.posAllyTower[ally_t_id] = Pair(xi, yi)
                             ally_t_id++
                         }
                         "E" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posBases.put("enemy", Pair(xi, yi))
+                            map.posBases.put("enemy", Pair(xi, yi))
                         }
                         "Et" -> {
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posEnemyTower[enemy_t_id] = Pair(xi, yi)
+                            map.posEnemyTower[enemy_t_id] = Pair(xi, yi)
                             enemy_t_id++
                         }
                         "As" -> { //Spawn Ally
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posAllySpawn[ally_s_id] = Pair(xi, yi)
+                            map.posAllySpawn[ally_s_id] = Pair(xi, yi)
                             ally_s_id++
                         }
                         "Es" -> { //Spawn Enemy
                             map.grid[i].add(Tile(xi, yi, "soil"))
-                            posEnemySpawn[enemy_s_id] = Pair(xi, yi)
+                            map.posEnemySpawn[enemy_s_id] = Pair(xi, yi)
                             enemy_s_id++
                         }
                         "W" -> { //Wall
@@ -106,6 +97,8 @@ class MapLoader() {
                         }
                         "G" -> { //Gate
                             map.grid[i].add(Tile(xi, yi, "soil"))
+                            map.posGate[gate_id] = Pair(xi, yi)
+                            gate_id++
                         }
                     }
                     xi++

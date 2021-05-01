@@ -9,6 +9,23 @@ class Map()  {
 
     val grid = mutableListOf<MutableList<Tile>>()
 
+    //Only the base - doesn't care about the specific type of tower
+    val posBases = mutableMapOf<String, Pair<Float, Float>>()
+    val posAllyTower = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
+    val posEnemyTower = mutableMapOf<Int, Pair<Float, Float>>()
+    val posAllySpawn = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
+    val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
+    val posGate = mutableMapOf<Int, Pair<Float, Float>>()
+
+    fun clearAllPos(){
+        posBases.clear()
+        posAllyTower.clear()
+        posEnemyTower.clear()
+        posAllySpawn.clear()
+        posEnemySpawn.clear()
+        posGate.clear()
+    }
+
     fun getRowSize() : Int {
         return grid.size
     }
@@ -47,12 +64,15 @@ class Map()  {
 
 
     //returns the entities found in the given range
-    fun scanArea(actualPos : Pair<Int, Int>, range: Int): MutableList<GameObject> {
+    fun scanArea(actualPos : Pair<Int, Int>, range: Int, obj: GameObject): MutableList<GameObject> {
 
         val objectFound = mutableListOf<GameObject>()
 
-        val x = actualPos.first
-        val y = actualPos.second
+        //val x = actualPos.first
+        //val y = actualPos.second
+
+        val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
+        val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
 
         //TODO add conditions for walls -- existence of cells
         for (column in y-range..y+range+1){
