@@ -138,7 +138,7 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS / 1000.0)
+            timeLeft -= (elapsedTimeMS / 100.0)
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
