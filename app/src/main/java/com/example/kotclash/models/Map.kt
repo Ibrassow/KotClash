@@ -69,7 +69,7 @@ class Map()  {
             grid[yy][xx].setOccupant(obj)
         }
         catch(e: IndexOutOfBoundsException){
-            Log.d("Exception grid - place", "Index out of bounds")
+            //Log.d("Exception grid - place", "Index out of bounds")
         }
 
 
@@ -85,7 +85,7 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
-        Log.e("posObj","$x,$y")
+        //Log.e("posObj","$x,$y")
 
         //val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
         //val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
@@ -100,7 +100,7 @@ class Map()  {
                             if(entityScanned.isEnemyOf(obj)) {
                                 //entityScanned.let { objectFound.add(it) }
                                 objectFound.add(entityScanned)
-                                Log.e("ScanArea", "object detected $row $column $entityScanned")
+                                //Log.e("ScanArea", "object detected $row $column $entityScanned")
                             }
                         }
                     }
@@ -112,7 +112,7 @@ class Map()  {
                 }
             }
         }
-        Log.e("objectFound","$objectFound")
+        //Log.e("objectFound","$objectFound")
         return objectFound
     }
 
@@ -159,6 +159,15 @@ class Map()  {
     }
 
 
+    fun killEntity(obj : GameObject){
+        val x = ceil(obj.coordinates.first/obj.oldRendW).toInt()
+        val y = ceil(obj.coordinates.second/obj.oldRendH).toInt()
+        grid[y][x].removeOccupant(obj)
+    }
 
+
+    fun updateGates(obj:GameObject){
+        //TODO: se débarasser de la gate ds posGate
+    }
 }
 

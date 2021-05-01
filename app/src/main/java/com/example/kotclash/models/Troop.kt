@@ -12,18 +12,13 @@ open class Troop(enemy: Boolean,
     lateinit var lookAheadPoint: Pair<Float,Float>
 
 
-    var game = GameManager.gameInstance
-
-
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
-        if (readyForAttack()) {
-            target = selectTarget(map)
-            Log.e("target","$target")
-            if (target != null) {
-                //attack(target!!)
-                //previousAttackTime = System.currentTimeMillis()
-            }else{
-                move(elapsedTimeMS,map)
+        target = selectTarget(map)
+        //Log.e("target","$target")
+        if (target != null) {
+            if(readyForAttack()) {
+                attack(target!!)
+                previousAttackTime = System.currentTimeMillis()
             }
         }else{
             move(elapsedTimeMS,map)

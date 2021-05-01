@@ -79,7 +79,7 @@ open class GameObject(
 
 
     open fun attack(entity: GameObject) {
-        //entity.getDamaged(damage)
+        entity.getDamaged(damage)
     }
 
     open fun getDamaged(dmg: Int) {

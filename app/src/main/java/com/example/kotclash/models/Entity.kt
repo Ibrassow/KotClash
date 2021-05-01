@@ -11,6 +11,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     open val freqShoot = 1500f
     var previousAttackTime = System.currentTimeMillis()
+    var game = GameManager.gameInstance
 
     var target : GameObject? = null
 
@@ -18,6 +19,8 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
+        game.map.killEntity(this)
+        //Log.e("health","$health")
         if (health <= 0) {
             dead = true
         }
@@ -55,8 +58,8 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     fun selectTarget(map: Map) : GameObject? {
 
         val listEnemiesInRange = getEnemiesInRange(map)
-        Log.e("this","$this")
-        Log.e("listEnemies","enem:$listEnemiesInRange")
+        //Log.e("this","$this")
+        //Log.e("listEnemies","enem:$listEnemiesInRange")
 
         var target2 : GameObject? = null
 
@@ -71,9 +74,9 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
             val yCoord = coordinates.second/oldRendH
             val targetXCoord = target2!!.coordinates.first/oldRendW
             val targetYCoord = target2!!.coordinates.second/oldRendH
-            Log.e("target2","$target2")
-            Log.e("coordinates","$xCoord,$yCoord")
-            Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
+            //Log.e("target2","$target2")
+            //Log.e("coordinates","$xCoord,$yCoord")
+            //Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
             //}
         }
         return target2
