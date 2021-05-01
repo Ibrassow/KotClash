@@ -6,6 +6,7 @@ import kotlin.math.PI
 import kotlin.math.atan
 import kotlin.math.ceil
 import kotlin.math.atan2
+import kotlin.properties.Delegates
 
 open class GameObject(
         val enemy: Boolean,
@@ -23,7 +24,7 @@ open class GameObject(
 
 
     var dead = false
-    val range = 0
+    val range = 3
     open val damage = 0
 
     //Parcelable
@@ -35,9 +36,12 @@ open class GameObject(
     var oldRendH = 1f
 
 
+    var ix : Int
 
+    init{
+        ix = getIx()
+    }
 
-    val ix = getIx()
 
 
     fun setRect(rendW : Float, rendH : Float){
@@ -67,10 +71,10 @@ open class GameObject(
     }
 
 
-    fun getEnemiesInRange(grid: Map): MutableList<GameObject>{
-        val xx = ceil(coordinates.first.toDouble()).toInt()
-        val yy = ceil(coordinates.second.toDouble()).toInt()
-        return grid.scanArea(Pair(xx, yy), range, this)
+    fun getEnemiesInRange(map: Map): MutableList<GameObject>{
+        val xx = ceil(coordinates.first.toDouble()/oldRendW).toInt()
+        val yy = ceil(coordinates.second.toDouble()/oldRendH).toInt()
+        return map.scanArea(Pair(xx, yy), range, this)
     }
 
 

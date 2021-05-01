@@ -8,23 +8,24 @@ open class Troop(enemy: Boolean,
                  coordinates : Pair<Float,Float>
 ) : Entity(enemy, coordinates), Movable{
 
-    open val speed  = 35f
+    open val speed  = 5f
     lateinit var lookAheadPoint: Pair<Float,Float>
+
 
     var game = GameManager.gameInstance
 
 
-    override fun takeAction(ElapsedTimeMS: Long, map: Map) {
+    override fun takeAction(elapsedTimeMS: Long, map: Map) {
         if (readyForAttack()) {
             target = selectTarget(map)
             if (target != null) {
-                attack(target!!)
-                previousAttackTime = System.currentTimeMillis()
+                //attack(target!!)
+                //previousAttackTime = System.currentTimeMillis()
             }else{
-                move(ElapsedTimeMS,map)
+                move(elapsedTimeMS,map)
             }
         }else{
-            move(ElapsedTimeMS,map)
+            move(elapsedTimeMS,map)
         }
     }
 
@@ -55,7 +56,7 @@ open class Troop(enemy: Boolean,
 
 
 
-        map.displace(this,previousCoordinates)
+        map.displace(this, previousCoordinates)
 
     }
 
@@ -65,6 +66,7 @@ open class Troop(enemy: Boolean,
 
 
     private fun findTargetOfMotion():Pair<Float,Float>{
+
         if(target == null){
             if(isEnemy()) {
                 target = getClosestEnemy(game.allyTowersList)
@@ -79,10 +81,11 @@ open class Troop(enemy: Boolean,
 
     fun onOwnSide():Boolean{
         var onOwnSide = false
-        if(coordinates.second < 10*oldRendH && isEnemy()
-                || coordinates.second > 10*oldRendH && !isEnemy()){
-            onOwnSide = true
-        }
+
+        if((coordinates.second <= 11*oldRendH && isEnemy())
+                || (coordinates.second > 11*oldRendH && !isEnemy())){
+            onOwnSide = true}
+
         return onOwnSide
     }
 
@@ -96,7 +99,7 @@ open class Troop(enemy: Boolean,
         val dist2 = sqrt((coordinates.first - gate2.first).pow(2) + (coordinates.second - gate2.second).pow(2))
 
         lateinit var gateChoice : Pair<Float, Float>
-        if(dist1 < dist2){
+        if(dist1 <= dist2){
             gateChoice = gate1
         } else if (dist1 > dist2){
             gateChoice =  gate2

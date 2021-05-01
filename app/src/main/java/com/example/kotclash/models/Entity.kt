@@ -9,7 +9,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     open var health = 0
 
-    open val freqShoot = 2000f
+    open val freqShoot = 1500f
     var previousAttackTime = System.currentTimeMillis()
 
     var target : GameObject? = null
@@ -52,38 +52,44 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
 
 
-    fun selectTarget(grid: Map) : GameObject? {
-        val listEnemiesInRange = getEnemiesInRange(grid)
+    fun selectTarget(map: Map) : GameObject? {
+
+        val listEnemiesInRange = getEnemiesInRange(map)
         Log.e("listEnemies","enem:$listEnemiesInRange")
-        target = null
+
+        var target2 : GameObject? = null
+
+
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
-            if (closestEnemy == null){
-                return null
+            val distToClosestEnemy = distToEnemy(closestEnemy)
+            //sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)
+            if (distToClosestEnemy < range*oldRendW) {
+                target2 = closestEnemy
             }
-            else {
-                val distToClosestEnemy = distToEnemy(closestEnemy!!)
-                if (distToClosestEnemy < range*oldRendW) {
-                    return closestEnemy
-                }
-            }
-
         }
-        return null
+        return target2
     }
 
 
     //finds closest enemy
-    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject{
         var smallestDist = 20000f;
+        lateinit var target3 : GameObject
+
+        val m = listEnemies.size
+        Log.d("TARGETPOINTSIZE", "$m")
+
         for(elem in listEnemies){
-            var distToEnemy = distToEnemy(elem)
+            var distToEnemy = distToEnemy(elem) //TODO HERE NaN
+            Log.d("TARGETPOINTDIST", "$distToEnemy")
             if(distToEnemy < smallestDist){
                 smallestDist = distToEnemy
-                target = elem
+                target3 = elem
             }
         }
-        return target
+        Log.e("TARGETPOINT", "$target")
+        return target3
     }
 
 

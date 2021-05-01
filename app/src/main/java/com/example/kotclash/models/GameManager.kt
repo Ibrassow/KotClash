@@ -120,6 +120,8 @@ class GameManager {
             } else {
                 allyTowersList.add(elem as Tower)
             }
+
+            map.placeTowers(elem)
         }
         //temporary, initialisation will depend on choices made by player
     }
@@ -218,6 +220,7 @@ class GameManager {
     fun playCard(nbCard : Int) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nbCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
+        //cardManager.playCard(nbCard, floor(resources.toDouble()), Pair(9f,17f))
         resourceBar.useResource(15)
         //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
@@ -225,7 +228,6 @@ class GameManager {
 
 
 
-    //Pas trop compris ici
     fun endGame() {
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)

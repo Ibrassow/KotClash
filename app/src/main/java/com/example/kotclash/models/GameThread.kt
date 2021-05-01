@@ -11,7 +11,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     private var running: Boolean = false
     private var locked = false
 
-    private val MAX_FPS = 50
+    private val MAX_FPS = 60
     private val game: GameManager = GameManager.gameInstance
 
     init {

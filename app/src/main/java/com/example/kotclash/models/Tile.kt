@@ -50,7 +50,7 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     }
 
     fun removeOccupant(obj: GameObject){
-        for (i in 0..(occupants.size)){
+        for (i in 0 until (occupants.size)){
             if (occupants[i].ix == obj.ix){
                 occupants.remove(obj)
             }

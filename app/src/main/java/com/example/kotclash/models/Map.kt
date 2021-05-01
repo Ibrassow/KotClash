@@ -43,26 +43,36 @@ class Map()  {
     }
 
 
-    fun placeNewObject(gameObject: GameObject){
+    //Should be used at the beginning for the tower
+    fun placeTowers(obj: GameObject){
         //TODO opti after
-        val sz = gameObject.size
+        val sz = obj.size
         val szx = sz.first/2
         val szy = sz.second/2
-        val xx = gameObject.coordinates.first.toInt()
-        val yy = gameObject.coordinates.second.toInt()
+        val xx = ((obj.coordinates.first)/obj.oldRendW).toInt()
+        val yy = ((obj.coordinates.second)/obj.oldRendH).toInt()
 
         //TODO Clean here
-        for (x in (xx-szx).toInt()..(xx+szx).toInt()){
+        /*for (x in (xx-szx).toInt()..(xx+szx).toInt()){
             for (y in (yy-szy).toInt()..(yy+szy).toInt()){
                 //to account for non-existing tiles
                 try {
-                    grid[y][x].setOccupant(gameObject)
+                    grid[y][x].setOccupant(obj)
                 }
                 catch(e: IndexOutOfBoundsException){
                     Log.d("Exception grid - place", "Index out of bounds")
                 }
             }
+        }*/
+
+        try {
+            grid[yy][xx].setOccupant(obj)
         }
+        catch(e: IndexOutOfBoundsException){
+            Log.d("Exception grid - place", "Index out of bounds")
+        }
+
+
     }
 
 
@@ -72,11 +82,11 @@ class Map()  {
 
         val objectFound = mutableListOf<GameObject>()
 
-        //val x = actualPos.first
-        //val y = actualPos.second
+        val x = actualPos.first
+        val y = actualPos.second
 
-        val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
-        val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
+        //val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
+        //val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
 
         //TODO add conditions for walls -- existence of cells
         for (column in y-range..y+range+1){
@@ -84,9 +94,13 @@ class Map()  {
                 try {
                     if (grid[row][column].isOccupied()) {
                         grid[row][column].getEntity().let { objectFound.addAll(it) }
+                        Log.e("ScanArea", "evrything is alright $row $column")
                     }
                 }catch(e:IndexOutOfBoundsException){
-                    Log.d("E: ScanArea", "Index out of bounds")
+                    val xx = row
+                    val yy = column
+                    Log.d("E: ScanArea", "X : $xx, Y: $yy")
+                    Log.e("E: ScanArea", "Index out of bounds")
                 }
             }
         }
@@ -98,6 +112,7 @@ class Map()  {
     //TODO Check if movement is possible, where, etc
     fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
 
+
         val oldX = ceil(prevCoord.first/obj.oldRendW).toInt()
         val oldY = ceil(prevCoord.second/obj.oldRendH).toInt()
 
@@ -106,11 +121,14 @@ class Map()  {
 
         if(newX != oldX || newY != oldY){
             try {
+                val x = getColSize()
+                val y = getRowSize()
+                Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
                 grid[oldY][oldX].removeOccupant(obj)
             }
             catch(e: IndexOutOfBoundsException){
-                Log.d("E: Grid displace", "Index out of bounds")
+                Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
             }
 
 
