@@ -1,27 +1,47 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
+import android.util.Log
+import com.example.kotclash.views.CardView
 
 
-class CardManager(private val troopFactory: TroopFactory, val game: GameManager) {
+class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
 
-    //TODO: could call parameter in class instead -> better
-    private val costBoat = 0f
-    private val costSubmarine = 0f
 
+
+    val costBoat = 0f
+    val costSubmarine = 0f
+    lateinit var list: Any
+    lateinit var troopsCard : Any
 
     //TODO: could also use CardManager for autonomousEnemyGeneration()
-    fun playCard(cardNumber: Int, resources: Float, coordinates: Pair<Float,Float>){
+    fun playCard(cardNumber: Int, resources: Double, coordinates: Pair<Float,Float>){
+        var i : Boolean = (resources > costSubmarine)
+        Log.e("BOOL", "$i")
         when(cardNumber){
-            1 -> if(resources > costBoat){
-                game.gameObjectList.add(troopFactory.getTroop(false,"boat",null, coordinates, 0f))
-                game.resourceBar.useResources(costBoat)
-                }
-            2 -> if(resources > costSubmarine){
-                game.gameObjectList.add(troopFactory.getTroop(false,"submarine",null, coordinates, 0f))
-                game.resourceBar.useResources(costSubmarine)
-                }
+            1 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))
+                game.resourceBar.useResource(1)}
+            Log.e("cardM", "please")
+                val nn = game.gameObjectList.size
+                Log.e("sizeObjListCM", "$nn")}
+            2 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))
+                game.resourceBar.useResource(1)}
+                Log.e("cardM", "please")}
+            3 -> {if(resources > costSubmarine){game.gameObjectList.add(troopFactory.getTroop(false,"submarine", coordinates))
+                game.resourceBar.useResource(1)}
+                Log.e("cardM", "please")}
         }
     }
+
+
+    /*fun updateCard(cardList : Any,cardSelected: Any){
+        for (i in 0 until cardList.size){
+            cardList[i].setCard(cardSelected[i])
+            /*cardList[i].setOnClickListener {
+                game.playCard(i-1)
+                Log.e("HE", "OHHHHHHHHHHHHH")
+            }*/
+        }
+    }*/
+
+
 }

@@ -8,8 +8,8 @@ import android.widget.ImageView
 import com.example.kotclash.R
 
 
-@SuppressLint("AppCompatCustomView")
-class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ImageView(context, attrs, defStyle) {
+
+class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyle) {
 
     val paint = Paint()
     //lateinit var imageCard : Bitmap
@@ -20,21 +20,17 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
 
-    private fun initView(cardName : String) {
+    fun initView(cardName : String) {
 
         //imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
 
         when (cardName) {
-            "test1" -> this.setImageResource(R.drawable.imtest1)
-            "test2" -> this.setImageResource(R.drawable.imtest2)
-            "test3" -> this.setImageResource(R.drawable.imtest3)
+            "test1" -> {this.setImageResource(R.drawable.tankblue);this.setBackgroundColor(Color.GRAY)}
+            "test2" -> this.setImageResource(R.drawable.tankgreen)
+            "test3" -> this.setImageResource(R.drawable.tankred)
         }
 
+
     }
-
-
-
-
-
 
 }

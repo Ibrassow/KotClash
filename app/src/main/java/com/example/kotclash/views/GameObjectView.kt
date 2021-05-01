@@ -4,69 +4,70 @@ import android.graphics.*
 import android.util.Log
 import com.example.kotclash.App
 import com.example.kotclash.R
-import com.example.kotclash.models.Entity
 import com.example.kotclash.models.GameObject
-import com.example.kotclash.models.Tower
-import java.lang.IndexOutOfBoundsException
 
 class GameObjectView(val view : GameView) {
 
-    lateinit var base: Bitmap
+    private lateinit var base: Bitmap
+    private lateinit var simpleTower: Bitmap
+    private lateinit var submarine: Bitmap
+    private lateinit var troop2: Bitmap
+    private lateinit var troop3: Bitmap
+    private lateinit var projectile: Bitmap
 
-    //TODO Check P
     var paint = Paint()
-    //val rectF = RectF(0f,0f, 0f, 0f)
 
     init{
         initImages()
     }
 
-
-    private fun initImages(){
+    fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
+        simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
+        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.radiobutton_off_background)
+        submarine = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
     }
 
-    // gameObject : GameObject
-    fun drawObjects(canvas : Canvas, objectList : MutableList<GameObject>){
 
-        for (obj in objectList){
+    fun drawObjects(canvas : Canvas, objectList : MutableList<GameObject>) {
 
-            when(obj.type){
-                "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
-
+        for (obj in objectList) {
+            if (obj.isAlive()){
+                when (obj.type) {
+                    "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
+                    "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
+                    "submarine" -> {
+                        var cc = obj.currentOrientation.toInt()
+                        val submarineE = createSubImageAt(submarine,(cc+3).toInt(),1,8,6)
+                        //submarine = createSubImageAt("Nord-Ouest")
+                        canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        val k =obj.coordinates
+                        Log.e("posObj", "$k")
+                    }
+                    /*"projectile" -> canvas.drawBitmap(projectile, null, obj.rectF, paint)*/
+                }
             }
-
             Log.d("GameObjectView", "drawing object")
-
         }
-
-
-
     }
 
-    fun setRect(objectList : MutableList<GameObject>){
 
-        val rendW = (view.screenWidth / view.game.map.getRowSize())
-        val rendH = (view.screenHeight / view.game.map.getColSize())
-
+    fun setRect(objectList : MutableList<GameObject> ){
+        val rendW = (view.screenWidth / view.game.map.getColSize())
+        val rendH = (view.screenHeight / view.game.map.getRowSize())
 
         for (obj in objectList){
-
-            if (obj is Tower){
-                obj.coordinates = Pair(obj.coordinates.first * rendW + rendW/2, obj.coordinates.second * rendH + rendH/2)
-            }
-
-            val xx = obj.coordinates.first
-            val yy = obj.coordinates.second
-            val szx = obj.size.first
-            val szy = obj.size.second
-            //RESIZING
-            obj.rectF.set(xx-(szx/2f)*rendW, yy-(szy/2f)*rendH, xx+(szx/2f)*rendW, yy+(szy/2f)*rendH)
-
+            obj.setRect(rendW, rendH)
         }
-
     }
 
+    fun createSubImageAt(image: Bitmap, row:Int, col:Int, rowCount: Int,colCount:Int): Bitmap  {
+        var width = image.getWidth()/ colCount;
+        var height = image.getHeight()/ rowCount;
+        var subImage :Bitmap  = Bitmap.createBitmap(image, col*width, row* height ,width,height);
+        return subImage;
+    }
 
 
 }
+

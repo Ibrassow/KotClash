@@ -1,68 +1,42 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.GameManager
-import com.example.kotclash.Map
+import android.util.Log
 import kotlin.math.*
 
-open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrientation: Float, val game: GameManager) : GameObject(enemy, coordinates, currentOrientation) {
+open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
+    : GameObject(enemy, coordinates) {
 
 
     open var health = 0
 
-    open val freqShoot = 0f
+    open val freqShoot = 1500f
     var previousAttackTime = System.currentTimeMillis()
 
-    var target : Entity? = null
+    var target : GameObject? = null
 
 
-    //getDamaged should remain an abstract method
     //substracts healthpoints, and sets dead = true when dies
-
-
-    open fun getDamaged(dmg: Int) {
+    override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
-        if (health <= 0){
+        if (health <= 0) {
             dead = true
         }
     }
 
-
     //TODO : should be overridden, as each troop will create its own projectile
     //TODO : Attack as an interface? -> close/distance/..
-    override fun attack(entity: Entity){
+    /*override fun attack(entity: GameObject){
         val orientation = getInitAngleProjectile(entity)
-        game.gameObjectList.add(game.troopFactory.getTroop(enemy, type, target, coordinates, orientation))
-    }
-
-
-    //target under range
-    /*fun enemyAttackable(entity : Entity): Boolean {
-        var proxEnemy = false
-        val distEnemy = this.distToEnemy(entity)
-        if (distEnemy < range) {
-            proxEnemy = true
-        }
-        return proxEnemy
+        //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
     }*/
+
+
 
 
     //allows to determine the closest enemy
-    fun distToEnemy(entity: Entity): Float{
-        val distEnemy = sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
-        return distEnemy.toFloat()
+    fun distToEnemy(entity: GameObject): Float{
+        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
     }
-
-
-    //target neither dead nor too far
-    /*fun checkTargetValid(entity : Entity): Boolean{
-        var valid = true
-        if (!entity.isAlive()){
-            valid = false
-        }else if (!enemyAttackable(entity)){
-            valid = false
-        }
-        return valid
-    }*/
 
 
     //checks whether the set time between 2 attacks has been reached
@@ -72,46 +46,62 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>, currentOrient
         val deltaTime = (currentAttackTime - previousAttackTime)
         if (deltaTime > freqShoot) {
             ready = true
-            previousAttackTime = currentAttackTime
         }
         return ready
     }
 
 
 
-    fun selectTarget(grid: Map) : Entity? {
-        val listEnemiesInRange = getEnemiesInRange(grid)
+    fun selectTarget(map: Map) : GameObject? {
+
+        val listEnemiesInRange = getEnemiesInRange(map)
+        Log.e("this","$this")
+        Log.e("listEnemies","enem:$listEnemiesInRange")
+
+        var target2 : GameObject? = null
+
+
         if (listEnemiesInRange.isNotEmpty()) {
-            val closestEnemy = findClosestEnemy(listEnemiesInRange)
+            val closestEnemy = getClosestEnemy(listEnemiesInRange)
             val distToClosestEnemy = distToEnemy(closestEnemy!!)
-            if (distToClosestEnemy > range){
-                target = null //ATTENTION! Artifice pour pas utiliser nullable
-            }else{
-                target = closestEnemy
-            }
-        }else{
-            target = null //ATTENTION! Artifice pour pas utiliser nullable
+            //sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)
+            //if (distToClosestEnemy < range*oldRendH) { //TODO: put that back
+            target2 = closestEnemy
+            val xCoord = coordinates.first/oldRendW
+            val yCoord = coordinates.second/oldRendH
+            val targetXCoord = target2!!.coordinates.first/oldRendW
+            val targetYCoord = target2!!.coordinates.second/oldRendH
+            Log.e("target2","$target2")
+            Log.e("coordinates","$xCoord,$yCoord")
+            Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
+            //}
         }
-        return target
+        return target2
     }
 
 
-    //finds closest enemy and checks at the same time that it is truly within range
-    private fun findClosestEnemy(listEnemiesInRange: MutableList<Entity>): Entity?{
-        target = null //ATTENTION ! Artifice pour pas utiliser nullable
-        var minDist = range.toFloat();
-        for(elem in listEnemiesInRange){
-            var distToEnemy = distToEnemy(elem)
-            if(distToEnemy < minDist){
-                minDist = distToEnemy
-                target = elem
+    //finds closest enemy
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
+        var smallestDist = 20000f;
+        var target3:GameObject? = null
+
+        val m = listEnemies.size
+        //Log.d("TARGETPOINTSIZE", "$m")
+
+        for(elem in listEnemies){
+            var distToEnemy = distToEnemy(elem) //TODO HERE NaN
+            //Log.d("TARGETPOINTDIST", "$distToEnemy")
+            if(distToEnemy < smallestDist){
+                smallestDist = distToEnemy
+                target3 = elem
             }
         }
-        return target
+        //Log.e("TARGETPOINT", "$target")
+        return target3
     }
 
 
-    fun getInitAngleProjectile(entity: Entity):Float{
+    fun getInitAngleProjectile(entity: GameObject):Float{
         val angle = getAngleVector(Pair(coordinates.first,coordinates.second),
                 Pair(entity.coordinates.first,
                         entity.coordinates.second))

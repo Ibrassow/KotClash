@@ -1,19 +1,14 @@
-package com.example.kotclash
+package com.example.kotclash.models
 
 import android.graphics.RectF
 import android.util.Log
-import com.example.kotclash.models.Entity
-import com.example.kotclash.models.GameObject
 
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
-    //Temporary
-    val RENDERABLE_WIDTH = 1
-    val RENDERABLE_HEIGHT = 1
 
     //TODO -> GameObject preferably
-    var occupants : MutableList<Entity> = mutableListOf()
+    var occupants : MutableList<GameObject> = mutableListOf()
 
     var x = xi
     var y = yi
@@ -23,10 +18,9 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     //TODO change this attribute when reading the map
     var walkable : Boolean = true
 
-    var endx = x + RENDERABLE_WIDTH
-    var endy = y + RENDERABLE_HEIGHT
+    var endx = x
+    var endy = y
 
-    //Will serve later on
     var cellRectangle: RectF = RectF(x, y, endx, endy)
 
     init{
@@ -46,26 +40,30 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         return occupants.isNotEmpty()
     }
 
-    fun setRect(renderable_Width : Float, renderable_Height : Float){
-        x = (xi * renderable_Width)
-        y = (yi * renderable_Height)
+    fun setRect(renderableWidth : Float, renderableHeight : Float){
+        x = (xi * renderableWidth)
+        y = (yi * renderableHeight)
         position = Pair(x,y)
-        endx = x + renderable_Width
-        endy = y + renderable_Height
+        endx = x + renderableWidth
+        endy = y + renderableHeight
         cellRectangle.set(x, y, endx, endy)
-        //Log.d("InTile", "x : $x - y : $y")
     }
 
-    //TODO
-    fun removeOccupant(){
-        //occupant = null
+    fun removeOccupant(obj: GameObject){
+        for (i in 0 until (occupants.size)){
+            if (occupants[i].ix == obj.ix){
+                occupants.remove(obj)
+            }
+        }
+        //Log.e("occupants Remove","$occupants")
     }
 
 
-    fun setOccupant(entity : Entity){
-        occupants.add(entity)
-    //occupant = entity
-    //occupant!!.position = position
+    fun setOccupant(obj : GameObject){
+        if (obj !in occupants){
+            occupants.add(obj)//works
+        }
+        //Log.e("occupants Set","$occupants")
     }
 
 
@@ -73,8 +71,8 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         return sqrt((posE.x - x).toDouble().pow(2) + (posE.y - y).toDouble().pow(2))
     }*/
 
-    //TODO -> GameObject preferably
-    fun getEntity() : MutableList<Entity>{
+    //TODO -> GameObject preferably (rename)
+    fun getEntity() : MutableList<GameObject>{
         return occupants
     }
 

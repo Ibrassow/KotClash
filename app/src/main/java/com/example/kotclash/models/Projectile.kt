@@ -1,7 +1,5 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.sin
@@ -9,8 +7,8 @@ import kotlin.math.sin
 class Projectile(enemy: Boolean,
                  val target: Entity,
                  coordinates : Pair<Float,Float>,
-                 currentOrientation : Float,
-                 gameManager: GameManager) : GameObject(enemy, coordinates, currentOrientation), Movable {
+                 game: GameManager
+                ) : GameObject(enemy, coordinates), Movable {
 
 
 
@@ -19,7 +17,7 @@ class Projectile(enemy: Boolean,
     private val speed = 0f
 
 
-    override fun takeAction(elapsedTimeMS: Long, grid:Map) {
+    override fun takeAction(elapsedTimeMS: Long, grid: Map) {
         val enemyInRange = getEnemiesInRange(grid)
         if(enemyInRange.isNotEmpty()){
             for(entity in enemyInRange) {
@@ -63,7 +61,7 @@ class Projectile(enemy: Boolean,
     }
 
 
-    override fun attack(entity: Entity) {
+    override fun attack(entity: GameObject) {
         //could depend on type of projectile -> could also repel troops
         //one option:
         entity.getDamaged(projectileDamage)
