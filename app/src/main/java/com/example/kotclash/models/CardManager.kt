@@ -1,12 +1,9 @@
 package com.example.kotclash.models
 
 import android.util.Log
-import com.example.kotclash.views.CardView
 
 
 class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
-
-
 
     val costBoat = 0f
     val costTank = 0f
@@ -35,16 +32,6 @@ class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
         }
     }
 
-
-    /*fun updateCard(cardList : Any,cardSelected: Any){
-        for (i in 0 until cardList.size){
-            cardList[i].setCard(cardSelected[i])
-            /*cardList[i].setOnClickListener {
-                game.playCard(i-1)
-                Log.e("HE", "OHHHHHHHHHHHHH")
-            }*/
-        }
-    }*/
 
 
 }

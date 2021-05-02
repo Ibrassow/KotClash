@@ -37,7 +37,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
          */
 
         val mapSelected = intent.getStringExtra("mapChosen").toString()
-        val troopSelected = mutableListOf<String>(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
+        val troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
 
 
         gameView = findViewById(R.id.gameView)
@@ -47,32 +47,21 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card2))
         cardList.add(findViewById(R.id.card3))
 
-        for (card in cardList) {
-            card.setOnClickListener(this)
-        }
-
 
         configureGame(mapSelected, troopSelected)
         game.start()
-
-        //game.resourceBar.linkWidget(progressBar) // hum hum hum
-
-        val timer = Timer()
-
 
 
         mainHandler = Handler(Looper.getMainLooper())
 
     }
 
-    var i = 0
+
 
     private val updateBar = object : Runnable {
         override fun run() {
-            progressBar.setProgress(game.resources.toInt())
-            i++
-            //progressBar.setProgress(i)
-            mainHandler.postDelayed(this, 50)
+            progressBar.progress = game.resources.toInt()
+            mainHandler.postDelayed(this, 10)
         }
     }
 
@@ -80,9 +69,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         game.setMap(mapSelected)
         for (i in 0 until cardList.size) {
             cardList[i].setCard(cardSelected[i])
-            /*cardList[i].setOnClickListener {
-                game.playCard(i-1)
-            }*/
+            cardList[i].setOnClickListener(this)
         }
     }
 
@@ -132,8 +119,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 }
 
 
-//TODO Send String instead with the correct name
-//val mapSelected = intent.getIntExtra("mapSelected", 414) //Default value ?
 
 
 
