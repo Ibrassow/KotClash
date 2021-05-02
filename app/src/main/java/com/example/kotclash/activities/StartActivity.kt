@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +27,7 @@ class StartActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             setContentView(R.layout.activity_start)
-            sampleChoosable = arrayOf<ImageView?>(findViewById(R.id.mapChoose), findViewById(R.id.troop1Choose), troop2Choose, troop3Choose)
+            sampleChoosable = arrayOf<ImageView?>(findViewById(R.id.mapChoose),findViewById(R.id.troop1Choose),findViewById(R.id.troop2Choose), findViewById(R.id.troop3Choose))
             for (choosable in sampleChoosable){
                 choosable?.setOnClickListener{
                     if (choosable == sampleChoosable[0]) {
@@ -41,8 +40,7 @@ class StartActivity : AppCompatActivity() {
                             i++
                         }
                     }
-                    else {
-                        if (choosable == sampleChoosable[1] ){
+                    else if (choosable == sampleChoosable[1] ){
                             if (j == sampleTroops.size) {
                             j = 0
                             choosable.setBackgroundResource(sampleTroops[j])
@@ -51,26 +49,29 @@ class StartActivity : AppCompatActivity() {
                             else {
                             choosable.setBackgroundResource(sampleTroops[j])
                             j++
-                        }
 
-                        } else if (choosable == sampleChoosable[2] ){
+                            }
+
+                        }
+                    else if (choosable == sampleChoosable[2] ){
                             if (k == sampleTroops.size) {
                                 k = 0
-                                choosable.setBackgroundResource(sampleTroops[j])
+                                choosable.setBackgroundResource(sampleTroops[k])
                                 k++
                             }
                             else {
-                                choosable.setBackgroundResource(sampleTroops[j])
+                                choosable.setBackgroundResource(sampleTroops[k])
                                 k++
                             }
-                        } else if (choosable == sampleChoosable[3]){
+                        }
+                    else if (choosable == sampleChoosable[3]){
                             if (l == sampleTroops.size) {
                                 l = 0
-                                choosable.setBackgroundResource(sampleTroops[j])
+                                choosable.setBackgroundResource(sampleTroops[l])
                                 l++
                             }
                             else {
-                                choosable.setBackgroundResource(sampleTroops[j])
+                                choosable.setBackgroundResource(sampleTroops[l])
                                 l++
                             }
             }
@@ -101,7 +102,7 @@ class StartActivity : AppCompatActivity() {
             finish()
         }
 
-        }}}}, 3000)
+        }}}, 3000)
     }
 
 

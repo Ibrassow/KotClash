@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/troop3Choose"
+        android:id="@+id/troop1Choose"
         android:layout_width="82dp"
         android:layout_height="193dp"
         android:layout_marginStart="28dp"
@@ -21,7 +21,7 @@
         tools:ignore="MissingConstraints,RtlCompat" />
 
     <ImageView
-        android:id="@+id/troop2Choose"
+        android:id="@+id/troop3Choose"
         android:layout_width="88dp"
         android:layout_height="191dp"
         android:layout_marginTop="60dp"
@@ -34,7 +34,7 @@
         tools:ignore="MissingConstraints,RtlCompat" />
 
     <ImageView
-        android:id="@+id/troop1Choose"
+        android:id="@+id/troop2Choose"
         android:layout_width="84dp"
         android:layout_height="191dp"
         android:layout_marginTop="60dp"
@@ -88,7 +88,7 @@
         android:layout_width="44dp"
         android:layout_height="19dp"
         android:text="@string/troops"
-        app:layout_constraintBottom_toTopOf="@+id/troop3Choose"
+        app:layout_constraintBottom_toTopOf="@+id/troop1Choose"
         tools:ignore="MissingConstraints,RtlCompat"
         tools:layout_editor_absoluteX="30dp" />
 
