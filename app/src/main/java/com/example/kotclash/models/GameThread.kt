@@ -28,12 +28,12 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
         var startTime: Long
         val targetTime = (1000 / MAX_FPS).toLong()
         var timeElapsed: Long
-        var lastTime: Long = System.nanoTime()
+        var lastTime: Long = System.currentTimeMillis()
 
         while (running) {
 
-            startTime = System.nanoTime()
-            timeElapsed = (startTime - lastTime) / 1000000
+            startTime = System.currentTimeMillis()
+            timeElapsed = (startTime - lastTime)
 
             if (timeElapsed >= targetTime){
 
@@ -48,7 +48,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
                             game.update(timeElapsed)
                             gameView.draw(canvas!!)
                             Log.d("thread", "calling draw and update from thread : $timeElapsed")
-                            lastTime = System.nanoTime()
+                            lastTime = System.currentTimeMillis()
 
                     }
                 } catch (e: Exception) {
