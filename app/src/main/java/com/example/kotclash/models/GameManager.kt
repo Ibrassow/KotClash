@@ -115,13 +115,15 @@ class GameManager {
 
 
         for (elem in gameObjectList) {
-            if (elem.isEnemy()) {
-                enemyTowersList.add(elem as Tower)
-            } else {
-                allyTowersList.add(elem as Tower)
-            }
+            if (elem is Tower){ //Simple check
+                if (elem.isEnemy()) {
+                    enemyTowersList.add(elem)
+                } else {
+                    allyTowersList.add(elem)
+                }
 
-            map.placeTowers(elem)
+                map.placeTowers(elem)
+            }
         }
         //temporary, initialisation will depend on choices made by player
     }
@@ -167,7 +169,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "submarine", map.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "tank", map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -202,13 +204,24 @@ class GameManager {
     }
 
 
-    fun updateEnemiesDestroyed() {
+    fun updateEnemiesDestroyed(obj: GameObject) {
         enemyTowersDestroyed++
+        for (i in 0 until (enemyTowersList.size)){
+            if (enemyTowersList[i].ix == obj.ix){
+                enemyTowersList.remove(obj)
+            }
+        }
+
     }
 
 
-    fun updateAlliesDestroyed() {
+    fun updateAlliesDestroyed(obj: GameObject) {
         allyTowersDestroyed++
+        for (i in 0 until (allyTowersList.size)){
+            if (allyTowersList[i].ix == obj.ix){
+                allyTowersList.remove(obj)
+            }
+        }
     }
 
 

@@ -3,6 +3,8 @@ package com.example.kotclash.models
 import android.util.Log
 import java.lang.IndexOutOfBoundsException
 import kotlin.math.ceil
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 class Map()  {
@@ -165,9 +167,33 @@ class Map()  {
         grid[y][x].removeOccupant(obj)
     }
 
+    private fun dist(c1: Pair<Float, Float>, c2: Pair<Float, Float>): Float {
+    return sqrt((c1.first - c2.first).pow(2) + (c1.first - c2.first).pow(2))
+    }
 
-    fun updateGates(obj:GameObject){
-        //TODO: se débarasser de la gate ds posGate
+
+    fun getClosestGate(obj: GameObject): Pair<Float, Float>? {
+        var gateChoice : Pair<Float, Float>? = null
+        var minDist = 5000000f
+
+
+        var currDist: Float
+
+        //TODO Handle the case when distances are equal?
+        posGate.forEach { (gate, _) ->
+            currDist = dist(obj.coordinates, posGate[gate]!!)
+            if (currDist<minDist){
+                minDist = currDist
+                gateChoice = posGate[gate]!!
+            }
+        }
+
+        if (posGate.isEmpty()){
+            gateChoice = null
+        }
+
+
+        return gateChoice
     }
 }
 

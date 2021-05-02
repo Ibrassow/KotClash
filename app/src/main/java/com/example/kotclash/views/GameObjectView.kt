@@ -36,7 +36,7 @@ class GameObjectView(val view : GameView) {
                 when (obj.type) {
                     "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
                     "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
-                    "submarine" -> {
+                    "tank" -> {
                         val submarineE = createSubImageAt(submarine,obj.currentOrientation)
                         //submarine = createSubImageAt("Nord-Ouest")
                         canvas.drawBitmap(submarineE, null, obj.rectF, paint)

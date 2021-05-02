@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import kotlin.math.*
 
 
@@ -31,14 +30,15 @@ open class Troop(enemy: Boolean,
     fun move(interval : Long, map: Map) {
 
         if (onOwnSide()) {
-            lookAheadPoint = getClosestGate(map.posGate)
+            //lookAheadPoint = getClosestGate(map.posGate)
+            lookAheadPoint = map.getClosestGate(this)!!
         }else {
             lookAheadPoint = findTargetOfMotion()
             //Log.e("lookAhead","target:$lookAheadPoint")
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)
-        Log.e("orientation","$this orientation = $currentOrientation")
+        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val previousCoordinates = coordinates
         val dx = speed * interval * cos(currentOrientation)
@@ -59,7 +59,7 @@ open class Troop(enemy: Boolean,
 
 
 
-    private fun findTargetOfMotion():Pair<Float,Float>{
+    private fun findTargetOfMotion() : Pair<Float,Float>{
         if(target == null){
             if(isEnemy()) {
                 target = getClosestEnemy(game.allyTowersList)
@@ -67,8 +67,7 @@ open class Troop(enemy: Boolean,
                 target = getClosestEnemy(game.enemyTowersList)
             }
         }
-        val targetCoord = target!!.coordinates
-        return targetCoord
+        return target!!.coordinates
     }
 
 
@@ -76,6 +75,7 @@ open class Troop(enemy: Boolean,
     fun onOwnSide():Boolean{
         var onOwnSide = false
 
+        //TODO Take into account the different maps
         if((coordinates.second <= 11*oldRendH && isEnemy())
                 || (coordinates.second > 11*oldRendH && !isEnemy())){
             onOwnSide = true}
@@ -84,25 +84,6 @@ open class Troop(enemy: Boolean,
     }
 
 
-    fun getClosestGate(posGate: MutableMap<Int, Pair<Float, Float>>): Pair<Float, Float>{
-        //TODO list - more gates
-        val gate1 = posGate[0]!!
-        val gate2 = posGate[1]!!
 
-        val dist1 = sqrt((coordinates.first - gate1.first).pow(2) + (coordinates.second - gate1.second).pow(2))
-        val dist2 = sqrt((coordinates.first - gate2.first).pow(2) + (coordinates.second - gate2.second).pow(2))
-
-        lateinit var gateChoice : Pair<Float, Float>
-        if(dist1 <= dist2){
-            gateChoice = gate1
-        } else if (dist1 > dist2){
-            gateChoice =  gate2
-        }
-        else {
-            //TODO Handle the case when distances are equal
-        }
-
-        return gateChoice
-    }
 
 }

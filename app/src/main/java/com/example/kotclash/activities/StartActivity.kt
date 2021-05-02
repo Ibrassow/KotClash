@@ -30,7 +30,7 @@ class StartActivity : AppCompatActivity() {
             sampleChoosable = arrayOf<ImageView?>(findViewById(R.id.mapChoose),findViewById(R.id.troop1Choose),findViewById(R.id.troop2Choose), findViewById(R.id.troop3Choose))
             for (choosable in sampleChoosable){
                 choosable?.setOnClickListener{
-                    if (choosable == sampleChoosable[0]) {
+                    if (choosable == sampleChoosable[0]) {git status
                         if (i == sampleMaps.size) {
                             i = 0
                             choosable.setBackgroundResource(sampleMaps[i])
