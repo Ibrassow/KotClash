@@ -3,6 +3,8 @@ package com.example.kotclash.models
 import android.util.Log
 import java.lang.IndexOutOfBoundsException
 import kotlin.math.ceil
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 class Map()  {
@@ -69,7 +71,7 @@ class Map()  {
             grid[yy][xx].setOccupant(obj)
         }
         catch(e: IndexOutOfBoundsException){
-            Log.d("Exception grid - place", "Index out of bounds")
+            //Log.d("Exception grid - place", "Index out of bounds")
         }
 
 
@@ -85,26 +87,34 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
+        //Log.e("posObj","$x,$y")
+
         //val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
         //val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
 
         //TODO add conditions for walls -- existence of cells
-        for (column in y-range..y+range+1){
-            for (row in x-range..x+range+1){
+        for (row in y-range..y+range+1){
+            for (column in x-range..x+range+1){
                 try {
                     if (grid[row][column].isOccupied()) {
-                        grid[row][column].getEntity().let { objectFound.addAll(it) }
-                        Log.e("ScanArea", "evrything is alright $row $column")
+                        val entitiesScanned = grid[row][column].getEntity()
+                        for(entityScanned in entitiesScanned){
+                            if(entityScanned.isEnemyOf(obj)) {
+                                //entityScanned.let { objectFound.add(it) }
+                                objectFound.add(entityScanned)
+                                //Log.e("ScanArea", "object detected $row $column $entityScanned")
+                            }
+                        }
                     }
                 }catch(e:IndexOutOfBoundsException){
                     val xx = row
                     val yy = column
-                    Log.d("E: ScanArea", "X : $xx, Y: $yy")
-                    Log.e("E: ScanArea", "Index out of bounds")
+                    //Log.d("E: ScanArea", "X : $xx, Y: $yy")
+                    //Log.e("E: ScanArea", "Index out of bounds")
                 }
             }
         }
-
+        //Log.e("objectFound","$objectFound")
         return objectFound
     }
 
@@ -123,12 +133,14 @@ class Map()  {
             try {
                 val x = getColSize()
                 val y = getRowSize()
-                Log.d("SIZEGRID", "X : $x, Y: $y")
+                //Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
+                //Log.e("newPosition","$newX,$newY")
                 grid[oldY][oldX].removeOccupant(obj)
+                //Log.e("oldPosition","$oldX,$oldY")
             }
             catch(e: IndexOutOfBoundsException){
-                Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
+                //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
             }
 
 
@@ -149,8 +161,52 @@ class Map()  {
     }
 
 
+    fun killEntity(obj : GameObject){
+        val x = ceil(obj.coordinates.first/obj.oldRendW).toInt()
+        val y = ceil(obj.coordinates.second/obj.oldRendH).toInt()
+        grid[y][x].removeOccupant(obj)
+    }
+
+    private fun dist(c1: Pair<Float, Float>, c2: Pair<Float, Float>): Float {
+    return sqrt((c1.first - c2.first).pow(2) + (c1.first - c2.first).pow(2))
+    }
+
+    //TODO weird ?
+    fun updateGates(obj:GameObject){
+        /*var keyToRemove : Int = 0
+        var minDist = 5000000.0
+
+        posGate.forEach{ (gate, _) ->
+        if (dist(obj.coordinates, posGate[gate]!!) < minDist){
+            keyToRemove = gate
+        }
+        }
+
+        posGate.remove(keyToRemove)*/
+    }
+
+    fun getClosestGate(obj: GameObject): Pair<Float, Float>? {
+        var gateChoice : Pair<Float, Float>? = null
+        var minDist = 5000000f
 
 
+        var currDist: Float
 
+        //TODO Handle the case when distances are equal?
+        posGate.forEach { (gate, _) ->
+            currDist = dist(obj.coordinates, posGate[gate]!!)
+            if (currDist<minDist){
+                minDist = currDist
+                gateChoice = posGate[gate]!!
+            }
+        }
+
+        if (posGate.isEmpty()){
+            gateChoice = null
+        }
+
+
+        return gateChoice
+    }
 }
 

@@ -28,8 +28,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         TODO - Difficulty level
          */
 
-        val mapSelected = "lava"
-        val troopSelected = mutableListOf<String>("test1", "test2", "test3")
+        val mapSelected = intent.getStringExtra("mapChosen").toString()
+        val troopSelected = mutableListOf<String>(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
 
 
         gameView = findViewById(R.id.gameView)

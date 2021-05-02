@@ -28,6 +28,9 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             "test1" -> {this.setImageResource(R.drawable.tankblue);this.setBackgroundColor(Color.GRAY)}
             "test2" -> this.setImageResource(R.drawable.tankgreen)
             "test3" -> this.setImageResource(R.drawable.tankred)
+            "test4" -> this.setImageResource(R.drawable.awax)
+            "test5" -> this.setImageResource(R.drawable.soldier)
+
         }
 
 

@@ -11,6 +11,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     open val freqShoot = 1500f
     var previousAttackTime = System.currentTimeMillis()
+    var game = GameManager.gameInstance
 
     var target : GameObject? = null
 
@@ -18,8 +19,11 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
+        game.map.killEntity(this)
+        //Log.e("health","$health")
         if (health <= 0) {
             dead = true
+            Log.e("DEAD", "They killed me..")
         }
     }
 
@@ -55,17 +59,25 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     fun selectTarget(map: Map) : GameObject? {
 
         val listEnemiesInRange = getEnemiesInRange(map)
-        Log.e("listEnemies","enem:$listEnemiesInRange")
+        //Log.e("this","$this")
+        //Log.e("listEnemies","enem:$listEnemiesInRange")
 
         var target2 : GameObject? = null
 
 
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
-            val distToClosestEnemy = distToEnemy(closestEnemy)
-            //sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)
-            if (distToClosestEnemy < range*oldRendW) {
-                target2 = closestEnemy
+            val distToClosestEnemy = distToEnemy(closestEnemy!!)
+            //range*oldRendH
+            if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)) {
+            target2 = closestEnemy
+            val xCoord = coordinates.first/oldRendW
+            val yCoord = coordinates.second/oldRendH
+            val targetXCoord = target2.coordinates.first/oldRendW
+            val targetYCoord = target2.coordinates.second/oldRendH
+            //Log.e("target2","$target2")
+            //Log.e("coordinates","$xCoord,$yCoord")
+            //Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
             }
         }
         return target2
@@ -73,22 +85,22 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
 
     //finds closest enemy
-    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject{
+    fun getClosestEnemy(listEnemies: MutableList<GameObject>): GameObject?{
         var smallestDist = 20000f;
-        lateinit var target3 : GameObject
+        var target3:GameObject? = null
 
-        val m = listEnemies.size
-        Log.d("TARGETPOINTSIZE", "$m")
+        //val m = listEnemies.size
+        //Log.d("TARGETPOINTSIZE", "$m")
 
         for(elem in listEnemies){
             var distToEnemy = distToEnemy(elem) //TODO HERE NaN
-            Log.d("TARGETPOINTDIST", "$distToEnemy")
+            //Log.d("TARGETPOINTDIST", "$distToEnemy")
             if(distToEnemy < smallestDist){
                 smallestDist = distToEnemy
                 target3 = elem
             }
         }
-        Log.e("TARGETPOINT", "$target")
+        //Log.e("TARGETPOINT", "$target")
         return target3
     }
 

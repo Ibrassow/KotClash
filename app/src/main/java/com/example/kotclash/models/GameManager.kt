@@ -115,13 +115,15 @@ class GameManager {
 
 
         for (elem in gameObjectList) {
-            if (elem.isEnemy()) {
-                enemyTowersList.add(elem as Tower)
-            } else {
-                allyTowersList.add(elem as Tower)
-            }
+            if (elem is Tower){ //Simple check
+                if (elem.isEnemy()) {
+                    enemyTowersList.add(elem)
+                } else {
+                    allyTowersList.add(elem)
+                }
 
-            map.placeTowers(elem)
+                map.placeTowers(elem)
+            }
         }
         //temporary, initialisation will depend on choices made by player
     }
@@ -134,7 +136,7 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS / 1000.0)
+            timeLeft -= (elapsedTimeMS / 100.0)
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
@@ -167,7 +169,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "submarine", map.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "tank", map.posEnemySpawn[nbRand]!!))
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import kotlin.math.*
 
 
@@ -12,21 +11,18 @@ open class Troop(enemy: Boolean,
     lateinit var lookAheadPoint: Pair<Float,Float>
 
 
-    var game = GameManager.gameInstance
-
-
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
-        if (readyForAttack()) {
-            target = selectTarget(map)
-            if (target != null) {
-                //attack(target!!)
-                //previousAttackTime = System.currentTimeMillis()
-            }else{
-                move(elapsedTimeMS,map)
+        target = selectTarget(map)
+        //Log.e("target","$target")
+        if (target != null) {
+            if(readyForAttack()) {
+                attack(target!!)
+                previousAttackTime = System.currentTimeMillis()
             }
         }else{
             move(elapsedTimeMS,map)
         }
+        //move(elapsedTimeMS,map)
     }
 
 
@@ -34,16 +30,19 @@ open class Troop(enemy: Boolean,
     fun move(interval : Long, map: Map) {
 
         if (onOwnSide()) {
-            lookAheadPoint = getClosestGate(map.posGate)
+            //lookAheadPoint = getClosestGate(map.posGate)
+            lookAheadPoint = map.getClosestGate(this)!!
         }else {
             lookAheadPoint = findTargetOfMotion()
+            //Log.e("lookAhead","target:$lookAheadPoint")
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)
+        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val previousCoordinates = coordinates
         val dx = speed * interval * cos(currentOrientation)
-        val dy = speed * interval * sin(currentOrientation)
+        val dy = speed * interval * -sin(currentOrientation)
 
         //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
@@ -54,19 +53,13 @@ open class Troop(enemy: Boolean,
         Log.e("RR", "prevCoord : $previousCoordinates")
         Log.e("RR", "coord : $coordinates")*/
 
-
-
         map.displace(this, previousCoordinates)
 
     }
 
 
 
-
-
-
-    private fun findTargetOfMotion():Pair<Float,Float>{
-
+    private fun findTargetOfMotion() : Pair<Float,Float>{
         if(target == null){
             if(isEnemy()) {
                 target = getClosestEnemy(game.allyTowersList)
@@ -74,14 +67,15 @@ open class Troop(enemy: Boolean,
                 target = getClosestEnemy(game.enemyTowersList)
             }
         }
-        val targetCoord = target!!.coordinates
-        return targetCoord
+        return target!!.coordinates
     }
+
 
 
     fun onOwnSide():Boolean{
         var onOwnSide = false
 
+        //TODO Take into account the different maps
         if((coordinates.second <= 11*oldRendH && isEnemy())
                 || (coordinates.second > 11*oldRendH && !isEnemy())){
             onOwnSide = true}
@@ -92,6 +86,7 @@ open class Troop(enemy: Boolean,
 
     fun getClosestGate(posGate: MutableMap<Int, Pair<Float, Float>>): Pair<Float, Float>{
         //TODO list - more gates
+
         val gate1 = posGate[0]!!
         val gate2 = posGate[1]!!
 

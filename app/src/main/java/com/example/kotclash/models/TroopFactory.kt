@@ -15,7 +15,7 @@ class TroopFactory(val game : GameManager) {
         when (type){
             "base" -> troopSelect = Base(enemy, coordinates)
             "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates)
-            "submarine" -> troopSelect = Submarine(enemy, coordinates)
+            "tank" -> troopSelect = Tank(enemy, coordinates)
             //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates)
             "boat" -> troopSelect = Boat(enemy, coordinates)
 

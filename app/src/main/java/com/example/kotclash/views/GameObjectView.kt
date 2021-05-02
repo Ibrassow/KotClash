@@ -36,9 +36,8 @@ class GameObjectView(val view : GameView) {
                 when (obj.type) {
                     "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
                     "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
-                    "submarine" -> {
-                        var cc = obj.currentOrientation.toInt()
-                        val submarineE = createSubImageAt(submarine,(cc+3).toInt(),1,8,6)
+                    "tank" -> {
+                        val submarineE = createSubImageAt(submarine,obj.currentOrientation)
                         //submarine = createSubImageAt("Nord-Ouest")
                         canvas.drawBitmap(submarineE, null, obj.rectF, paint)
                         val k =obj.coordinates
@@ -61,9 +60,23 @@ class GameObjectView(val view : GameView) {
         }
     }
 
-    fun createSubImageAt(image: Bitmap, row:Int, col:Int, rowCount: Int,colCount:Int): Bitmap  {
+    fun createSubImageAt(image: Bitmap,  orientation:Float): Bitmap  {
+        var row:Int=0; val col:Int=1; val rowCount: Int=8; val colCount:Int=6
+        when (orientation){
+            in -0.1745..0.1745 -> row = 2
+            in 0.1745..1.3962 -> row = 7
+            in 1.3962..1.74533 -> row = 3
+            in 1.74533..2.96706 -> row = 6
+            in 2.96706..3.1415 -> row = 1
+            in -3.1415..-2.9670 -> row = 1
+            in -2.9670..-1.7453 -> row = 4
+            in -1.7453..-1.3962 -> row = 0
+            in -1.3962..-0.17 -> row = 5
+        }
+
         var width = image.getWidth()/ colCount;
         var height = image.getHeight()/ rowCount;
+
         var subImage :Bitmap  = Bitmap.createBitmap(image, col*width, row* height ,width,height);
         return subImage;
     }

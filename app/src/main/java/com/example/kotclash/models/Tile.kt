@@ -55,6 +55,7 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
                 occupants.remove(obj)
             }
         }
+        //Log.e("occupants Remove","$occupants")
     }
 
 
@@ -62,6 +63,7 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         if (obj !in occupants){
             occupants.add(obj)//works
         }
+        //Log.e("occupants Set","$occupants")
     }
 
 

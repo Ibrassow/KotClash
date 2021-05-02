@@ -6,7 +6,14 @@ class SimpleTower(enemy: Boolean,
 ) : Tower(enemy, coordinates) {
 
     override var type = "simpleTower"
-    override val freqShoot = 2000f
+    override val freqShoot = 100f
     override val damage = 10
     override var health = 50
+
+    override fun getDamaged(dmg: Int) {
+        super.getDamaged(dmg)
+        if(dead){
+            game.map.updateGates(this)
+        }
+    }
 }

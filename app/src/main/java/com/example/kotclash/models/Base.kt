@@ -1,6 +1,7 @@
 package com.example.kotclash.models
 
-class Base(enemy: Boolean, coordinates : Pair<Float,Float>
+class Base(enemy: Boolean,
+           coordinates : Pair<Float,Float>
 ) : Tower(enemy, coordinates) {
 
     val gameManager = GameManager.gameInstance
@@ -17,7 +18,7 @@ class Base(enemy: Boolean, coordinates : Pair<Float,Float>
     override fun getDamaged(dmg: Int) {
         super.getDamaged(dmg)
         if (dead && enemy){
-            //gameManager.setGameOver(true) //TODO
+            gameManager.setGameOver(true)
         }
     }
 

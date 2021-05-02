@@ -73,7 +73,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
             }
 
 
-            }
+        }
 
     }
 
