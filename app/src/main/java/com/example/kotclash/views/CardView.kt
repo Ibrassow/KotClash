@@ -26,9 +26,9 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         //imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
 
         when (cardName) {
-            "test1" -> {this.setImageResource(R.drawable.tankblue);this.setBackgroundColor(Color.GRAY)}
-            "test2" -> this.setImageResource(R.drawable.tankgreen)
-            "test3" -> this.setImageResource(R.drawable.tankred)
+            "test1" -> {this.setImageResource(R.drawable.tankred);this.setBackgroundColor(Color.GRAY)}
+            "test2" -> this.setImageResource(R.drawable.tankblue)
+            "test3" -> this.setImageResource(R.drawable.tankgreen)
             "test4" -> this.setImageResource(R.drawable.awax)
             "test5" -> this.setImageResource(R.drawable.soldier)
         }

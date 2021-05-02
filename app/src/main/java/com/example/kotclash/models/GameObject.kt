@@ -43,7 +43,7 @@ open class GameObject(
     }
 
 
-
+    //X,y should rather be the center ..
     fun setRect(rendW : Float, rendH : Float){
         val x = (coordinates.first / oldRendW * rendW)
         val y = (coordinates.second / oldRendH * rendH)

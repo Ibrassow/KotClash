@@ -30,11 +30,9 @@ open class Troop(enemy: Boolean,
     fun move(interval : Long, map: Map) {
 
         if (onOwnSide()) {
-            //lookAheadPoint = getClosestGate(map.posGate)
             lookAheadPoint = map.getClosestGate(this)!!
         }else {
             lookAheadPoint = findTargetOfMotion()
-            //Log.e("lookAhead","target:$lookAheadPoint")
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)

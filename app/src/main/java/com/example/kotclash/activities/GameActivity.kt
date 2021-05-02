@@ -1,11 +1,15 @@
 package com.example.kotclash.activities
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import com.example.kotclash.R
 import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.CardView
@@ -37,7 +41,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
          */
 
         val mapSelected = intent.getStringExtra("mapChosen").toString()
-        val troopSelected = mutableListOf<String>(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
+        val troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
 
 
         gameView = findViewById(R.id.gameView)
@@ -47,32 +51,24 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card2))
         cardList.add(findViewById(R.id.card3))
 
-        for (card in cardList) {
-            card.setOnClickListener(this)
-        }
-
 
         configureGame(mapSelected, troopSelected)
         game.start()
-
-        //game.resourceBar.linkWidget(progressBar) // hum hum hum
-
-        val timer = Timer()
-
 
 
         mainHandler = Handler(Looper.getMainLooper())
 
     }
 
-    var i = 0
+
 
     private val updateBar = object : Runnable {
         override fun run() {
-            progressBar.setProgress(game.resources.toInt())
-            i++
-            //progressBar.setProgress(i)
+            progressBar.progress = game.resources.toInt()
             mainHandler.postDelayed(this, 50)
+            if (game.GAMEOVER){
+                showGameOverDialog(R.string.GameOverM)
+            }
         }
     }
 
@@ -80,9 +76,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         game.setMap(mapSelected)
         for (i in 0 until cardList.size) {
             cardList[i].setCard(cardSelected[i])
-            /*cardList[i].setOnClickListener {
-                game.playCard(i-1)
-            }*/
+            cardList[i].setOnClickListener(this)
         }
     }
 
@@ -101,6 +95,48 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 game.playCard(3)
             }
         }
+    }
+
+
+
+    fun showGameOverDialog(messageId: Int) {
+
+        class GameResult: DialogFragment() {
+
+            override fun onCreateDialog(bundle: Bundle?): Dialog {
+                val builder = AlertDialog.Builder(activity)
+                builder.setTitle(resources.getString(messageId))
+                builder.setMessage(
+                        resources.getString(
+                                R.string.GameOverM
+                        )
+                )
+
+                builder.setPositiveButton(R.string.reset_game,
+                        DialogInterface.OnClickListener { _, _-> newGame()}
+                )
+                return builder.create()
+            }
+        }
+
+        this.runOnUiThread {
+            val ft = this.supportFragmentManager.beginTransaction()
+            val prev =
+                    this.supportFragmentManager.findFragmentByTag("dialog")
+            if (prev != null) {
+                ft.remove(prev)
+            }
+            ft.addToBackStack(null)
+            val gameResult = GameResult()
+            gameResult.isCancelable = false
+            gameResult.show(ft,"dialog")
+        }
+
+    }
+
+
+    fun newGame(){
+
     }
 
 
@@ -132,8 +168,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 }
 
 
-//TODO Send String instead with the correct name
-//val mapSelected = intent.getIntExtra("mapSelected", 414) //Default value ?
 
 
 

@@ -8,4 +8,8 @@
     <string name="abordage">Á l\'abordage !</string>
     <string name="jeter_l_ancre">jeter l\'ancre</string>
     <string name="todo">TODO</string>
+    <string name="tap_on_to_change">Tap on to change</string>
+    <string name="GameOverM">Boy, you have lost</string>
+    <string name="GameWinM">You are a brave and strong boy</string>
+    <string name="reset_game">Another one!</string>
 </resources>
