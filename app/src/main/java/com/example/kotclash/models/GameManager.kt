@@ -115,13 +115,15 @@ class GameManager {
 
 
         for (elem in gameObjectList) {
-            if (elem.isEnemy()) {
-                enemyTowersList.add(elem as Tower)
-            } else {
-                allyTowersList.add(elem as Tower)
-            }
+            if (elem is Tower){ //Simple check
+                if (elem.isEnemy()) {
+                    enemyTowersList.add(elem)
+                } else {
+                    allyTowersList.add(elem)
+                }
 
-            map.placeTowers(elem)
+                map.placeTowers(elem)
+            }
         }
         //temporary, initialisation will depend on choices made by player
     }

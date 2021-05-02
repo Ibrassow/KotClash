@@ -30,7 +30,8 @@ open class Troop(enemy: Boolean,
     fun move(interval : Long, map: Map) {
 
         if (onOwnSide()) {
-            lookAheadPoint = getClosestGate(map.posGate)
+            //lookAheadPoint = getClosestGate(map.posGate)
+            lookAheadPoint = map.getClosestGate(this)!!
         }else {
             lookAheadPoint = findTargetOfMotion()
             //Log.e("lookAhead","target:$lookAheadPoint")
@@ -85,6 +86,7 @@ open class Troop(enemy: Boolean,
 
     fun getClosestGate(posGate: MutableMap<Int, Pair<Float, Float>>): Pair<Float, Float>{
         //TODO list - more gates
+
         val gate1 = posGate[0]!!
         val gate2 = posGate[1]!!
 
