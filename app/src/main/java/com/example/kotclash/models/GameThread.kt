@@ -11,7 +11,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     private var running: Boolean = false
     private var locked = false
 
-    private val MAX_FPS = 60
+    private val MAX_FPS = 50
     private val game: GameManager = GameManager.gameInstance
 
     init {
@@ -30,7 +30,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
         var timeElapsed: Long
         var lastTime: Long = System.currentTimeMillis()
 
-        while (running) {
+        while (running && !game.GAMEOVER) {
 
             startTime = System.currentTimeMillis()
             timeElapsed = (startTime - lastTime)

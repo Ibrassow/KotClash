@@ -23,7 +23,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
         //Log.e("health","$health")
         if (health <= 0) {
             dead = true
-            Log.e("DEAD", "They killed me..")
+            Log.e("DEAD", "They killed me.. a $type")
         }
     }
 

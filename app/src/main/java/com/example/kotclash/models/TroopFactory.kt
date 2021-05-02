@@ -16,8 +16,10 @@ class TroopFactory(val game : GameManager) {
             "base" -> troopSelect = Base(enemy, coordinates)
             "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates)
             "tank" -> troopSelect = Tank(enemy, coordinates)
-            //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates)
+            "tankblue" -> troopSelect = Tankblue(enemy, coordinates)
             "boat" -> troopSelect = Boat(enemy, coordinates)
+            //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates)
+
 
         }
 
