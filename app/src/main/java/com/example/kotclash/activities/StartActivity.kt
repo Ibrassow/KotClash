@@ -28,7 +28,8 @@ class StartActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             setContentView(R.layout.activity_start)
-            sampleChoosable = arrayOf<ImageView?>(findViewById(R.id.mapChoose), findViewById(R.id.troop1Choose), troop2Choose, troop3Choose)
+
+            sampleChoosable = arrayOf(findViewById(R.id.mapChoose), findViewById(R.id.troop1Choose), troop2Choose, troop3Choose)
             for (choosable in sampleChoosable){
                 choosable?.setOnClickListener{
                     if (choosable == sampleChoosable[0]) {
