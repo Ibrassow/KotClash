@@ -19,7 +19,7 @@ class StartActivity : AppCompatActivity() {
     val sampleMaps = intArrayOf(R.drawable.springfield, R.drawable.lavafield, R.drawable.winterfield)
     val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.awax,R.drawable.soldier)
     var sampleChoosable = arrayOf<ImageView?>()
-    var i=0;var j=0;var k=0
+    var i=0;var j=0;var k=0;var l=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,29 +41,55 @@ class StartActivity : AppCompatActivity() {
                             i++
                         }
                     }
-                    else if (choosable == sampleChoosable[1] || choosable == sampleChoosable[2] || choosable == sampleChoosable[3]){
-                        if (j == sampleTroops.size) {
+                    else {
+                        if (choosable == sampleChoosable[1] ){
+                            if (j == sampleTroops.size) {
                             j = 0
                             choosable.setBackgroundResource(sampleTroops[j])
                             j++
-                        } else {
+                            }
+                            else {
                             choosable.setBackgroundResource(sampleTroops[j])
                             j++
                         }
-                    }
-                }
+
+                        } else if (choosable == sampleChoosable[2] ){
+                            if (k == sampleTroops.size) {
+                                k = 0
+                                choosable.setBackgroundResource(sampleTroops[j])
+                                k++
+                            }
+                            else {
+                                choosable.setBackgroundResource(sampleTroops[j])
+                                k++
+                            }
+                        } else if (choosable == sampleChoosable[3]){
+                            if (l == sampleTroops.size) {
+                                l = 0
+                                choosable.setBackgroundResource(sampleTroops[j])
+                                l++
+                            }
+                            else {
+                                choosable.setBackgroundResource(sampleTroops[j])
+                                l++
+                            }
             }
 
         startButton = findViewById(R.id.startbutton)
         quitButton = findViewById(R.id.quitbutton)
 
         startButton?.setOnClickListener {
-            var params = listOf<Int>(i,j,k)
+            var params = listOf<Int>(i,j,k,l)
             val intent = Intent(this, GameActivity::class.java)
             Log.wtf("my wtf tag", "start dit "+ params.toString())
-            intent.putExtra("mapChosen", i)
-            intent.putExtra("troopChosen", j)
-            intent.putExtra("towerChosen", k)
+            when (i){
+                1 -> intent.putExtra("mapChosen", "spring")
+                2 -> intent.putExtra("mapChosen", "lava")
+                3 -> intent.putExtra("mapChosen", "lava")
+            }
+            intent.putExtra("troop1Chosen", "test"+j.toString())
+            intent.putExtra("troop2Chosen", "test"+k.toString())
+            intent.putExtra("troop3Chosen", "test"+l.toString())
             startActivity(intent);
         }
 
@@ -75,7 +101,7 @@ class StartActivity : AppCompatActivity() {
             finish()
         }
 
-        }, 3000)
+        }}}}, 3000)
     }
 
 
