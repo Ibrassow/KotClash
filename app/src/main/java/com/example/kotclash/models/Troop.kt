@@ -84,26 +84,6 @@ open class Troop(enemy: Boolean,
     }
 
 
-    fun getClosestGate(posGate: MutableMap<Int, Pair<Float, Float>>): Pair<Float, Float>{
-        //TODO list - more gates
 
-        val gate1 = posGate[0]!!
-        val gate2 = posGate[1]!!
-
-        val dist1 = sqrt((coordinates.first - gate1.first).pow(2) + (coordinates.second - gate1.second).pow(2))
-        val dist2 = sqrt((coordinates.first - gate2.first).pow(2) + (coordinates.second - gate2.second).pow(2))
-
-        lateinit var gateChoice : Pair<Float, Float>
-        if(dist1 <= dist2){
-            gateChoice = gate1
-        } else if (dist1 > dist2){
-            gateChoice =  gate2
-        }
-        else {
-            //TODO Handle the case when distances are equal
-        }
-
-        return gateChoice
-    }
 
 }
