@@ -23,9 +23,9 @@ open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
     override fun getDamaged(dmg: Int) {
         super.getDamaged(dmg)
         if(dead && enemy){
-            game.updateEnemiesDestroyed()
+            game.updateEnemiesDestroyed(this)
         }else if(dead && !enemy){
-            game.updateAlliesDestroyed()
+            game.updateAlliesDestroyed(this)
         }
     }
 

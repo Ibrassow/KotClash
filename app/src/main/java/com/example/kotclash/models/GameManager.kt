@@ -204,13 +204,24 @@ class GameManager {
     }
 
 
-    fun updateEnemiesDestroyed() {
+    fun updateEnemiesDestroyed(obj: GameObject) {
         enemyTowersDestroyed++
+        for (i in 0 until (enemyTowersList.size)){
+            if (enemyTowersList[i].ix == obj.ix){
+                enemyTowersList.remove(obj)
+            }
+        }
+
     }
 
 
-    fun updateAlliesDestroyed() {
+    fun updateAlliesDestroyed(obj: GameObject) {
         allyTowersDestroyed++
+        for (i in 0 until (allyTowersList.size)){
+            if (allyTowersList[i].ix == obj.ix){
+                allyTowersList.remove(obj)
+            }
+        }
     }
 
 

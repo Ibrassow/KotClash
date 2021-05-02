@@ -56,7 +56,7 @@ open class GameObject(
     }
 
 
-    open fun takeAction(elapsedTimeMS: Long, grid: Map){}
+    open fun takeAction(elapsedTimeMS: Long, map: Map){}
 
     /*fun isObstacle(){
     }*/

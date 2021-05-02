@@ -171,19 +171,6 @@ class Map()  {
     return sqrt((c1.first - c2.first).pow(2) + (c1.first - c2.first).pow(2))
     }
 
-    //TODO weird ?
-    fun updateGates(obj:GameObject){
-        /*var keyToRemove : Int = 0
-        var minDist = 5000000.0
-
-        posGate.forEach{ (gate, _) ->
-        if (dist(obj.coordinates, posGate[gate]!!) < minDist){
-            keyToRemove = gate
-        }
-        }
-
-        posGate.remove(keyToRemove)*/
-    }
 
     fun getClosestGate(obj: GameObject): Pair<Float, Float>? {
         var gateChoice : Pair<Float, Float>? = null
