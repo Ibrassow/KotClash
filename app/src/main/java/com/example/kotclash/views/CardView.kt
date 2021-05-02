@@ -11,11 +11,12 @@ import com.example.kotclash.R
 
 class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyle) {
 
-    val paint = Paint()
+    lateinit var cardName: String
     //lateinit var imageCard : Bitmap
 
 
-    fun setCard(cardName: String){
+    fun setCard(cardname: String){
+        cardName = cardname
         initView(cardName)
     }
 
@@ -30,9 +31,18 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             "test3" -> this.setImageResource(R.drawable.tankred)
             "test4" -> this.setImageResource(R.drawable.awax)
             "test5" -> this.setImageResource(R.drawable.soldier)
-
         }
 
+
+    }
+
+
+    fun grey(){
+        when (cardName){
+            "test1" -> this.setImageResource(R.drawable.gtankblue)
+            "test2" -> this.setImageResource(R.drawable.gtankgreen)
+            "test3" -> this.setImageResource(R.drawable.gtankred)
+        }
 
     }
 

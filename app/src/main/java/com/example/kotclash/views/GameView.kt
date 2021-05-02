@@ -32,11 +32,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     var screenHeight = 0f
 
 
+
     init{
         backgroundPaint.color = Color.WHITE
 
-
-        holder.addCallback( this)
+        holder.addCallback(this)
         this.isFocusable = true
         thread = GameThread(holder, this)
     }
@@ -56,9 +56,9 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     //Temporary solution
 
-    var objListSize = game.gameObjectList.size
-    var minute : Double = 0.0
-    var second : Double = 0.0
+    private var objListSize = game.gameObjectList.size
+    private var minute : Double = 0.0
+    private var second : Double = 0.0
 
 
     override fun draw(canvas: Canvas?) {

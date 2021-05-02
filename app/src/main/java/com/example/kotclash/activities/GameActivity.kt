@@ -1,6 +1,8 @@
 package com.example.kotclash.activities
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -8,13 +10,19 @@ import com.example.kotclash.R
 import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView
+import java.util.*
+import kotlin.concurrent.timerTask
 
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
 
+    lateinit var mainHandler: Handler
+
     val game = GameManager.gameInstance
-    lateinit var gameView : GameView
+    lateinit var gameView: GameView
+
     lateinit var progressBar : ProgressBar
+
     val cardList = mutableListOf<CardView>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,12 +54,31 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
         configureGame(mapSelected, troopSelected)
         game.start()
-        game.resourceBar.linkWidget(progressBar) // hum hum hum
+
+        //game.resourceBar.linkWidget(progressBar) // hum hum hum
+
+        val timer = Timer()
+
+
+
+        mainHandler = Handler(Looper.getMainLooper())
+
     }
 
-    fun configureGame(mapSelected : String,cardSelected : MutableList<String>){
+    var i = 0
+
+    private val updateBar = object : Runnable {
+        override fun run() {
+            progressBar.setProgress(game.resources.toInt())
+            i++
+            //progressBar.setProgress(i)
+            mainHandler.postDelayed(this, 50)
+        }
+    }
+
+    fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
         game.setMap(mapSelected)
-        for (i in 0 until cardList.size){
+        for (i in 0 until cardList.size) {
             cardList[i].setCard(cardSelected[i])
             /*cardList[i].setOnClickListener {
                 game.playCard(i-1)
@@ -80,12 +107,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     override fun onPause() {
         super.onPause()
         gameView.pause()
+        mainHandler.removeCallbacks(updateBar)
 
     }
 
     override fun onResume() {
         super.onResume()
         gameView.resume()
+        mainHandler.post(updateBar)
     }
 
     override fun onDestroy() {
@@ -94,7 +123,13 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    }
+
+
+
+
+
+
+}
 
 
 //TODO Send String instead with the correct name

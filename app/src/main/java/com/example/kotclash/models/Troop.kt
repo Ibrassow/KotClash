@@ -71,7 +71,6 @@ open class Troop(enemy: Boolean,
     }
 
 
-
     fun onOwnSide():Boolean{
         var onOwnSide = false
 
