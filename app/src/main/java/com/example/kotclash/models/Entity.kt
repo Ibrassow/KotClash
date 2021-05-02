@@ -67,17 +67,17 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
         if (listEnemiesInRange.isNotEmpty()) {
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
             val distToClosestEnemy = distToEnemy(closestEnemy!!)
-            //sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)
-            //if (distToClosestEnemy < range*oldRendH) { //TODO: put that back
+            //range*oldRendH
+            if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)) {
             target2 = closestEnemy
             val xCoord = coordinates.first/oldRendW
             val yCoord = coordinates.second/oldRendH
-            val targetXCoord = target2!!.coordinates.first/oldRendW
-            val targetYCoord = target2!!.coordinates.second/oldRendH
+            val targetXCoord = target2.coordinates.first/oldRendW
+            val targetYCoord = target2.coordinates.second/oldRendH
             //Log.e("target2","$target2")
             //Log.e("coordinates","$xCoord,$yCoord")
             //Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
-            //}
+            }
         }
         return target2
     }
@@ -88,7 +88,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
         var smallestDist = 20000f;
         var target3:GameObject? = null
 
-        val m = listEnemies.size
+        //val m = listEnemies.size
         //Log.d("TARGETPOINTSIZE", "$m")
 
         for(elem in listEnemies){

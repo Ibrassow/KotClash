@@ -167,7 +167,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "submarine", map.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "tank", map.posEnemySpawn[nbRand]!!))
         }
     }
 

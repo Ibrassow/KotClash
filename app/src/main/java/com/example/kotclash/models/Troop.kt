@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import kotlin.math.*
 
 
@@ -38,7 +37,7 @@ open class Troop(enemy: Boolean,
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)
-        Log.e("orientation","$this orientation = $currentOrientation")
+        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val previousCoordinates = coordinates
         val dx = speed * interval * cos(currentOrientation)
@@ -59,7 +58,7 @@ open class Troop(enemy: Boolean,
 
 
 
-    private fun findTargetOfMotion():Pair<Float,Float>{
+    private fun findTargetOfMotion() : Pair<Float,Float>{
         if(target == null){
             if(isEnemy()) {
                 target = getClosestEnemy(game.allyTowersList)
@@ -67,8 +66,7 @@ open class Troop(enemy: Boolean,
                 target = getClosestEnemy(game.enemyTowersList)
             }
         }
-        val targetCoord = target!!.coordinates
-        return targetCoord
+        return target!!.coordinates
     }
 
 
@@ -76,6 +74,7 @@ open class Troop(enemy: Boolean,
     fun onOwnSide():Boolean{
         var onOwnSide = false
 
+        //TODO Take into account the different maps
         if((coordinates.second <= 11*oldRendH && isEnemy())
                 || (coordinates.second > 11*oldRendH && !isEnemy())){
             onOwnSide = true}
