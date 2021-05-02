@@ -48,7 +48,9 @@ class GameManager {
 
     private val enemyGenerationFreq : Long = 10
     var previousEnemyGenerationTime = System.currentTimeMillis()
-    var resources = 2000000000000f //Test
+    var resources = 0f
+    val speedFill = 1/100f
+    private val RESOURCESMAX = 100f
 
 
 
@@ -59,7 +61,6 @@ class GameManager {
     var allyTowersDestroyed = 0
 
 
-    val resourceBar = ResourceBar()
 
     var timeLeft = 180.0
 
@@ -143,8 +144,7 @@ class GameManager {
             if (timeLeft <= 0) {
                 endGame()
             }
-            updateResourceBar(elapsedTimeMS)
-            resources = getResourceBar()
+            updateResource(elapsedTimeMS)
             takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
             autonomousEnemyGeneration(map)
 
@@ -194,13 +194,24 @@ class GameManager {
     }
 
 
-    fun getResourceBar(): Float {
-        return resourceBar.checkResourceBar()
+
+
+    fun updateResource(elapsedTimeMS: Long) {
+        if (resources <= RESOURCESMAX){
+            if (resources < 0){
+                resources = 0f
+            }else{
+                resources += elapsedTimeMS * speedFill
+            }
+        }
+        else {
+            resources = RESOURCESMAX
+        }
+
     }
 
-
-    fun updateResourceBar(elapsedTimeMS: Long) {
-        resourceBar.updateResourceBar(elapsedTimeMS)
+    fun useResource(price: Int) {
+        resources -= price
     }
 
 
@@ -258,6 +269,7 @@ class GameManager {
             //"Egalité"
             destroy()
         } else if (gameWon == true) {
+            //Log.e("WIN", "YEAH")
             //"Vous avez gagné"
         } else {
             //"Vous avez perdu"

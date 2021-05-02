@@ -19,15 +19,18 @@ class CardManager(val troopFactory: TroopFactory, var game : GameManager) {
         Log.e("BOOL", "$i")
         when(cardNumber){
             1 -> {if(resources > costTank){game.gameObjectList.add(troopFactory.getTroop(false,"tank", coordinates))
-                game.resourceBar.useResource(1)}
+                //game.resourceBar.useResource(1)
+                game.useResource(10)}
             Log.e("cardM", "please")
                 val nn = game.gameObjectList.size
                 Log.e("sizeObjListCM", "$nn")}
             2 -> {if(resources > costTank){game.gameObjectList.add(troopFactory.getTroop(false,"tank", coordinates))
-                game.resourceBar.useResource(1)}
+                //game.resourceBar.useResource(1)
+                game.useResource(10)}
                 Log.e("cardM", "please")}
             3 -> {if(resources > costTank){game.gameObjectList.add(troopFactory.getTroop(false,"tank", coordinates))
-                game.resourceBar.useResource(1)}
+                //game.resourceBar.useResource(1)
+                game.useResource(10)}
                 Log.e("cardM", "please")}
         }
     }
