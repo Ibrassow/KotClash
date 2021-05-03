@@ -24,20 +24,17 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var progressBar : ProgressBar
 
     val cardList = mutableListOf<CardView>()
+    lateinit var mapSelected : String
+    var troopSelected = mutableListOf<String>()
+
+    var i = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        /*TODO INTENT should give the following:
-        TODO - mapSelected : String
-        TODO - cardList : List of 3 strings with the troop choice
-        TODO - Initial set of towers!
-        TODO - Difficulty level
-         */
-
-        val mapSelected = intent.getStringExtra("mapChosen").toString()
-        val troopSelected = mutableListOf<String>(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
+        mapSelected = intent.getStringExtra("mapChosen").toString()
+        troopSelected = mutableListOf<String>(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
 
 
         gameView = findViewById(R.id.gameView)
@@ -51,21 +48,13 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             card.setOnClickListener(this)
         }
 
-
         configureGame(mapSelected, troopSelected)
         game.start()
-
-        //game.resourceBar.linkWidget(progressBar) // hum hum hum
-
         val timer = Timer()
-
-
 
         mainHandler = Handler(Looper.getMainLooper())
 
     }
-
-    var i = 0
 
     private val updateBar = object : Runnable {
         override fun run() {
@@ -90,15 +79,15 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.card1 -> {
-                game.playCard(1)
+                game.playCard(troopSelected[0])
             }
 
             R.id.card2 -> {
-                game.playCard(2)
+                game.playCard(troopSelected[1])
             }
 
             R.id.card3 -> {
-                game.playCard(3)
+                game.playCard(troopSelected[2])
             }
         }
     }
@@ -121,13 +110,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         super.onDestroy()
         GameManager.destroy()
     }
-
-
-
-
-
-
-
 
 }
 
