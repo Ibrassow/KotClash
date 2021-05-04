@@ -41,6 +41,7 @@ class MapLoader() {
         var ally_s_id = 0
         var enemy_s_id = 0
         var gate_id = 0
+        var wt_id = 0
 
 
         val inputStream = App.getContext().resources.assets.open("$filename.txt")
@@ -94,6 +95,11 @@ class MapLoader() {
                         }
                         "W" -> { //Wall
                             map.grid[i].add(Tile(xi, yi, "wall"))
+                        }
+                        "T" -> { //Wall + Tag
+                            map.grid[i].add(Tile(xi, yi, "wall"))
+                            map.wallTag[wt_id] = Pair(xi, yi)
+                            wt_id++
                         }
                         "G" -> { //Gate
                             map.grid[i].add(Tile(xi, yi, "soil"))
