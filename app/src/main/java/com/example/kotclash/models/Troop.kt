@@ -28,8 +28,8 @@ open class Troop(enemy: Boolean,
 
 
     fun move(interval : Long, map: Map) {
-
-        if (onOwnSide()) {
+        //onOwnSide()
+        if (map.onOwnSide(this)) {
             lookAheadPoint = map.getClosestGate(this)!!
         }else {
             lookAheadPoint = findTargetOfMotion()

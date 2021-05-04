@@ -1,14 +1,6 @@
 package com.example.kotclash.models
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
-import com.example.kotclash.App
-import com.example.kotclash.activities.GameActivity
-import com.example.kotclash.activities.StartActivity
-import com.google.android.material.internal.ContextUtils.getActivity
 import kotlin.math.floor
 
 
@@ -165,7 +157,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "tank", map.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "soldier", map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -246,13 +238,12 @@ class GameManager {
     }*/
 
 
-    fun playCard(nbCard : Int) {
+    fun playCard(nmCard : String) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
-        cardManager.playCard(nbCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
+        cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         val v = map.posAllySpawn[nbRand]!!
         Log.e("OKAYBOY", "$v")
 
-        //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
     }
 
 

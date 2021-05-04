@@ -18,6 +18,10 @@ class Map()  {
     val posAllySpawn = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
     val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
     val posGate = mutableMapOf<Int, Pair<Float, Float>>()
+    val wallTag = mutableMapOf<Int, Pair<Float, Float>>()
+
+    var slope : Float = 0f
+    var originLine : Float = 0f
 
     //Don't change
     var oldRendW = 1f
@@ -30,6 +34,7 @@ class Map()  {
         posAllySpawn.clear()
         posEnemySpawn.clear()
         posGate.clear()
+        wallTag.clear()
     }
 
     fun getRowSize() : Int {
@@ -150,11 +155,47 @@ class Map()  {
 
     }
 
+
+    private fun setCoeffFrontier(){
+
+        slope = (wallTag[1]!!.second - wallTag[0]!!.second) / (wallTag[1]!!.first - wallTag[0]!!.first)
+        originLine = wallTag[0]!!.second
+
+    }
+
+    private fun calculateFrontierPt(x : Float) : Float{
+        return slope * x + originLine
+    }
+
+    fun onOwnSide(obj: GameObject): Boolean{
+        val onMySide : Boolean
+
+        val x = obj.coordinates.first
+        val y = obj.coordinates.second
+        val correspondingFrontierPt = calculateFrontierPt(x)
+
+        onMySide = if (obj.isEnemy()){
+            correspondingFrontierPt >= y
+        }
+        else{
+            correspondingFrontierPt < y
+        }
+
+        return onMySide
+
+    }
+
     fun posSetRect(rendW: Float, rendH: Float){
 
        posGate.forEach { (gate, pos) ->
            posGate[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
        }
+        wallTag.forEach { (gate, pos) ->
+            wallTag[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
+        }
+
+        setCoeffFrontier()
+
         oldRendW = rendW
         oldRendH = rendH
 
