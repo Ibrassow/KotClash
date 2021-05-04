@@ -7,15 +7,12 @@ import kotlin.math.sin
 class Projectile(enemy: Boolean,
                  val target: Entity,
                  coordinates : Pair<Float,Float>,
-                 game: GameManager
+                 override val damage : Int
                 ) : GameObject(enemy, coordinates), Movable {
 
 
 
-    //TODO : def projectile for each troop
-    private val projectileDamage = 0
-    private val speed = 0f
-
+    private val speed = 1f
 
     override fun takeAction(elapsedTimeMS: Long, grid: Map) {
         val enemyInRange = getEnemiesInRange(grid)
@@ -32,11 +29,11 @@ class Projectile(enemy: Boolean,
     //implement interface for movement
     fun move(elapsedTimeMS: Long){
         //will need getDirection() -> towards target
-        val direction = getDirection()
+        val currentOrientation = getAngleVector(coordinates,target.coordinates)
 
         val previousCoordinates = coordinates
         val dx = speed*elapsedTimeMS*cos(currentOrientation)
-        val dy = speed*elapsedTimeMS*sin(currentOrientation)
+        val dy = speed*elapsedTimeMS*-sin(currentOrientation)
         //make sure to homogenise order of magnitude of speeds (unit time: s/ms?)
 
         //update x & y in model
@@ -64,6 +61,6 @@ class Projectile(enemy: Boolean,
     override fun attack(entity: GameObject) {
         //could depend on type of projectile -> could also repel troops
         //one option:
-        entity.getDamaged(projectileDamage)
+        entity.getDamaged(damage)
     }
 }

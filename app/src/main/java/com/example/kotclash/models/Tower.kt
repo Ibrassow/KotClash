@@ -1,6 +1,7 @@
 package com.example.kotclash.models
 
 import android.util.Log
+import kotlin.math.ceil
 
 //set base to true when the tower is a base (=> its destruction leads to the end of the game)
 open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
@@ -10,8 +11,13 @@ open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         target = selectTarget(map)
-        Log.e("target","$target")
+        val xCoord = ceil(coordinates.first/oldRendW)
+        val yCoord = ceil(coordinates.second/oldRendH)
+        Log.e("target","$this, $target, ($xCoord,$yCoord)")
         if (target != null) {
+            val xTarget = ceil(target!!.coordinates.first/oldRendW)
+            val yTarget = ceil(target!!.coordinates.second/oldRendH)
+            Log.e("targetFound","($xTarget,$yTarget)")
             if(readyForAttack()) {
                 attack(target!!)
                 previousAttackTime = System.currentTimeMillis()

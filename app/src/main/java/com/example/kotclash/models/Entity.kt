@@ -19,10 +19,10 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
-        game.map.killEntity(this)
         //Log.e("health","$health")
         if (health <= 0) {
             dead = true
+            game.map.killEntity(this)
             Log.e("DEAD", "They killed me.. a $type")
         }
     }
@@ -70,11 +70,11 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
             val distToClosestEnemy = distToEnemy(closestEnemy!!)
             //range*oldRendH
             if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)) {
-            target2 = closestEnemy
-            val xCoord = coordinates.first/oldRendW
-            val yCoord = coordinates.second/oldRendH
-            val targetXCoord = target2.coordinates.first/oldRendW
-            val targetYCoord = target2.coordinates.second/oldRendH
+                target2 = closestEnemy
+            //val xCoord = coordinates.first/oldRendW
+            //val yCoord = coordinates.second/oldRendH
+            //val targetXCoord = target2.coordinates.first/oldRendW
+            //val targetYCoord = target2.coordinates.second/oldRendH
             //Log.e("target2","$target2")
             //Log.e("coordinates","$xCoord,$yCoord")
             //Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")

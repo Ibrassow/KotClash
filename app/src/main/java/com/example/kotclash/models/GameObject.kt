@@ -74,7 +74,9 @@ open class GameObject(
     fun getEnemiesInRange(map: Map): MutableList<GameObject>{
         val xx = ceil(coordinates.first.toDouble()/oldRendW).toInt()
         val yy = ceil(coordinates.second.toDouble()/oldRendH).toInt()
-        return map.scanArea(Pair(xx, yy), range, this)
+        val enemiesAround = map.scanArea(Pair(xx, yy), range, this)
+        Log.e("enemiesAround","$enemiesAround - $this")
+        return enemiesAround
     }
 
 

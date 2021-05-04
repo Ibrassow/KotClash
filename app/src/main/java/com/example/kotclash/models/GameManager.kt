@@ -38,10 +38,10 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq : Long = 10
+    private val enemyGenerationFreq : Long = 3
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 0f
-    val speedFill = 1/100f
+    val speedFill = 1/10f
     private val RESOURCESMAX = 100f
 
 
@@ -111,7 +111,7 @@ class GameManager {
                     allyTowersList.add(elem)
                 }
 
-                map.placeTowers(elem)
+                map.placeTower(elem)
             }
         }
 
@@ -160,6 +160,7 @@ class GameManager {
             gameObjectList.add(troopFactory.getTroop(true, "soldier", map.posEnemySpawn[nbRand]!!))
         }
     }
+
 
     private var readyEnemyGen = false
     //checks whether set time between two enemy creations passed
