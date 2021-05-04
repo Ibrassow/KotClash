@@ -1,8 +1,7 @@
 package com.example.kotclash.models
 
-import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.sin
+import android.util.Log
+import kotlin.math.*
 
 class Projectile(enemy: Boolean,
                  val target: Entity,
@@ -11,10 +10,11 @@ class Projectile(enemy: Boolean,
                 ) : GameObject(enemy, coordinates), Movable {
 
 
-
+    val projRange = 0.5f* sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))
     private val speed = 1f
 
-    override fun takeAction(elapsedTimeMS: Long, grid: Map) {
+    //Implémentation pour missiles qui touchent tt le monde aux alentours
+    /*override fun takeAction(elapsedTimeMS: Long, grid: Map) {
         val enemyInRange = getEnemiesInRange(grid)
         if(enemyInRange.isNotEmpty()){
             for(entity in enemyInRange) {
@@ -23,38 +23,41 @@ class Projectile(enemy: Boolean,
         }else{
             move(elapsedTimeMS)
         }
+    }*/
+
+
+    override fun takeAction(elapsedTimeMS: Long, map: Map) {
+        val dist = distToEnemy(target)
+        if(dist < projRange){
+            attack(target)
+        }else{
+            move(elapsedTimeMS, map)
+        }
     }
 
 
-    //implement interface for movement
-    fun move(elapsedTimeMS: Long){
-        //will need getDirection() -> towards target
-        val currentOrientation = getAngleVector(coordinates,target.coordinates)
+    fun move(interval : Long, map: Map) {
+
+        currentOrientation = getAngleVector(coordinates,target.coordinates)
+        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val previousCoordinates = coordinates
-        val dx = speed*elapsedTimeMS*cos(currentOrientation)
-        val dy = speed*elapsedTimeMS*-sin(currentOrientation)
-        //make sure to homogenise order of magnitude of speeds (unit time: s/ms?)
+        val dx = speed * interval * cos(currentOrientation)
+        val dy = speed * interval * -sin(currentOrientation)
 
         //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
 
         //used to update view
-        rectF.offset(dx,dy)
+        rectF.offset(dx, dy)
+        /*Log.e("EE", "dx : $dx, dy : $dy")
+        Log.e("RR", "prevCoord : $previousCoordinates")*/
+        //val x = coordinates.first/oldRendW
+        //val y = coordinates.second/oldRendH
+        //Log.e("TroopCoord", "coord : $x,$y")
 
-        //notify view of movement
-        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
-                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
-            //grid.displace(this,coordinatesIdx,currentOrientation)
-            //TODO
-        }
-    }
+        map.displace(this, previousCoordinates)
 
-
-    //find direction of movement
-    fun getDirection():Float{
-        val direction = getAngleVector(coordinates,target.coordinates)
-        return direction
     }
 
 

@@ -2,10 +2,7 @@ package com.example.kotclash.models
 
 import android.graphics.RectF
 import android.util.Log
-import kotlin.math.PI
-import kotlin.math.atan
-import kotlin.math.ceil
-import kotlin.math.atan2
+import kotlin.math.*
 import kotlin.properties.Delegates
 
 open class GameObject(
@@ -24,7 +21,7 @@ open class GameObject(
 
 
     var dead = false
-    val range = 3
+    open val range = 3
     open val damage = 0
 
     //Parcelable
@@ -77,6 +74,12 @@ open class GameObject(
         val enemiesAround = map.scanArea(Pair(xx, yy), range, this)
         Log.e("enemiesAround","$enemiesAround - $this")
         return enemiesAround
+    }
+
+
+    //allows to determine the closest enemy
+    fun distToEnemy(entity: GameObject): Float{
+        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
     }
 
 

@@ -16,6 +16,14 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     var target : GameObject? = null
 
 
+    //TODO : dès qu'img prête on peut lancer projectile
+    /*override fun attack(entity: GameObject) {
+        super.attack(entity)
+        game.gameObjectList.add(game.troopFactory.getTroop(true, "soldier",
+                                    coordinates, target as Entity, this))
+    }*/
+
+
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
@@ -25,21 +33,6 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
             game.map.killEntity(this)
             Log.e("DEAD", "They killed me.. a $type")
         }
-    }
-
-    //TODO : should be overridden, as each troop will create its own projectile
-    //TODO : Attack as an interface? -> close/distance/..
-    /*override fun attack(entity: GameObject){
-        val orientation = getInitAngleProjectile(entity)
-        //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
-    }*/
-
-
-
-
-    //allows to determine the closest enemy
-    fun distToEnemy(entity: GameObject): Float{
-        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
     }
 
 
@@ -69,7 +62,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
             val distToClosestEnemy = distToEnemy(closestEnemy!!)
             //range*oldRendH
-            if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)) {
+            if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))) {
                 target2 = closestEnemy
             //val xCoord = coordinates.first/oldRendW
             //val yCoord = coordinates.second/oldRendH
