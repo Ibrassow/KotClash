@@ -72,7 +72,7 @@ open class GameObject(
         val xx = ceil(coordinates.first.toDouble()/oldRendW).toInt()
         val yy = ceil(coordinates.second.toDouble()/oldRendH).toInt()
         val enemiesAround = map.scanArea(Pair(xx, yy), range, this)
-        Log.e("enemiesAround","$enemiesAround - $this")
+        //Log.e("enemiesAround","$enemiesAround - $this")
         return enemiesAround
     }
 

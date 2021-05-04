@@ -10,7 +10,8 @@ coordinates : Pair<Float,Float>
     override val damage = 50
     override var health = 500
     override val speed = 1f
+
     init {
-        Log.e("soldier", "CREATED")
+        //Log.e("soldier", "CREATED")
     }
 }

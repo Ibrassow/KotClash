@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.Log
+import android.view.MotionEvent
 import com.example.kotclash.App
 import com.example.kotclash.models.Map
 import com.example.kotclash.R
@@ -78,6 +79,7 @@ class MapView() {
             }
         }
     }
+
 
     /**
      * Rescale each tile to the new screen size

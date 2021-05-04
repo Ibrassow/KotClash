@@ -79,23 +79,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.card1 -> {
-                game.playCard(troopSelected[0])
-            }
-
-            R.id.card2 -> {
-                game.playCard(troopSelected[1])
-            }
-
-            R.id.card3 -> {
-                game.playCard(troopSelected[2])
-            }
-        }
-    }
-
-
     /*override fun onClick(v: View) {
         when (v.id) {
             R.id.card1 -> {
@@ -111,6 +94,23 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }*/
+
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.card1 -> {
+                game.saveCard(troopSelected[0])
+            }
+
+            R.id.card2 -> {
+                game.saveCard(troopSelected[1])
+            }
+
+            R.id.card3 -> {
+                game.saveCard(troopSelected[2])
+            }
+        }
+    }
 
 
 

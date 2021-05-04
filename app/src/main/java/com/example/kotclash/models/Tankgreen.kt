@@ -12,6 +12,6 @@ class Tankgreen(enemy: Boolean,
         override val speed = 1f
 
         init {
-            Log.e("Tankgreen", "CREATED")
+            //Log.e("Tankgreen", "CREATED")
         }
     }

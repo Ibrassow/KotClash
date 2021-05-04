@@ -16,7 +16,7 @@ open class Troop(enemy: Boolean,
         target = selectTarget(map)
         val xCoord = ceil(coordinates.first/oldRendW)
         val yCoord = ceil(coordinates.second/oldRendH)
-        Log.e("target","$this, $target, ($xCoord,$yCoord)")
+        //Log.e("target","$this, $target, ($xCoord,$yCoord)")
         if (target != null) {
             currentOrientation = getAngleVector(coordinates,target!!.coordinates)
             if(readyForAttack()) {
@@ -55,7 +55,7 @@ open class Troop(enemy: Boolean,
         Log.e("RR", "prevCoord : $previousCoordinates")*/
         val x = coordinates.first/oldRendW
         val y = coordinates.second/oldRendH
-        Log.e("TroopCoord", "coord : $x,$y")
+        //Log.e("TroopCoord", "coord : $x,$y")
 
         map.displace(this, previousCoordinates)
 

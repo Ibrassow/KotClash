@@ -48,7 +48,7 @@ class GameManager {
     var enemyTowersDestroyed = 0
     var allyTowersDestroyed = 0
 
-
+    var cardClicked: String? = null
 
     var timeLeft = 180.0
 
@@ -137,7 +137,7 @@ class GameManager {
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
-            Log.e("sizeObjList", "$nn")
+            //Log.e("sizeObjList", "$nn")
         }
 
 
@@ -198,9 +198,11 @@ class GameManager {
 
     }
 
+
     fun useResource(price: Int) {
         resources -= price
     }
+
 
 
     fun updateEnemiesDestroyed(obj: GameObject) {
@@ -234,19 +236,26 @@ class GameManager {
     }
 
 
-    /*fun saveCard(nbCard: Int) {
-        nbCardClicked = nbCard
-    }*/
+    fun saveCard(card: String?) {
+        cardClicked = card
+    }
 
 
-    fun playCard(nmCard : String) {
+    /*fun playCard(nmCard : String) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         val v = map.posAllySpawn[nbRand]!!
         Log.e("OKAYBOY", "$v")
 
-    }
+    }*/
 
+
+    fun playCard(coordinates: Pair<Float, Float>){
+        if(cardClicked != null){
+            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), coordinates)
+            cardClicked = null
+        }
+    }
 
 
 
