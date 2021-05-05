@@ -87,6 +87,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         backgroundPaint.textSize = (screenWidth/20f)
         if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
+        //TODO if
         canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
 
         backgroundPaint.color = Color.WHITE

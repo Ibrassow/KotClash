@@ -11,7 +11,7 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
     private var running: Boolean = false
     private var locked = false
 
-    private val MAX_FPS = 50
+    private val MAX_FPS : Long = 50
     private val game: GameManager = GameManager.gameInstance
 
     init {
@@ -26,9 +26,8 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
     override fun run() {
         var startTime: Long
-        val targetTime = (1000/MAX_FPS).toLong()
+        val targetTime : Long = 1000/MAX_FPS
         var timeElapsed: Long
-        //var lastTime: Long = System.currentTimeMillis()
 
         var lastTime: Long = System.nanoTime() / 1000000
 
@@ -36,12 +35,9 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
             //startTime = System.currentTimeMillis()
             startTime = System.nanoTime() / 1000000
-
             timeElapsed = (startTime - lastTime)
-            Log.d("threadu", "$startTime : $lastTime")
 
             if (timeElapsed >= targetTime){ // target time ??
-            //if (timeElapsed >= 0){
                 if (holder.surface.isValid) {
                 try {
                     // locking the canvas allows us to draw on to it
@@ -50,10 +46,10 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
                     locked = true}
 
                     synchronized(holder) {
-                            game.update(timeElapsed.toInt())
+                            //game.update(timeElapsed.toInt())
+                        game.update(timeElapsed)
                             gameView.draw(canvas!!)
                             Log.d("thread", "calling draw and update from thread : $timeElapsed")
-                            //lastTime = System.currentTimeMillis()
                             lastTime = System.nanoTime() / 1000000
 
                     }
