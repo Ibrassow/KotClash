@@ -50,9 +50,11 @@ class GameManager {
 
     var cardClicked: String? = null
 
-    var timeLeft = 180.0
+    var timeLeft : Float = 180f
 
     lateinit var currentMap: String
+    lateinit var results : String
+
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
@@ -122,18 +124,18 @@ class GameManager {
 
 
 
-    fun update(elapsedTimeMS: Long) {
+    fun update(elapsedTimeMS: Int) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS/1000)
+            timeLeft -= (elapsedTimeMS*3/1000f) // moué pourquoi 3 ?
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
             if (timeLeft <= 0) {
                 endGame()
             }
-            updateResource(elapsedTimeMS)
-            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            updateResource(elapsedTimeMS.toLong()) // Long ??
+            takeAction(elapsedTimeMS.toLong(), map) //TODO: might want to convert time into s
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
@@ -260,9 +262,11 @@ class GameManager {
 
 
     fun endGame() {
+
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
+            Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
         } else
             setGameOver(null)
@@ -273,15 +277,14 @@ class GameManager {
     fun setGameOver(gameWon: Boolean?) {
         //GAMEOVER = false
         GAMEOVER = true
-        if (gameWon == null) {
-            //"Egalité"
-            //destroy()
+        if (gameWon == false) {
+            results = "Defeated"
         } else if (gameWon == true) {
             Log.e("WIN", "YEAH")
-            //"Vous avez gagné"
+            results = "Victory"
         } else {
             Log.e("LOSE", "No..")
-            //"Vous avez perdu"
+            results = "Equality"
 
         }
     }
