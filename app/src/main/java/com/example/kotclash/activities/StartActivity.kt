@@ -15,7 +15,8 @@ class StartActivity : AppCompatActivity() {
     var startButton : Button? =null
     var quitButton : Button? =null
     val sampleMaps = intArrayOf(R.drawable.springfield, R.drawable.lavafield, R.drawable.winterfield)
-    val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.awax,R.drawable.soldier)
+    val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.bomber,R.drawable.soldier)
+    val nameTroops = arrayListOf<String>("tankred", "tankblue", "tankgreen", "bomber", "soldier")
     var sampleChoosable = arrayOf<ImageView?>()
     var i=0;var j=0;var k=0;var l=0
 
@@ -81,15 +82,16 @@ class StartActivity : AppCompatActivity() {
         startButton?.setOnClickListener {
             var params = listOf<Int>(i,j,k,l)
             val intent = Intent(this, GameActivity::class.java)
-            Log.wtf("my wtf tag", "start dit "+ params.toString())
             when (i){
                 1 -> intent.putExtra("mapChosen", "spring")
                 2 -> intent.putExtra("mapChosen", "lava")
                 3 -> intent.putExtra("mapChosen", "lava")
             }
-            intent.putExtra("troop1Chosen", "test"+j.toString())
-            intent.putExtra("troop2Chosen", "test"+k.toString())
-            intent.putExtra("troop3Chosen", "test"+l.toString())
+
+            intent.putExtra("troop1Chosen", nameTroops[j-1])
+            intent.putExtra("troop2Chosen", nameTroops[k-1])
+            intent.putExtra("troop3Chosen", nameTroops[l-1])
+
             startActivity(intent);
         }
 
