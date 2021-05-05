@@ -6,7 +6,7 @@ class SimpleTower(enemy: Boolean,
 ) : Tower(enemy, coordinates) {
 
     override var type = "simpleTower"
-    override val freqShoot = 100f
-    override val damage = 10
-    override var health = 50
+    override val freqShoot = 1000f
+    override val damage = 200
+    override var health = 2000
 }

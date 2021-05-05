@@ -29,7 +29,7 @@ class GameObjectView(private val view : GameView) {
     fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
         simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
-        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.radiobutton_off_background)
+        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullet)
         tankRed = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
         tankBlue= BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bluetank)
         tankGreen = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.greentank)
@@ -38,7 +38,7 @@ class GameObjectView(private val view : GameView) {
     }
 
 
-    fun drawObjects(canvas : Canvas, objectList2 : MutableList<GameObject>) {
+    fun drawObjects(canvas : Canvas) {
 
         //TODO Temporary solution to avoid concurrent manipulations.. (copy)
         val objectList = game.gameObjectList.toMutableList()

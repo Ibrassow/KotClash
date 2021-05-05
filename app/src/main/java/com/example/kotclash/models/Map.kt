@@ -51,11 +51,11 @@ class Map()  {
 
 
     //Should be used at the beginning for the tower
-    fun placeTowers(obj: GameObject){
+    fun placeTower(obj: GameObject){
         //TODO opti after
         val sz = obj.size
-        val szx = sz.first/2
-        val szy = sz.second/2
+        //val szx = sz.first/2
+        //val szy = sz.second/2
         val xx = ((obj.coordinates.first)/obj.oldRendW).toInt()
         val yy = ((obj.coordinates.second)/obj.oldRendH).toInt()
 
@@ -74,6 +74,7 @@ class Map()  {
 
         try {
             grid[yy][xx].setOccupant(obj)
+            //Log.e("initTowersInMap","$obj")
         }
         catch(e: IndexOutOfBoundsException){
             //Log.d("Exception grid - place", "Index out of bounds")
@@ -136,23 +137,19 @@ class Map()  {
 
         if(newX != oldX || newY != oldY){
             try {
-                val x = getColSize()
-                val y = getRowSize()
+                //val x = getColSize()
+                //val y = getRowSize()
                 //Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
-                //Log.e("newPosition","$newX,$newY")
+                //Log.e("newPosition","($newX,$newY)")
                 grid[oldY][oldX].removeOccupant(obj)
-                //Log.e("oldPosition","$oldX,$oldY")
+                //Log.e("oldPosition","($oldX,$oldY)")
             }
             catch(e: IndexOutOfBoundsException){
                 //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
             }
 
-
         }
-
-
-
     }
 
 
@@ -166,6 +163,7 @@ class Map()  {
     private fun calculateFrontierPt(x : Float) : Float{
         return slope * x + originLine
     }
+
 
     fun onOwnSide(obj: GameObject): Boolean{
         val onMySide : Boolean
@@ -184,6 +182,7 @@ class Map()  {
         return onMySide
 
     }
+
 
     fun posSetRect(rendW: Float, rendH: Float){
 
@@ -208,9 +207,11 @@ class Map()  {
         grid[y][x].removeOccupant(obj)
     }
 
+
     private fun dist(c1: Pair<Float, Float>, c2: Pair<Float, Float>): Float {
     return sqrt((c1.first - c2.first).pow(2) + (c1.first - c2.first).pow(2))
     }
+
 
 
     fun getClosestGate(obj: GameObject): Pair<Float, Float>? {
@@ -220,7 +221,6 @@ class Map()  {
 
         var currDist: Float
 
-        //TODO Handle the case when distances are equal?
         posGate.forEach { (gate, _) ->
             currDist = dist(obj.coordinates, posGate[gate]!!)
             if (currDist<minDist){

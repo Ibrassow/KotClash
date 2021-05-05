@@ -38,21 +38,23 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq : Long = 10
+    private val enemyGenerationFreq : Long = 3
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 0f
-    val speedFill = 1/100f
+    val speedFill = 1/10f
     private val RESOURCESMAX = 100f
 
 
     var enemyTowersDestroyed = 0
     var allyTowersDestroyed = 0
 
+    var cardClicked: String? = null
 
-
-    var timeLeft = 180.0
+    var timeLeft : Float = 180f
 
     lateinit var currentMap: String
+    lateinit var results : String
+
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
@@ -111,7 +113,7 @@ class GameManager {
                     allyTowersList.add(elem)
                 }
 
-                map.placeTowers(elem)
+                map.placeTower(elem)
             }
         }
 
@@ -122,22 +124,22 @@ class GameManager {
 
 
 
-    fun update(elapsedTimeMS: Long) {
+    fun update(elapsedTimeMS: Int) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS/1000)
+            timeLeft -= (elapsedTimeMS*3/1000f) // moué pourquoi 3 ?
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
             if (timeLeft <= 0) {
                 endGame()
             }
-            updateResource(elapsedTimeMS)
-            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            updateResource(elapsedTimeMS.toLong()) // Long ??
+            takeAction(elapsedTimeMS.toLong(), map) //TODO: might want to convert time into s
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
-            Log.e("sizeObjList", "$nn")
+            //Log.e("sizeObjList", "$nn")
         }
 
 
@@ -160,6 +162,7 @@ class GameManager {
             gameObjectList.add(troopFactory.getTroop(true, "soldier", map.posEnemySpawn[nbRand]!!))
         }
     }
+
 
     private var readyEnemyGen = false
     //checks whether set time between two enemy creations passed
@@ -197,9 +200,11 @@ class GameManager {
 
     }
 
+
     fun useResource(price: Int) {
         resources -= price
     }
+
 
 
     fun updateEnemiesDestroyed(obj: GameObject) {
@@ -233,26 +238,35 @@ class GameManager {
     }
 
 
-    /*fun saveCard(nbCard: Int) {
-        nbCardClicked = nbCard
-    }*/
+    fun saveCard(card: String?) {
+        cardClicked = card
+    }
 
 
-    fun playCard(nmCard : String) {
+    /*fun playCard(nmCard : String) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         val v = map.posAllySpawn[nbRand]!!
         Log.e("OKAYBOY", "$v")
 
+    }*/
+
+
+    fun playCard(coordinates: Pair<Float, Float>){
+        if(cardClicked != null){
+            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), coordinates)
+            cardClicked = null
+        }
     }
 
 
 
-
     fun endGame() {
+
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
+            Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
         } else
             setGameOver(null)
@@ -263,15 +277,14 @@ class GameManager {
     fun setGameOver(gameWon: Boolean?) {
         //GAMEOVER = false
         GAMEOVER = true
-        if (gameWon == null) {
-            //"Egalité"
-            //destroy()
+        if (gameWon == false) {
+            results = "Defeated"
         } else if (gameWon == true) {
             Log.e("WIN", "YEAH")
-            //"Vous avez gagné"
+            results = "Victory"
         } else {
             Log.e("LOSE", "No..")
-            //"Vous avez perdu"
+            results = "Equality"
 
         }
     }
