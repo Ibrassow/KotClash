@@ -62,6 +62,7 @@ class GameManager {
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
+    val projectlist = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -152,6 +153,10 @@ class GameManager {
                 obj.takeAction(elapsedTimeMS, map)
             }
         }
+        for (pro in projectlist) {
+            if (pro.isAlive()) {
+                pro.takeAction(elapsedTimeMS, map)
+    }}
     }
 
 

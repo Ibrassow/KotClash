@@ -82,6 +82,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         if (objListSize != game.gameObjectList.size){
             objectDrawer.setRect(game.gameObjectList)
+            objectDrawer.setRect(game.projectlist)
             objListSize = game.gameObjectList.size
         }
 
@@ -111,6 +112,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         screenHeight = h.toFloat()
         mapView.setRects(game.map, screenWidth, screenHeight)
         objectDrawer.setRect(game.gameObjectList)
+        objectDrawer.setRect(game.projectlist)
     }
 
 

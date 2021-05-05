@@ -42,6 +42,7 @@ class GameObjectView(private val view : GameView) {
 
         //TODO Temporary solution to avoid concurrent manipulations.. (copy)
         val objectList = game.gameObjectList.toMutableList()
+        val projectiList = game.projectlist.toMutableList()
 
 
         for (obj in objectList) {
@@ -73,7 +74,9 @@ class GameObjectView(private val view : GameView) {
             }
             Log.d("GameObjectView", "drawing object")
         }
-    }
+        for (pro in projectiList){
+            canvas.drawBitmap(projectile,null,pro.rectF,paint)
+    }}
 
 
     fun setRect(objectList : MutableList<GameObject> ){
