@@ -29,7 +29,7 @@ class GameObjectView(private val view : GameView) {
     fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
         simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
-        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullet)
+        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullets)
         tankRed = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
         tankBlue= BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bluetank)
         tankGreen = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.greentank)
@@ -67,7 +67,9 @@ class GameObjectView(private val view : GameView) {
                     "soldier" -> {
                         val subImg = createSubImageAt(soldier,obj.currentOrientation)
                         canvas.drawBitmap(subImg, null, obj.rectF, paint)
-
+                    }
+                    "projectile" -> {
+                        canvas.drawBitmap(projectile, null, obj.rectF, paint)
                     }
                 }
             }
