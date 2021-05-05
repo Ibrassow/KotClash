@@ -18,7 +18,6 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     //TODO : dès qu'img prête on peut lancer projectile
     /*override fun attack(entity: GameObject) {
-        super.attack(entity)
         game.gameObjectList.add(game.troopFactory.getTroop(true, "soldier",
                                     coordinates, target as Entity, this))
     }*/

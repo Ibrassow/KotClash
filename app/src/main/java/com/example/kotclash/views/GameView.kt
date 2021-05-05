@@ -47,9 +47,19 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 Log.e("clickSucceed","Yes!")
-                val x = e.rawX - 100f
-                val y = e.rawY - 300f
-                game.playCard(Pair(x,y))
+                val x = e.rawX
+                //- 100f
+                val y = e.rawY
+                //- 300f
+                //Pair(x,y)
+                if (x <= screenWidth/2f){
+                    game.playCard(0)
+                }
+                else{
+                    game.playCard(1)
+                }
+
+
             }
         }
         return true
@@ -81,7 +91,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         //TODO Timer is slow ?
 
-        //var time = game.timeLeft
         minute = (floor(game.timeLeft/60.0))
         second = (game.timeLeft - minute*60.0)
 
