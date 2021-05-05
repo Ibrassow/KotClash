@@ -5,7 +5,7 @@ import kotlin.math.floor
 
 class CardManager(private val troopFactory: TroopFactory, var game : GameManager) {
     val costTank: Int = 20
-    val costSoldier : Int = 10
+    val costSoldier : Int = 5
     val costBomber : Int = 40
 
     //TODO: could also use CardManager for autonomousEnemyGeneration()
@@ -40,7 +40,7 @@ class CardManager(private val troopFactory: TroopFactory, var game : GameManager
 
     fun isAvailable(nmCard : String): Boolean{
 
-        var check : Boolean = false
+        var check = false
 
         when (nmCard){
             "tankred", "tankblue", "tankgreen" -> check = game.resources > costTank
