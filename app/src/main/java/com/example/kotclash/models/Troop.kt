@@ -14,8 +14,8 @@ open class Troop(enemy: Boolean,
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         target = selectTarget(map)
-        val xCoord = ceil(coordinates.first/oldRendW)
-        val yCoord = ceil(coordinates.second/oldRendH)
+        //val xCoord = ceil(coordinates.first/oldRendW)
+        //val yCoord = ceil(coordinates.second/oldRendH)
         //Log.e("target","$this, $target, ($xCoord,$yCoord)")
         if (target != null) {
             currentOrientation = getAngleVector(coordinates,target!!.coordinates)
@@ -26,13 +26,11 @@ open class Troop(enemy: Boolean,
         }else{
             move(elapsedTimeMS,map)
         }
-        //move(elapsedTimeMS,map)
     }
 
 
 
     fun move(interval : Long, map: Map) {
-        //onOwnSide()
         if (map.onOwnSide(this)) {
             lookAheadPoint = map.getClosestGate(this)!!
         }else {
@@ -74,17 +72,6 @@ open class Troop(enemy: Boolean,
         return target!!.coordinates
     }
 
-
-    fun onOwnSide():Boolean{
-        var onOwnSide = false
-
-        //TODO Take into account the different maps
-        if((coordinates.second <= 11*oldRendH && isEnemy())
-                || (coordinates.second > 11*oldRendH && !isEnemy())){
-            onOwnSide = true}
-
-        return onOwnSide
-    }
 
 
 

@@ -41,7 +41,7 @@ class GameManager {
     private val enemyGenerationFreq : Long = 3
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 0f
-    val speedFill = 1/10f
+    val speedFill = 1/100f
     private val RESOURCESMAX = 100f
 
 
@@ -124,22 +124,22 @@ class GameManager {
 
 
 
-    fun update(elapsedTimeMS: Int) {
+    fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
             timeLeft -= (elapsedTimeMS*3/1000f) // moué pourquoi 3 ?
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
-            if (timeLeft <= 0) {
+            if (timeLeft <= 0.0) {
                 endGame()
             }
-            updateResource(elapsedTimeMS.toLong()) // Long ??
-            takeAction(elapsedTimeMS.toLong(), map) //TODO: might want to convert time into s
+            updateResource(elapsedTimeMS)
+            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
-            //Log.e("sizeObjList", "$nn")
+            Log.e("sizeObjList", "$nn")
         }
 
 
@@ -159,7 +159,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "soldier", map.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "tankred", map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -244,7 +244,7 @@ class GameManager {
 
 
     /*fun playCard(nmCard : String) {
-        val nbRand = kotlin.random.Random.Default.nextInt(3)
+        val nbRand = kotlin.random.Random.Default.nextInt(2)
         cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         val v = map.posAllySpawn[nbRand]!!
         Log.e("OKAYBOY", "$v")
@@ -252,9 +252,9 @@ class GameManager {
     }*/
 
 
-    fun playCard(coordinates: Pair<Float, Float>){
+    fun playCard(side : Int){
         if(cardClicked != null){
-            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), coordinates)
+            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), map.posAllySpawn[side]!!)
             cardClicked = null
         }
     }

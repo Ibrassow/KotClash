@@ -66,8 +66,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             if (running) {progressBar.progress = game.resources.toInt()
             mainHandler.postDelayed(this, 50)
             if (game.GAMEOVER){
-                showGameOverDialog(game.results)// humu humu humu
-                Log.wtf("oula", "c est ça")
+                showGameOverDialog(game.results)
                 running = false
             }}
         }
@@ -82,21 +81,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    /*override fun onClick(v: View) {
-        when (v.id) {
-            R.id.card1 -> {
-                game.playCard(troopSelected[0])
-            }
-
-            R.id.card2 -> {
-                game.playCard(troopSelected[1])
-            }
-
-            R.id.card3 -> {
-                game.playCard(troopSelected[2])
-            }
-        }
-    }*/
 
 
     override fun onClick(v: View) {
