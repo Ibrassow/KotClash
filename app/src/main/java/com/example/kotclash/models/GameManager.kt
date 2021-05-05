@@ -243,23 +243,18 @@ class GameManager {
     }
 
 
-    /*fun playCard(nmCard : String) {
-        val nbRand = kotlin.random.Random.Default.nextInt(2)
-        cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
-        val v = map.posAllySpawn[nbRand]!!
-        Log.e("OKAYBOY", "$v")
-
-    }*/
 
 
     fun playCard(side : Int){
         if(cardClicked != null){
-            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), map.posAllySpawn[side]!!)
+            cardManager.playCard(cardClicked!!, map.posAllySpawn[side]!!)
             cardClicked = null
         }
     }
 
-
+    fun isCardAvailable(nmCard : String): Boolean{
+        return cardManager.isAvailable(nmCard)
+    }
 
     fun endGame() {
 
@@ -268,8 +263,8 @@ class GameManager {
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
             Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
-        } else
-            setGameOver(null)
+        } else {
+            setGameOver(null)}
     }
 
 
