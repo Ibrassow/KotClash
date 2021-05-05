@@ -28,7 +28,6 @@ open class Troop(enemy: Boolean,
 
 
     fun move(interval : Long, map: Map) {
-        //onOwnSide()
         if (map.onOwnSide(this)) {
             lookAheadPoint = map.getClosestGate(this)!!
         }else {
@@ -68,17 +67,6 @@ open class Troop(enemy: Boolean,
         return target!!.coordinates
     }
 
-
-    fun onOwnSide():Boolean{
-        var onOwnSide = false
-
-        //TODO Take into account the different maps
-        if((coordinates.second <= 11*oldRendH && isEnemy())
-                || (coordinates.second > 11*oldRendH && !isEnemy())){
-            onOwnSide = true}
-
-        return onOwnSide
-    }
 
 
 

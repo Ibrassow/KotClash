@@ -56,7 +56,7 @@ class MapView() {
      */
     fun drawGrid(canvas: Canvas, map: Map) {
 
-        if (INIT == false){
+        if (!INIT){
             initBitmaps()
         }
 
