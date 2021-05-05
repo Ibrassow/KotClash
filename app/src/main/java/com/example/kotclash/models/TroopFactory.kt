@@ -1,32 +1,31 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.GameManager
-
-class TroopFactory(val gameManager: GameManager) {     //var view: GameObjectView
-
-    lateinit var troopSelect : GameObject
-
+class TroopFactory(val game : GameManager) {
 
     fun getTroop(enemy : Boolean,
                  type : String,
-                 target : Entity?,
                  coordinates: Pair<Float,Float>,
-                 currentOrientation: Float): GameObject {
+                 target : Entity? = null,
+                 thrower : Entity? = null
+    ): GameObject {
 
-        //TODO : gameObjectFactory
+        lateinit var troopSelect : GameObject
+
+
         when (type){
-            //"submarine" -> troopSelect = Submarine(enemy, coordinates, gameManager, currentOrientation)
-            "projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, gameManager, currentOrientation)
-            "boat" -> troopSelect = Boat(true, coordinates, gameManager, currentOrientation)
-            //"simpleTower" -> troopSelect = SimpleTower(enemy, coordinates, gameManager, currentOrientation)
-            "base" -> troopSelect = Base(enemy, coordinates, gameManager, currentOrientation)
-
-            //TODO : redefine missile for each entity
+            "base" -> troopSelect = Base(enemy, coordinates)
+            "simpleTower" -> troopSelect = SimpleTower(enemy, coordinates)
+            "tankred" -> troopSelect = Tankred(enemy, coordinates)
+            "tankblue" -> troopSelect = Tankblue(enemy, coordinates)
+            "tankgreen" -> troopSelect = Tankgreen(enemy, coordinates)
+            "bomber" -> troopSelect = Bomber(enemy, coordinates)
+            "soldier" -> troopSelect = Soldier(enemy, coordinates)
+            "projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, thrower!!.damage)
 
         }
 
-        return troopSelect
 
+        return troopSelect
     }
 
 }

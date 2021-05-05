@@ -1,26 +1,20 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
-import kotlin.math.ceil
-import kotlin.math.cos
-import kotlin.math.sin
+import android.util.Log
+import kotlin.math.*
 
 class Projectile(enemy: Boolean,
                  val target: Entity,
                  coordinates : Pair<Float,Float>,
-                 gameManager: GameManager,
-                 currentOrientation : Float
-) : GameObject(enemy, coordinates, currentOrientation, gameManager), Movable {
+                 override val damage : Int
+                ) : GameObject(enemy, coordinates), Movable {
 
 
+    val projRange = 0.5f* sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))
+    private val speed = 1f
 
-    //TODO : def projectile for each troop
-    val projectileDamage = 0
-    val speed = 0f
-
-
-    override fun takeAction(elapsedTimeMS: Long, grid:Map) {
+    //Implémentation pour missiles qui touchent tt le monde aux alentours
+    /*override fun takeAction(elapsedTimeMS: Long, grid: Map) {
         val enemyInRange = getEnemiesInRange(grid)
         if(enemyInRange.isNotEmpty()){
             for(entity in enemyInRange) {
@@ -29,37 +23,47 @@ class Projectile(enemy: Boolean,
         }else{
             move(elapsedTimeMS)
         }
-    }
+    }*/
 
 
-    //implement interface for movement
-    fun move(elapsedTimeMS: Long){
-        //will need getDirection() -> towards target
-        val direction = getDirection()
-
-        val previousCoordinates = coordinates
-        coordinates = Pair(coordinates.first + speed*elapsedTimeMS*cos(direction),
-                coordinates.second + speed*elapsedTimeMS*sin(direction))
-
-        //notify view of movement
-        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
-                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
-            //grid.displace(this,coordinatesIdx,currentOrientation)
-            //TODO
+    override fun takeAction(elapsedTimeMS: Long, map: Map) {
+        val dist = distToEnemy(target)
+        if(dist < projRange){
+            attack(target)
+        }else{
+            move(elapsedTimeMS, map)
         }
     }
 
 
-    //find direction of movement
-    fun getDirection():Float{
-        val direction = getAngleVector(coordinates,target.coordinates)
-        return direction
+    fun move(interval : Long, map: Map) {
+
+        currentOrientation = getAngleVector(coordinates,target.coordinates)
+        //Log.e("orientation","$this orientation = $currentOrientation")
+
+        val previousCoordinates = coordinates
+        val dx = speed * interval * cos(currentOrientation)
+        val dy = speed * interval * -sin(currentOrientation)
+
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
+
+        //used to update view
+        rectF.offset(dx, dy)
+        /*Log.e("EE", "dx : $dx, dy : $dy")
+        Log.e("RR", "prevCoord : $previousCoordinates")*/
+        //val x = coordinates.first/oldRendW
+        //val y = coordinates.second/oldRendH
+        //Log.e("TroopCoord", "coord : $x,$y")
+
+        map.displace(this, previousCoordinates)
+
     }
 
 
-    override fun attack(entity: Entity) {
+    override fun attack(entity: GameObject) {
         //could depend on type of projectile -> could also repel troops
         //one option:
-        entity.getDamaged(projectileDamage)
+        entity.getDamaged(damage)
     }
 }

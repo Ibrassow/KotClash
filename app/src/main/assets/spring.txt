@@ -1,32 +1,23 @@
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G S S S S S S S S S S S S G G G G G G G G G G
-G G G G G G G G G G S S S S S S S S S S S S G G G G G G G G G G
-G G G G G G G G G S S S S S S S S S S S S S S G G G G G G G G G
-G G G G G G G G G S S S S S S S S S S S S S S G G G G G G G G G
-G G G G G G G G G S S S S S S G G S S S S S S G G G G G G G G G
-G G G G G G G G G S S S S S G G G G G S S S S S G G G G G G G G
-G G G G G G G G S S S S S S G G G G G S S S S S S G G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G S S S S S S G G G G G G G S S S S S S G G G G G G
-G G G G G G G G G S S S S S S G G S S S S S S G G G G G G G G G
-G G G G G G G G G S S S S S S S S S S S S S S G G G G G G G G G
-G G G G G G G G G S S S S S S S S S S S S S S G G G G G G G G G
-G G G G G G G G G G S S S S S S S S S S S S G G G G G G G G G G
-G G G G G G G G G G S S S S S S S S S S S S G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
-G G G G G G G G G G G S S S S S S S S S S G G G G G G G G G G G
+° ° ° ° ° ° * * * * * * * ° ° ° ° ° °
+° ° ° ° ° ° * * * * * * * ° ° ° ° ° °
+° ° ° ° ° ° * * * E * * * ° ° ° ° ° °
+° ° ° ° ° ° * Es * Es * Es * ° ° ° ° ° °
+° * * * ° ° * * * * * * * ° ° * * * °
+° * Et * ° ° * * * * * * * ° ° * Et * °
+° * * * ° ° * * * * * * * ° ° * * * °
+° ° ° ° ° ° * * * * * * * ° ° ° ° ° °
+° ° ° ° ° * * * * * * * * * ° ° ° ° °
+° ° ° ° * * * * * * * * * * * ° ° ° °
+° ° ° * * * * * * * * * * * * * ° ° °
+T W * G * W W W W W W W W W * G * W T
+° ° ° * * * * * * * * * * * * * ° ° °
+° ° ° ° * * * * * * * * * * * ° ° ° °
+° ° ° ° ° * * * * * * * * * ° ° ° ° °
+° ° ° ° ° ° * * * * * * * ° ° ° ° ° °
+° * * * ° ° * * * * * * * ° ° * * * °
+° * At * ° ° * * * * * * * ° ° * At * °
+° * * * ° ° * * * * * * * ° ° * * * °
+° ° ° ° ° ° * As * * * As * ° ° ° ° ° °
+° ° ° ° ° ° * * * A * * * ° ° ° ° ° °
+° ° ° ° ° ° * * * * * * * ° ° ° ° ° °
+° ° ° ° ° ° * * * * * * * ° ° ° ° ° °

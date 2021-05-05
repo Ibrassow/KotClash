@@ -2,4 +2,15 @@
     <string name="app_name">KotClash</string>
     <string name="start">Start a new game</string>
     <string name="quit">Quit</string>
+    <string name="map">Choose your map</string>
+    <string name="troops">Troops</string>
+    <string name="towers">Towers</string>
+    <string name="abordage">Á l\'abordage !</string>
+    <string name="jeter_l_ancre">jeter l\'ancre</string>
+    <string name="todo">TODO</string>
+    <string name="tap_on_to_change">Tap on to change</string>
+    <string name="Equality">Quicker dude, are you a slug ?</string>
+    <string name="Defeated">Boy, you have lost</string>
+    <string name="Victory">You are a brave and strong boy</string>
+    <string name="reset_game">Another one!</string>
 </resources>

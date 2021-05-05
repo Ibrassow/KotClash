@@ -1,22 +1,25 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
 
-
-class CardManager(val troopFactory: TroopFactory, val gameManager: GameManager) {
-
-    val costBoat = 0
-    val costSubmarine = 0
-
+class CardManager(private val troopFactory: TroopFactory, var game : GameManager) {
+    var cost: Int=0
 
     //TODO: could also use CardManager for autonomousEnemyGeneration()
-    fun playCard(cardNumber: Int, resources: Double, coordinates: Pair<Float,Float>, grid: Map){
-        when(cardNumber){
-            1 -> if(resources > costBoat){gameManager.gameObjectList.
-            add(troopFactory.getTroop(false,"boat",null, coordinates, 0f))}
-            2 -> if(resources > costSubmarine){gameManager.gameObjectList.
-            add(troopFactory.getTroop(false,"submarine",null, coordinates, 0f))}
+    fun playCard(cardName: String, resources: Double, coordinates: Pair<Float,Float>){
+        when(cardName){
+            "test1" -> {cost = 10 ;if(resources > cost){game.gameObjectList.add(troopFactory.getTroop(false,"tankred", coordinates))
+                game.useResource(cost)} }
+            "test2" -> {cost = 10 ;if(resources > cost){game.gameObjectList.add(troopFactory.getTroop(false,"tankblue", coordinates))
+                game.useResource(cost)} }
+            "test3" -> {cost = 10 ;if(resources > cost){game.gameObjectList.add(troopFactory.getTroop(false,"tankgreen", coordinates))
+                game.useResource(cost)} }
+            "test4" -> {cost = 10 ;if(resources > cost){game.gameObjectList.add(troopFactory.getTroop(false,"bomber", coordinates))
+                game.useResource(cost)} }
+            "test5" -> {cost = 10 ;if(resources > cost){game.gameObjectList.add(troopFactory.getTroop(false,"soldier", coordinates))
+                game.useResource(cost)} }
+
         }
     }
+
+
 }

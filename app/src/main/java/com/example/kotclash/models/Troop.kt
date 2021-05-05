@@ -1,109 +1,79 @@
 package com.example.kotclash.models
 
-import com.example.kotclash.Map
-import com.example.kotclash.GameManager
+import android.util.Log
 import kotlin.math.*
 
 
 open class Troop(enemy: Boolean,
-                 coordinates : Pair<Float,Float>,
-                 gameManager: GameManager, currentOrientation: Float
-) : Entity(enemy, coordinates, gameManager, currentOrientation), Movable{    //open var view:GameObjectView,
+                 coordinates : Pair<Float,Float>
+) : Entity(enemy, coordinates), Movable{
+
+    open val speed  = 5f
+    lateinit var lookAheadPoint: Pair<Float,Float>
 
 
-    open val speed  = 0f
-    var targetOfMotion: Entity? = null
-
-    //serve to direct movement of troops
-    val gate1 = Pair(0f,0f)
-    val gate2 = Pair(0f,0f)
-
-    override fun takeAction(ElapsedTimeMS: Long, grid:Map){
-        if(readyForAttack()){
-            target = selectTarget(grid)
-            if(!(target == null)) {  //ARTIFICE EN PRINCIPE TEMPORAIRE
+    override fun takeAction(elapsedTimeMS: Long, map: Map) {
+        target = selectTarget(map)
+        //val xCoord = ceil(coordinates.first/oldRendW)
+        //val yCoord = ceil(coordinates.second/oldRendH)
+        //Log.e("target","$this, $target, ($xCoord,$yCoord)")
+        if (target != null) {
+            currentOrientation = getAngleVector(coordinates,target!!.coordinates)
+            if(readyForAttack()) {
                 attack(target!!)
+                previousAttackTime = System.currentTimeMillis()
             }
         }else{
-            move(ElapsedTimeMS)
+            move(elapsedTimeMS,map)
         }
     }
 
-    /*fun move(interval : Double){
-        var dy = 0f
-        if (enemy) {
-            dy += (speed * interval).toFloat()
+
+
+    fun move(interval : Long, map: Map) {
+        if (map.onOwnSide(this)) {
+            lookAheadPoint = map.getClosestGate(this)!!
+        }else {
+            lookAheadPoint = findTargetOfMotion()
         }
-        else{
-            dy -= (speed * interval).toFloat()
-        }
-        r.offset(0f, dy)
-        //println(r.top)
-    }*/
 
-
-    fun move(interval : Long){
-        lateinit var lookAheadPoint : Pair<Float,Float>
-        /*if(onOwnSide()){
-            lookAheadPoint = getClosestGate()
-        }else{
-            targetOfMotion = findTargetOfMotion()
-            lookAheadPoint = targetOfMotion!!.coordinates
-        }*/ //TODO
-
-        val currentOrientation = getAngleVector(Pair(coordinates.first, coordinates.second),
-                Pair(lookAheadPoint.first, lookAheadPoint.second))
+        currentOrientation = getAngleVector(coordinates,lookAheadPoint)
+        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val previousCoordinates = coordinates
-        coordinates = Pair(coordinates.first + speed*interval*cos(currentOrientation),
-                coordinates.second + speed*interval*sin(currentOrientation))
+        val dx = speed * interval * cos(currentOrientation)
+        val dy = speed * interval * -sin(currentOrientation)
 
-        val coordinatesIdx = Pair(ceil(coordinates.first),ceil(coordinates.second))
+        //update x & y in model
+        coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
 
-        if(!(ceil(coordinates.first) == ceil(previousCoordinates.first)
-                        && ceil(coordinates.second) == ceil(previousCoordinates.second))){
-            //grid.displace(this,coordinatesIdx, currentOrientation)
-            //TODO
-        }
+        //used to update view
+        rectF.offset(dx, dy)
+        /*Log.e("EE", "dx : $dx, dy : $dy")
+        Log.e("RR", "prevCoord : $previousCoordinates")*/
+        val x = coordinates.first/oldRendW
+        val y = coordinates.second/oldRendH
+        //Log.e("TroopCoord", "coord : $x,$y")
+
+        map.displace(this, previousCoordinates)
 
     }
 
 
-    fun findTargetOfMotion():Entity?{
+
+    private fun findTargetOfMotion() : Pair<Float,Float>{
         if(target == null){
             if(isEnemy()) {
-                //target = getClosestEnemy(gameManager.enemyTowersList) //TODO pass gameManager in parameters not as attribute
+                target = getClosestEnemy(game.allyTowersList)
             }else{
-                //target = getClosestEnemy(gameManager.allyTowersList)
+                target = getClosestEnemy(game.enemyTowersList)
             }
         }
-        return target
+        return target!!.coordinates
     }
 
 
-    //TODO: with dimensions screen known
-    /*fun onOwnSide():Boolean{
-        var onOwnSide = false
-        if(coordinates.second > screenHeight/2 && isEnemy()
-                || coordinates.second < screenHeight/2 && !isEnemy()){
-            onOwnSide = true
-        }
-        return onOwnSide
-    }*/
 
 
-    fun getClosestGate():Pair<Float,Float>{
-        var closestGate = Pair(0f,0f)
-        val dist1 = sqrt((coordinates.first - gate1.first).pow(2) + (coordinates.second - gate1.second).pow(2))
-        val dist2 = sqrt((coordinates.first - gate2.first).pow(2) + (coordinates.second - gate2.second).pow(2))
-
-        if(dist1 > dist2){
-            closestGate = gate2
-        }else {  //else => if dist1 == dist2 as well
-            closestGate = gate1
-        }
-
-        return closestGate
-    }
 
 }

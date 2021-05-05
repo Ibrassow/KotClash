@@ -6,148 +6,148 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import com.example.kotclash.GameManager
-import com.example.kotclash.GameThread
-import com.example.kotclash.Map
-import com.example.kotclash.MapLoader
+import com.example.kotclash.models.*
+import com.example.kotclash.models.Map
+import kotlin.math.floor
 
 
 class GameView @JvmOverloads constructor (context: Context, attributes: AttributeSet? = null, defStyleAttr: Int = 0) : SurfaceView(context, attributes,defStyleAttr), SurfaceHolder.Callback {
 
 
-    lateinit var game : GameManager
+    var game : GameManager = GameManager.gameInstance
 
-    //lateinit var canvas: Canvas
-    lateinit var thread: GameThread
+    var thread: GameThread
 
     //Map
     var map : Map = Map()
-    var mapLoader: MapLoader = MapLoader()
     val mapView = MapView()
 
-    val backgroundPaint = Paint()
+    val objectDrawer : GameObjectView = GameObjectView(this)
 
+    //misc
+    val backgroundPaint = Paint()
     var screenWidth = 0f
     var screenHeight = 0f
-    var drawing : Boolean = true
+
+
 
     init{
-
-        //Temporary
-        mapLoader.loadMap("spring")
-        map = mapLoader.returnMap()
         backgroundPaint.color = Color.WHITE
-        Log.d("map", "test")
 
-        holder.addCallback( this)
+        holder.addCallback(this)
         this.isFocusable = true
         thread = GameThread(holder, this)
-
     }
 
 
-    fun bindToGame(g : GameManager){
-        game = g
-    }
+    override fun onTouchEvent(e: MotionEvent): Boolean {
+        when (e.action) {
+            MotionEvent.ACTION_DOWN -> {
+                Log.e("clickSucceed","Yes!")
+                val x = e.rawX
+                //- 100f
+                val y = e.rawY
+                //- 300f
+                //Pair(x,y)
+                if (x <= screenWidth/2f){
+                    game.playCard(0)
+                }
+                else{
+                    game.playCard(1)
+                }
 
 
-    /*override fun run(){
-        while(drawing){
-           //draw()
+            }
         }
-    }*/
-
-   /* override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-        //draw() //onDraw isn't always called with invalidate.. strange
-    }*/
-
-    fun update(timeElasped: Long){
-        game.update(timeElasped)
+        return true
     }
+
+
+    //Temporary solution
+
+    private var objListSize = game.gameObjectList.size
+    private var minute : Double = 0.0
+    private var second : Double = 0.0
+
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-
-        canvas!!.drawRect(0f, 0f, width.toFloat(),
+        canvas!!.drawRect(0f, 0f, width.toFloat(), //Not necessary
                     height.toFloat(), backgroundPaint)
 
-        mapView.drawGrid(canvas, game.grid)
-        Log.d("View", "GameView drawing")
-    }
+        mapView.drawGrid(canvas, game.map)
 
-    /*fun draw(){
+        if (objListSize != game.gameObjectList.size){
+            objectDrawer.setRect(game.gameObjectList)
+            objectDrawer.setRect(game.projectlist)
+            objListSize = game.gameObjectList.size
+        }
 
-        if (holder.surface.isValid) {
-            canvas = holder.lockCanvas()
-            canvas.drawRect(0f, 0f, canvas.width.toFloat(),
-                    canvas.height.toFloat(), backgroundPaint)
+        objectDrawer.drawObjects(canvas)
+        Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
 
-            //mapView.drawGrid(canvas, map)
-            mapView.drawGrid(canvas, game.grid)
-            Log.d("View", "GameView drawing")
 
-            //Ultra-important
-            holder.unlockCanvasAndPost(canvas)
-    }
-}*/
+        //TODO Timer is slow ?
 
-    //Future
-    fun changeMap(mapName : String){
-        mapLoader.loadMap("spring")
-        map = mapLoader.returnMap()
-    }
+        minute = (floor(game.timeLeft/60.0))
+        second = (game.timeLeft - minute*60.0)
+
+        backgroundPaint.textSize = (screenWidth/20f)
+        if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
+        //TODO if
+        canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
+
+        backgroundPaint.color = Color.WHITE
+
+
+        }
 
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
-
         super.onSizeChanged(w, h, oldw, oldh)
-
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
-
-        //mapView.setRects(map, screenWidth, screenHeight)
-        mapView.setRects(game.grid, screenWidth, screenHeight)
-        //Log.d("ow", "screenwWidth : $screenWidth")
-
+        mapView.setRects(game.map, screenWidth, screenHeight)
+        objectDrawer.setRect(game.gameObjectList)
+        objectDrawer.setRect(game.projectlist)
     }
 
-
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-    }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+
+        while (!game.STARTED){
+            Log.d("GameView", "Waiting game to start")
+        }
         Log.d("GameView", "surface created")
         thread = GameThread(getHolder(), this)
         thread.setRunning(true)
         thread.start()
-        //thread = Thread(this)
-        //thread.start()
+    }
 
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+    }
+
+
+    fun resume() {
+        Log.d("GameView", "resumed")
+        thread = GameThread(getHolder(), this)
+        thread.setRunning(true)
+        thread.start()
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-
         thread.setRunning(false)
         thread.join()
-
     }
 
 
-
-    /*fun pause() {
-        drawing = false
+    fun pause() {
+        thread.setRunning(false)
         thread.join()
     }
-
-    fun resume() {
-        drawing = true
-        thread = Thread(this)
-        thread.start()
-
-    }*/
 
 
 }
