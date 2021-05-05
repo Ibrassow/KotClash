@@ -16,7 +16,6 @@ import com.example.kotclash.models.GameManager
 import com.example.kotclash.views.CardView
 import com.example.kotclash.views.GameView
 import java.util.*
-import kotlin.concurrent.timerTask
 
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
@@ -32,11 +31,12 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var mapSelected : String
     var troopSelected = mutableListOf<String>()
 
-    var i = 0
+    var running = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        Log.wtf("oncreate", " ${savedInstanceState}")
 
 
         mapSelected = intent.getStringExtra("mapChosen").toString()
@@ -61,12 +61,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private val updateBar = object : Runnable {
+
         override fun run() {
-            progressBar.progress = game.resources.toInt()
+            if (running) {progressBar.progress = game.resources.toInt()
             mainHandler.postDelayed(this, 50)
             if (game.GAMEOVER){
-                showGameOverDialog(R.string.GameOverM)
-            }
+                showGameOverDialog(game.results)
+                running = false
+            }}
         }
     }
 
@@ -79,56 +81,39 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.card1 -> {
-                game.playCard(troopSelected[0])
+                game.saveCard(troopSelected[0])
             }
 
             R.id.card2 -> {
-                game.playCard(troopSelected[1])
+                game.saveCard(troopSelected[1])
             }
 
             R.id.card3 -> {
-                game.playCard(troopSelected[2])
+                game.saveCard(troopSelected[2])
             }
         }
     }
 
 
-    /*override fun onClick(v: View) {
-        when (v.id) {
-            R.id.card1 -> {
-                game.playCard(troopSelected[0])
-            }
 
-            R.id.card2 -> {
-                game.playCard(troopSelected[1])
-            }
-
-            R.id.card3 -> {
-                game.playCard(troopSelected[2])
-            }
-        }
-    }*/
-
-
-
-    fun showGameOverDialog(messageId: Int) {
+    fun showGameOverDialog(messageId: String) {
 
         class GameResult: DialogFragment() {
 
             override fun onCreateDialog(bundle: Bundle?): Dialog {
                 val builder = AlertDialog.Builder(activity)
-                builder.setTitle(resources.getString(messageId))
+                builder.setTitle(messageId)
                 builder.setMessage(
-                        resources.getString(
-                                R.string.GameOverM
-                        )
+                        getString(resources.getIdentifier(messageId, "string", packageName))
                 )
 
                 builder.setPositiveButton(R.string.reset_game,
-                        DialogInterface.OnClickListener { _, _-> newGame()}
+                        DialogInterface.OnClickListener { _, _ -> newGame() }
                 )
                 return builder.create()
             }
@@ -144,14 +129,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             ft.addToBackStack(null)
             val gameResult = GameResult()
             gameResult.isCancelable = false
-            gameResult.show(ft,"dialog")
+            gameResult.show(ft, "dialog")
         }
 
     }
 
 
     fun newGame(){
-
+        this.finish();
     }
 
 

@@ -41,18 +41,20 @@ class GameManager {
     private val enemyGenerationFreq : Long = 3
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 0f
-    val speedFill = 1/10f
+    val speedFill = 1/100f
     private val RESOURCESMAX = 100f
 
 
     var enemyTowersDestroyed = 0
     var allyTowersDestroyed = 0
 
+    var cardClicked: String? = null
 
-
-    var timeLeft = 180.0
+    var timeLeft : Float = 180f
 
     lateinit var currentMap: String
+    lateinit var results : String
+
 
     /////////////////////////
     val troopFactory = TroopFactory(this)
@@ -125,11 +127,11 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS/1000)
+            timeLeft -= (elapsedTimeMS*3/1000f) // moué pourquoi 3 ?
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
-            if (timeLeft <= 0) {
+            if (timeLeft <= 0.0) {
                 endGame()
             }
             updateResource(elapsedTimeMS)
@@ -157,7 +159,7 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "soldier", map.posEnemySpawn[nbRand]!!))
+            gameObjectList.add(troopFactory.getTroop(true, "tankred", map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -198,9 +200,11 @@ class GameManager {
 
     }
 
+
     fun useResource(price: Int) {
         resources -= price
     }
+
 
 
     fun updateEnemiesDestroyed(obj: GameObject) {
@@ -234,26 +238,35 @@ class GameManager {
     }
 
 
-    /*fun saveCard(nbCard: Int) {
-        nbCardClicked = nbCard
-    }*/
+    fun saveCard(card: String?) {
+        cardClicked = card
+    }
 
 
-    fun playCard(nmCard : String) {
+    /*fun playCard(nmCard : String) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         val v = map.posAllySpawn[nbRand]!!
         Log.e("OKAYBOY", "$v")
 
+    }*/
+
+
+    fun playCard(coordinates: Pair<Float, Float>){
+        if(cardClicked != null){
+            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), map.posAllySpawn[0]!!)
+            cardClicked = null
+        }
     }
 
 
 
-
     fun endGame() {
+
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
+            Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
         } else
             setGameOver(null)
@@ -264,15 +277,14 @@ class GameManager {
     fun setGameOver(gameWon: Boolean?) {
         //GAMEOVER = false
         GAMEOVER = true
-        if (gameWon == null) {
-            //"Egalité"
-            //destroy()
+        if (gameWon == false) {
+            results = "Defeated"
         } else if (gameWon == true) {
             Log.e("WIN", "YEAH")
-            //"Vous avez gagné"
+            results = "Victory"
         } else {
             Log.e("LOSE", "No..")
-            //"Vous avez perdu"
+            results = "Equality"
 
         }
     }

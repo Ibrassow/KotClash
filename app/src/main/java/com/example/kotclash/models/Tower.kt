@@ -13,11 +13,11 @@ open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
         target = selectTarget(map)
         val xCoord = ceil(coordinates.first/oldRendW)
         val yCoord = ceil(coordinates.second/oldRendH)
-        Log.e("target","$this, $target, ($xCoord,$yCoord)")
+        //Log.e("target","$this, $target, ($xCoord,$yCoord)")
         if (target != null) {
             val xTarget = ceil(target!!.coordinates.first/oldRendW)
             val yTarget = ceil(target!!.coordinates.second/oldRendH)
-            Log.e("targetFound","($xTarget,$yTarget)")
+            //Log.e("targetFound","($xTarget,$yTarget)")
             if(readyForAttack()) {
                 attack(target!!)
                 previousAttackTime = System.currentTimeMillis()

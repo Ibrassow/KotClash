@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.kotclash.models.*
@@ -42,17 +43,18 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     }
 
 
-
-    /*override fun onTouchEvent(e: MotionEvent): Boolean {
+    override fun onTouchEvent(e: MotionEvent): Boolean {
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
+                Log.e("clickSucceed","Yes!")
                 val x = e.rawX - 100f
                 val y = e.rawY - 300f
-                cardManager.playCard(game.nbCardClicked, game.resources.toDouble(), Pair(x,y),map)
+                game.playCard(Pair(x,y))
             }
         }
         return true
-    }*/
+    }
+
 
     //Temporary solution
 
@@ -73,7 +75,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             objListSize = game.gameObjectList.size
         }
 
-        objectDrawer.drawObjects(canvas, game.gameObjectList)
+        objectDrawer.drawObjects(canvas)
         Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
 
 
@@ -85,16 +87,13 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         backgroundPaint.textSize = (screenWidth/20f)
         if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
+        //TODO if
         canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
 
         backgroundPaint.color = Color.WHITE
 
 
         }
-
-
-
-
 
 
     override fun onSizeChanged(w:Int, h:Int, oldw:Int, oldh:Int) {
