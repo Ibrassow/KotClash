@@ -34,25 +34,21 @@ class GameManager {
     var mapLoader: MapLoader = MapLoader()
 
 
-    private var GAMEOVER = false
+    var GAMEOVER = false
     var STARTED = false
 
 
-    private val enemyGenerationFreq : Long = 10
+    private val enemyGenerationFreq : Long = 3
     var previousEnemyGenerationTime = System.currentTimeMillis()
     var resources = 0f
-    val speedFill = 1/100f
+    val speedFill = 1/10f
     private val RESOURCESMAX = 100f
 
-
-
-    //this variable stores the nb of the card clicked on
-    var nbCardClicked = 0
 
     var enemyTowersDestroyed = 0
     var allyTowersDestroyed = 0
 
-
+    var cardClicked: String? = null
 
     var timeLeft = 180.0
 
@@ -115,10 +111,10 @@ class GameManager {
                     allyTowersList.add(elem)
                 }
 
-                map.placeTowers(elem)
+                map.placeTower(elem)
             }
         }
-        //temporary, initialisation will depend on choices made by player
+
     }
 
 
@@ -141,7 +137,7 @@ class GameManager {
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
-            Log.e("sizeObjList", "$nn")
+            //Log.e("sizeObjList", "$nn")
         }
 
 
@@ -165,6 +161,7 @@ class GameManager {
         }
     }
 
+
     private var readyEnemyGen = false
     //checks whether set time between two enemy creations passed
     fun readyForEnemyGeneration(): Boolean {
@@ -180,15 +177,14 @@ class GameManager {
         return readyEnemyGen
     }
 
+
     //TODO target at the end
     fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>) {
         gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, target))
     }
 
 
-
-
-    fun updateResource(elapsedTimeMS: Long) {
+    private fun updateResource(elapsedTimeMS: Long) {
         if (resources <= RESOURCESMAX){
             if (resources < 0){
                 resources = 0f
@@ -202,17 +198,24 @@ class GameManager {
 
     }
 
+
     fun useResource(price: Int) {
         resources -= price
     }
 
 
+
     fun updateEnemiesDestroyed(obj: GameObject) {
         enemyTowersDestroyed++
+        var idx : Int? = null
         for (i in 0 until (enemyTowersList.size)){
             if (enemyTowersList[i].ix == obj.ix){
-                enemyTowersList.remove(obj)
+                idx = i
             }
+        }
+
+        if (idx != null){
+            enemyTowersList.removeAt(idx)
         }
 
     }
@@ -220,26 +223,39 @@ class GameManager {
 
     fun updateAlliesDestroyed(obj: GameObject) {
         allyTowersDestroyed++
+        var idx : Int? = null
         for (i in 0 until (allyTowersList.size)){
             if (allyTowersList[i].ix == obj.ix){
-                allyTowersList.remove(obj)
+                idx = i
             }
+        }
+
+        if (idx != null){
+            allyTowersList.removeAt(idx)
         }
     }
 
 
-    fun saveCard(nbCard: Int) {
-        nbCardClicked = nbCard
+    fun saveCard(card: String?) {
+        cardClicked = card
     }
 
 
-    fun playCard(nmCard : String) {
+    /*fun playCard(nmCard : String) {
         val nbRand = kotlin.random.Random.Default.nextInt(3)
         cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
+        val v = map.posAllySpawn[nbRand]!!
+        Log.e("OKAYBOY", "$v")
 
-        //cardManager.playCard(nbCardClicked, floor(resources.toDouble()), coordinates)
+    }*/
+
+
+    fun playCard(coordinates: Pair<Float, Float>){
+        if(cardClicked != null){
+            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), coordinates)
+            cardClicked = null
+        }
     }
-
 
 
 
@@ -259,11 +275,12 @@ class GameManager {
         GAMEOVER = true
         if (gameWon == null) {
             //"Egalité"
-            destroy()
+            //destroy()
         } else if (gameWon == true) {
-            //Log.e("WIN", "YEAH")
+            Log.e("WIN", "YEAH")
             //"Vous avez gagné"
         } else {
+            Log.e("LOSE", "No..")
             //"Vous avez perdu"
 
         }

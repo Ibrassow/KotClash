@@ -4,9 +4,10 @@ import android.graphics.*
 import android.util.Log
 import com.example.kotclash.App
 import com.example.kotclash.R
+import com.example.kotclash.models.GameManager
 import com.example.kotclash.models.GameObject
 
-class GameObjectView(val view : GameView) {
+class GameObjectView(private val view : GameView) {
 
     private lateinit var base: Bitmap
     private lateinit var simpleTower: Bitmap
@@ -18,6 +19,8 @@ class GameObjectView(val view : GameView) {
     private lateinit var projectile: Bitmap
 
     var paint = Paint()
+
+    val game = GameManager.gameInstance
 
     init{
         initImages()
@@ -35,7 +38,11 @@ class GameObjectView(val view : GameView) {
     }
 
 
-    fun drawObjects(canvas : Canvas, objectList : MutableList<GameObject>) {
+    fun drawObjects(canvas : Canvas) {
+
+        //TODO Temporary solution to avoid concurrent manipulations.. (copy)
+        val objectList = game.gameObjectList.toMutableList()
+
 
         for (obj in objectList) {
             if (obj.isAlive()){
@@ -43,23 +50,24 @@ class GameObjectView(val view : GameView) {
                     "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
                     "simpleTower" -> canvas.drawBitmap(simpleTower, null, obj.rectF, paint)
                     "tankred" -> {
-                        val submarineE = createSubImageAt(tankRed,obj.currentOrientation)
-                        canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        val subImg = createSubImageAt(tankRed,obj.currentOrientation)
+                        canvas.drawBitmap(subImg, null, obj.rectF, paint)
                     }
                     "tankblue" -> {
-                        val submarineE = createSubImageAt(tankBlue,obj.currentOrientation)
-                        canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        val subImg = createSubImageAt(tankBlue,obj.currentOrientation)
+                        canvas.drawBitmap(subImg, null, obj.rectF, paint)
                     }
                     "tankgreen" -> {
-                        val submarineE = createSubImageAt(tankGreen,obj.currentOrientation)
-                        canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        val subImg = createSubImageAt(tankGreen,obj.currentOrientation)
+                        canvas.drawBitmap(subImg, null, obj.rectF, paint)
                     }
                     "bomber" -> {
                         canvas.drawBitmap(bomber, null, obj.rectF, paint)
                     }
                     "soldier" -> {
-                        val submarineE = createSubImageAt(soldier,obj.currentOrientation)
-                        canvas.drawBitmap(submarineE, null, obj.rectF, paint)
+                        val subImg = createSubImageAt(soldier,obj.currentOrientation)
+                        canvas.drawBitmap(subImg, null, obj.rectF, paint)
+
                     }
                 }
             }
@@ -77,6 +85,9 @@ class GameObjectView(val view : GameView) {
         }
     }
 
+
+
+    //TODO Do all of these cut (only the card) at the init and store them to access them during runtime!
     fun createSubImageAt(image: Bitmap,  orientation:Float): Bitmap  {
         var row:Int=0; val col:Int=0; val rowCount: Int=8; val colCount:Int=6
         when (orientation){

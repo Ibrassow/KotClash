@@ -5,11 +5,11 @@ class TroopFactory(val game : GameManager) {
     fun getTroop(enemy : Boolean,
                  type : String,
                  coordinates: Pair<Float,Float>,
-                 target : Entity? = null): GameObject {
+                 target : Entity? = null,
+                 thrower : Entity? = null
+    ): GameObject {
 
         lateinit var troopSelect : GameObject
-
-        //TODO if enemy -> coordinates
 
 
         when (type){
@@ -20,7 +20,7 @@ class TroopFactory(val game : GameManager) {
             "tankgreen" -> troopSelect = Tankgreen(enemy, coordinates)
             "bomber" -> troopSelect = Bomber(enemy, coordinates)
             "soldier" -> troopSelect = Soldier(enemy, coordinates)
-            //"projectile" -> troopSelect = Projectile(enemy, target!!, coordinates)
+            "projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, thrower!!.damage)
 
         }
 

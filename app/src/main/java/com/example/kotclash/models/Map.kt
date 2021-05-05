@@ -18,6 +18,10 @@ class Map()  {
     val posAllySpawn = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
     val posEnemySpawn = mutableMapOf<Int, Pair<Float, Float>>()
     val posGate = mutableMapOf<Int, Pair<Float, Float>>()
+    val wallTag = mutableMapOf<Int, Pair<Float, Float>>()
+
+    var slope : Float = 0f
+    var originLine : Float = 0f
 
     //Don't change
     var oldRendW = 1f
@@ -30,6 +34,7 @@ class Map()  {
         posAllySpawn.clear()
         posEnemySpawn.clear()
         posGate.clear()
+        wallTag.clear()
     }
 
     fun getRowSize() : Int {
@@ -46,11 +51,11 @@ class Map()  {
 
 
     //Should be used at the beginning for the tower
-    fun placeTowers(obj: GameObject){
+    fun placeTower(obj: GameObject){
         //TODO opti after
         val sz = obj.size
-        val szx = sz.first/2
-        val szy = sz.second/2
+        //val szx = sz.first/2
+        //val szy = sz.second/2
         val xx = ((obj.coordinates.first)/obj.oldRendW).toInt()
         val yy = ((obj.coordinates.second)/obj.oldRendH).toInt()
 
@@ -69,6 +74,7 @@ class Map()  {
 
         try {
             grid[yy][xx].setOccupant(obj)
+            //Log.e("initTowersInMap","$obj")
         }
         catch(e: IndexOutOfBoundsException){
             //Log.d("Exception grid - place", "Index out of bounds")
@@ -131,30 +137,64 @@ class Map()  {
 
         if(newX != oldX || newY != oldY){
             try {
-                val x = getColSize()
-                val y = getRowSize()
+                //val x = getColSize()
+                //val y = getRowSize()
                 //Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
-                //Log.e("newPosition","$newX,$newY")
+                //Log.e("newPosition","($newX,$newY)")
                 grid[oldY][oldX].removeOccupant(obj)
-                //Log.e("oldPosition","$oldX,$oldY")
+                //Log.e("oldPosition","($oldX,$oldY)")
             }
             catch(e: IndexOutOfBoundsException){
                 //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
             }
 
-
         }
+    }
 
 
+    private fun setCoeffFrontier(){
+
+        slope = (wallTag[1]!!.second - wallTag[0]!!.second) / (wallTag[1]!!.first - wallTag[0]!!.first)
+        originLine = wallTag[0]!!.second
 
     }
+
+    private fun calculateFrontierPt(x : Float) : Float{
+        return slope * x + originLine
+    }
+
+
+    fun onOwnSide(obj: GameObject): Boolean{
+        val onMySide : Boolean
+
+        val x = obj.coordinates.first
+        val y = obj.coordinates.second
+        val correspondingFrontierPt = calculateFrontierPt(x)
+
+        onMySide = if (obj.isEnemy()){
+            correspondingFrontierPt >= y
+        }
+        else{
+            correspondingFrontierPt < y
+        }
+
+        return onMySide
+
+    }
+
 
     fun posSetRect(rendW: Float, rendH: Float){
 
        posGate.forEach { (gate, pos) ->
            posGate[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
        }
+        wallTag.forEach { (gate, pos) ->
+            wallTag[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
+        }
+
+        setCoeffFrontier()
+
         oldRendW = rendW
         oldRendH = rendH
 
@@ -167,9 +207,11 @@ class Map()  {
         grid[y][x].removeOccupant(obj)
     }
 
+
     private fun dist(c1: Pair<Float, Float>, c2: Pair<Float, Float>): Float {
     return sqrt((c1.first - c2.first).pow(2) + (c1.first - c2.first).pow(2))
     }
+
 
 
     fun getClosestGate(obj: GameObject): Pair<Float, Float>? {
@@ -179,7 +221,6 @@ class Map()  {
 
         var currDist: Float
 
-        //TODO Handle the case when distances are equal?
         posGate.forEach { (gate, _) ->
             currDist = dist(obj.coordinates, posGate[gate]!!)
             if (currDist<minDist){

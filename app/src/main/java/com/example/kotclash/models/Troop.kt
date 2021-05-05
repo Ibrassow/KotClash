@@ -1,5 +1,6 @@
 package com.example.kotclash.models
 
+import android.util.Log
 import kotlin.math.*
 
 
@@ -13,8 +14,11 @@ open class Troop(enemy: Boolean,
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         target = selectTarget(map)
-        //Log.e("target","$target")
+        val xCoord = ceil(coordinates.first/oldRendW)
+        val yCoord = ceil(coordinates.second/oldRendH)
+        //Log.e("target","$this, $target, ($xCoord,$yCoord)")
         if (target != null) {
+            currentOrientation = getAngleVector(coordinates,target!!.coordinates)
             if(readyForAttack()) {
                 attack(target!!)
                 previousAttackTime = System.currentTimeMillis()
@@ -28,13 +32,11 @@ open class Troop(enemy: Boolean,
 
 
     fun move(interval : Long, map: Map) {
-
-        if (onOwnSide()) {
-            //lookAheadPoint = getClosestGate(map.posGate)
+        //onOwnSide()
+        if (map.onOwnSide(this)) {
             lookAheadPoint = map.getClosestGate(this)!!
         }else {
             lookAheadPoint = findTargetOfMotion()
-            //Log.e("lookAhead","target:$lookAheadPoint")
         }
 
         currentOrientation = getAngleVector(coordinates,lookAheadPoint)
@@ -50,8 +52,10 @@ open class Troop(enemy: Boolean,
         //used to update view
         rectF.offset(dx, dy)
         /*Log.e("EE", "dx : $dx, dy : $dy")
-        Log.e("RR", "prevCoord : $previousCoordinates")
-        Log.e("RR", "coord : $coordinates")*/
+        Log.e("RR", "prevCoord : $previousCoordinates")*/
+        val x = coordinates.first/oldRendW
+        val y = coordinates.second/oldRendH
+        //Log.e("TroopCoord", "coord : $x,$y")
 
         map.displace(this, previousCoordinates)
 

@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotclash.R
-import kotlinx.android.synthetic.main.activity_start.*
 
 //import kotlinx.android.synthetic.main.activity_start.*
 

@@ -50,12 +50,17 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     }
 
     fun removeOccupant(obj: GameObject){
+        var idx : Int? = null
         for (i in 0 until (occupants.size)){
             if (occupants[i].ix == obj.ix){
-                occupants.remove(obj)
+                idx = i
             }
         }
-        //Log.e("occupants Remove","$occupants")
+
+        if (idx != null){
+            occupants.removeAt(idx)
+            //Log.e("occupant Removed","$occupants in ($xi,$yi)")
+        }
     }
 
 
@@ -63,7 +68,7 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         if (obj !in occupants){
             occupants.add(obj)//works
         }
-        //Log.e("occupants Set","$occupants")
+        //Log.e("occupant Set","$occupants in ($xi,$yi)")
     }
 
 

@@ -16,30 +16,23 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     var target : GameObject? = null
 
 
-    //substracts healthpoints, and sets dead = true when dies
-    override fun getDamaged(dmg: Int) {
-        health -= dmg  //different from member variable damage
-        game.map.killEntity(this)
-        //Log.e("health","$health")
-        if (health <= 0) {
-            dead = true
-            Log.e("DEAD", "They killed me..")
-        }
-    }
-
-    //TODO : should be overridden, as each troop will create its own projectile
-    //TODO : Attack as an interface? -> close/distance/..
-    /*override fun attack(entity: GameObject){
-        val orientation = getInitAngleProjectile(entity)
-        //gameManager.createProjectile(!enemy,"projectile",entity,coordinates, orientation)
+    //TODO : dès qu'img prête on peut lancer projectile
+    /*override fun attack(entity: GameObject) {
+        super.attack(entity)
+        game.gameObjectList.add(game.troopFactory.getTroop(true, "soldier",
+                                    coordinates, target as Entity, this))
     }*/
 
 
-
-
-    //allows to determine the closest enemy
-    fun distToEnemy(entity: GameObject): Float{
-        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
+    //substracts healthpoints, and sets dead = true when dies
+    override fun getDamaged(dmg: Int) {
+        health -= dmg  //different from member variable damage
+        //Log.e("health","$health")
+        if (health <= 0) {
+            dead = true
+            game.map.killEntity(this)
+            Log.e("DEAD", "They killed me.. a $type")
+        }
     }
 
 
@@ -69,12 +62,12 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
             val closestEnemy = getClosestEnemy(listEnemiesInRange)
             val distToClosestEnemy = distToEnemy(closestEnemy!!)
             //range*oldRendH
-            if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range)*oldRendH).pow(2)) {
-            target2 = closestEnemy
-            val xCoord = coordinates.first/oldRendW
-            val yCoord = coordinates.second/oldRendH
-            val targetXCoord = target2.coordinates.first/oldRendW
-            val targetYCoord = target2.coordinates.second/oldRendH
+            if (distToClosestEnemy < sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))) {
+                target2 = closestEnemy
+            //val xCoord = coordinates.first/oldRendW
+            //val yCoord = coordinates.second/oldRendH
+            //val targetXCoord = target2.coordinates.first/oldRendW
+            //val targetYCoord = target2.coordinates.second/oldRendH
             //Log.e("target2","$target2")
             //Log.e("coordinates","$xCoord,$yCoord")
             //Log.e("targetCoordiantes","$targetXCoord,$targetYCoord")
