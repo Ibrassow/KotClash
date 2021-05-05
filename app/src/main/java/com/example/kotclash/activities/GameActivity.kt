@@ -63,11 +63,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     private val updateBar = object : Runnable {
 
         override fun run() {
-            if (running) {progressBar.progress = game.resources.toInt()
-            mainHandler.postDelayed(this, 50)
-            if (game.GAMEOVER){
-                showGameOverDialog(game.results)
-                running = false
+            if (running) {
+                progressBar.progress = game.resources.toInt()
+                updateCards()
+                mainHandler.postDelayed(this, 50)
+
+                if (game.GAMEOVER){
+                    showGameOverDialog(game.results)
+                    running = false
             }}
         }
     }
@@ -80,7 +83,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
+    fun updateCards(){
+        for (i in 0 until 3) {
+            when(game.isCardAvailable(troopSelected[i])){
+                true -> cardList[i].blurImg()
+                false -> cardList[i].availableImg()
+            }
+        }
+    }
 
 
     override fun onClick(v: View) {

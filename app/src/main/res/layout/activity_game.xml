@@ -32,8 +32,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/imtest1" />
+            android:focusable="true" />
 
 
         <com.example.kotclash.views.CardView
@@ -42,8 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/imtest2" />
+            android:focusable="true" />
 
         <com.example.kotclash.views.CardView
             android:id="@+id/card3"
@@ -51,8 +49,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/imtest3" />
+            android:focusable="true" />
 
     </LinearLayout>
 

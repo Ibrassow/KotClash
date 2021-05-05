@@ -20,17 +20,31 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun initView(cardName : String) {
-        //imageCard = BitmapFactory.decodeResource(context.resources, R.drawable.imtest1)
+
         when (cardName) {
-            "test1" -> {this.setImageResource(R.drawable.tankred)}
-            "test2" -> this.setImageResource(R.drawable.tankblue)
-            "test3" -> this.setImageResource(R.drawable.tankgreen)
-            "test4" -> this.setImageResource(R.drawable.awax)
-            "test5" -> this.setImageResource(R.drawable.soldier)
+            "tankred" -> {this.setImageResource(R.drawable.tankred)}
+            "tankblue" -> this.setImageResource(R.drawable.tankblue)
+            "tankgreen" -> this.setImageResource(R.drawable.tankgreen)
+            "bomber" -> this.setImageResource(R.drawable.bomber)
+            "soldier" -> this.setImageResource(R.drawable.soldier)
         }
     }
 
-    fun grey(){
+
+    fun blurImg(){
+        alpha = 0.3f
+        isClickable = false
+    }
+
+    fun availableImg(){
+        alpha = 1f
+        isClickable = true
+    }
+
+
+
+
+    /*fun grey(){
         when (cardName){
             "test1" -> {this.setImageResource(R.drawable.gtankblue);this.setBackgroundColor(Color.GRAY)}
             "test2" -> {this.setImageResource(R.drawable.gtankgreen);this.setBackgroundColor(Color.GRAY)}
@@ -38,6 +52,6 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
             "test4" -> {this.setImageResource(R.drawable.awax);this.setBackgroundColor(Color.GRAY)}
             "test5" -> {this.setImageResource(R.drawable.soldier);this.setBackgroundColor(Color.GRAY)}
         }
-    }
+    }*/
 
 }
