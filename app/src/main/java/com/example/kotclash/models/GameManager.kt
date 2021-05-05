@@ -38,10 +38,11 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq : Long = 3
-    var previousEnemyGenerationTime = System.currentTimeMillis()
+    private val enemyGenerationFreq : Long = 15
+    //var previousEnemyGenerationTime = System.currentTimeMillis()
+    private var previousEnemyGenerationTime : Long = System.nanoTime() / 1000000
     var resources = 0f
-    val speedFill = 1/100f
+    private val speedFill = 1/100f
     private val RESOURCESMAX = 100f
 
 
@@ -50,7 +51,7 @@ class GameManager {
 
     var cardClicked: String? = null
 
-    var timeLeft : Float = 180f
+    var timeLeft : Float = 130f
 
     lateinit var currentMap: String
     lateinit var results : String
@@ -135,7 +136,7 @@ class GameManager {
                 endGame()
             }
             updateResource(elapsedTimeMS)
-            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            takeAction(elapsedTimeMS, map)
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
