@@ -244,7 +244,7 @@ class GameManager {
 
 
     /*fun playCard(nmCard : String) {
-        val nbRand = kotlin.random.Random.Default.nextInt(3)
+        val nbRand = kotlin.random.Random.Default.nextInt(2)
         cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
         val v = map.posAllySpawn[nbRand]!!
         Log.e("OKAYBOY", "$v")
@@ -252,9 +252,9 @@ class GameManager {
     }*/
 
 
-    fun playCard(coordinates: Pair<Float, Float>){
+    fun playCard(side : Int){
         if(cardClicked != null){
-            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), map.posAllySpawn[0]!!)
+            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), map.posAllySpawn[side]!!)
             cardClicked = null
         }
     }
