@@ -20,6 +20,7 @@ class Map()  {
     val posGate = mutableMapOf<Int, Pair<Float, Float>>()
     val wallTag = mutableMapOf<Int, Pair<Float, Float>>()
 
+
     var slope : Float = 0f
     var originLine : Float = 0f
 
@@ -192,6 +193,10 @@ class Map()  {
         wallTag.forEach { (gate, pos) ->
             wallTag[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
         }
+
+        /*posAllySpawn.forEach { (spawn, pos) ->
+            posGate[spawn] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
+        }*/
 
         setCoeffFrontier()
 
