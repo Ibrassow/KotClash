@@ -132,7 +132,6 @@ class GameManager {
             if (timeLeft <= 0.0) {
                 endGame()
             }
-            //gameObjectList.forEach{ obj -> if(!obj.takingAction){obj.startOperation()} }
             updateResource(elapsedTimeMS)
             takeAction(elapsedTimeMS, map)
             autonomousEnemyGeneration(map)
