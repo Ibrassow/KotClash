@@ -16,7 +16,6 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     var target : GameObject? = null
 
 
-    //TODO : dès qu'img prête on peut lancer projectile
     override fun attack(entity: GameObject) {
         game.createProjectile(this, entity as Entity)
     }

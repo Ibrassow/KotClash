@@ -12,7 +12,7 @@ open class Troop(enemy: Boolean,
     lateinit var lookAheadPoint: Pair<Float,Float>
 
 
-    override fun takeAction(elapsedTimeMS: Long, map: Map) {
+    override fun takeAction(elapsedTimeMS: Long, map: Map){
         target = selectTarget(map)
         //val xCoord = ceil(coordinates.first/oldRendW)
         //val yCoord = ceil(coordinates.second/oldRendH)

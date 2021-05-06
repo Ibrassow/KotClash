@@ -2,7 +2,6 @@ package com.example.kotclash.models
 
 import android.util.Log
 import kotlin.math.ceil
-import kotlin.math.floor
 
 
 /**
@@ -123,9 +122,6 @@ class GameManager {
 
 
 
-
-
-
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
@@ -136,6 +132,7 @@ class GameManager {
             if (timeLeft <= 0.0) {
                 endGame()
             }
+            //gameObjectList.forEach{ obj -> if(!obj.takingAction){obj.startOperation()} }
             updateResource(elapsedTimeMS)
             takeAction(elapsedTimeMS, map)
             autonomousEnemyGeneration(map)
@@ -158,7 +155,7 @@ class GameManager {
 
     fun takeAction(elapsedTimeMS: Long, map: Map) {
         for (obj in gameObjectList) {
-            if (obj.isAlive()) {
+            if (obj.isAlive() && obj.takingAction) {
                 obj.takeAction(elapsedTimeMS, map)
             }
         }
@@ -225,6 +222,7 @@ class GameManager {
     }
 
     fun addTroop(enemy : Boolean, type: String, side: Int){
+        //ok
         when(enemy){
             false -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posAllySpawn[side]!!))
             true -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posEnemySpawn[side]!!))
@@ -270,7 +268,6 @@ class GameManager {
 
 
 
-
     fun playCard(side : Int){
         if(cardClicked != null){
             cardManager.playCard(cardClicked!!, side)
@@ -296,7 +293,6 @@ class GameManager {
 
 
     fun setGameOver(gameWon: Boolean?) {
-        //GAMEOVER = false
         GAMEOVER = true
         if (gameWon == false) {
             results = "Defeated"

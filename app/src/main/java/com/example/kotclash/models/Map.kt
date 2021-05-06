@@ -194,6 +194,10 @@ class Map()  {
             wallTag[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
         }
 
+        /*posAllySpawn.forEach { (spawn, pos) ->
+            posGate[spawn] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
+        }*/
+
         setCoeffFrontier()
 
         oldRendW = rendW

@@ -10,7 +10,7 @@ class Projectile(enemy: Boolean,
                 ) : GameObject(enemy, coordinates), Movable {
 
     override var type = "projectile"
-    val projRange = sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))*2
+    private val projRange = sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))*2.5f
     private val speed = 1f
 
 
@@ -27,21 +27,19 @@ class Projectile(enemy: Boolean,
 
 
     fun move(interval : Long, map: Map) {
-
-        currentOrientation = getAngleVector(coordinates,target.coordinates)
+        val targCoord = Pair(target.rectF.centerX(), target.rectF.centerY())
+        currentOrientation = getAngleVector(coordinates,targCoord)
         //Log.e("orientation","$this orientation = $currentOrientation")
 
-        val previousCoordinates = coordinates
         val dx = speed * interval * cos(currentOrientation)
         val dy = speed * interval * -sin(currentOrientation)
 
         //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
-        Log.e("PROJECTILE", "$coordinates")
+        //Log.e("PROJECTILE", "$coordinates")
         //used to update view
         rectF.offset(dx, dy)
 
-        //map.displace(this, previousCoordinates)
 
     }
 
@@ -49,7 +47,7 @@ class Projectile(enemy: Boolean,
     override fun attack(entity: GameObject) {
         entity.getDamaged(damage)
         dead = true
-        Log.e("PROJECTILE", "I'm Done")
+        //Log.e("PROJECTILE", "I'm Done")
     }
 
     override fun setRect(rendW : Float, rendH : Float){
