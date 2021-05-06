@@ -13,7 +13,7 @@ open class GameObject(
 ) {
 
     open var type = ""
-
+    var takingAction = false
 
     var endx = coordinates.first
     var endy = coordinates.second
@@ -39,11 +39,24 @@ open class GameObject(
         ix = getIx()
     }
 
+    fun startOperation(){
+        takingAction = true
+    }
 
-    //X,y should rather be the center ..
-    fun setRect(rendW : Float, rendH : Float){
+    //X,y should be the center ..
+    open fun setRect(rendW : Float, rendH : Float){
+        val rx = coordinates.first
+        val ry = coordinates.second
+
         val x = (coordinates.first / oldRendW * rendW)
         val y = (coordinates.second / oldRendH * rendH)
+
+
+        if (type == "tankred"){
+            Log.e("$ix", "olH $oldRendH olW $oldRendW --- ($x,$y) -- rend H : $rendH - rend W : $rendW --- first : ($rx, $ry)")
+            Log.e("TANKRED", "id : $ix --- ($x,$y) -- rend H : $rendH - rend W : $rendW")
+        }
+
         coordinates = Pair(x,y)
         endx = x + rendW
         endy = y + rendH
@@ -53,7 +66,8 @@ open class GameObject(
     }
 
 
-    open fun takeAction(elapsedTimeMS: Long, map: Map){}
+    open fun takeAction(elapsedTimeMS: Long, map: Map) {
+    }
 
     /*fun isObstacle(){
     }*/
@@ -79,7 +93,7 @@ open class GameObject(
 
     //allows to determine the closest enemy
     fun distToEnemy(entity: GameObject): Float{
-        return sqrt((entity.coordinates.first - coordinates.first).pow(2) + (entity.coordinates.second - coordinates.second).pow(2))
+        return sqrt((entity.rectF.centerX() - rectF.centerX()).pow(2) + (entity.rectF.centerY() - rectF.centerY()).pow(2))
     }
 
 

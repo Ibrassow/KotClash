@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.Log
-import android.view.MotionEvent
 import com.example.kotclash.App
 import com.example.kotclash.models.Map
 import com.example.kotclash.R
@@ -27,6 +26,7 @@ class MapView() {
     lateinit var grass: Bitmap
     lateinit var soil: Bitmap
     lateinit var wall: Bitmap
+    lateinit var tree: Bitmap
     //lateinit var gate: Bitmap
 
     private var INIT : Boolean = false
@@ -45,6 +45,13 @@ class MapView() {
                 grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.lava_soil)
                 soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.brown_soil)
                 wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.lave)
+
+            }
+            "frost" -> {
+                grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snow)
+                soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.brown_soil)
+                wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snowtree)
+                tree = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snowtree)
 
             }
         }

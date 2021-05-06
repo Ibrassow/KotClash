@@ -6,7 +6,7 @@ class TroopFactory(val game : GameManager) {
                  type : String,
                  coordinates: Pair<Float,Float>,
                  target : Entity? = null,
-                 thrower : Entity? = null
+                 dmgProjectile : Int = 0
     ): GameObject {
 
         lateinit var troopSelect : GameObject
@@ -20,7 +20,7 @@ class TroopFactory(val game : GameManager) {
             "tankgreen" -> troopSelect = Tankgreen(enemy, coordinates)
             "bomber" -> troopSelect = Bomber(enemy, coordinates)
             "soldier" -> troopSelect = Soldier(enemy, coordinates)
-            "projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, thrower!!.damage)
+            "projectile" -> troopSelect = Projectile(enemy, target!!, coordinates, dmgProjectile)
 
         }
 

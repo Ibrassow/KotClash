@@ -1,7 +1,7 @@
 package com.example.kotclash.models
 
 import android.util.Log
-import kotlin.math.floor
+import kotlin.math.ceil
 
 
 /**
@@ -39,7 +39,6 @@ class GameManager {
 
 
     private val enemyGenerationFreq : Long = 15
-    //var previousEnemyGenerationTime = System.currentTimeMillis()
     private var previousEnemyGenerationTime : Long = System.nanoTime() / 1000000
     var resources = 0f
     private val speedFill = 1/100f
@@ -63,6 +62,7 @@ class GameManager {
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
+    val projectileList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -122,9 +122,6 @@ class GameManager {
 
 
 
-
-
-
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
@@ -139,6 +136,14 @@ class GameManager {
             takeAction(elapsedTimeMS, map)
             autonomousEnemyGeneration(map)
 
+            for (projectile in projectileList){
+                gameObjectList.add(projectile)
+            }
+            projectileList.clear()
+
+            gameObjectList.removeAll{ it.dead }
+
+
             val nn = gameObjectList.size
             Log.e("sizeObjList", "$nn")
         }
@@ -149,7 +154,7 @@ class GameManager {
 
     fun takeAction(elapsedTimeMS: Long, map: Map) {
         for (obj in gameObjectList) {
-            if (obj.isAlive()) {
+            if (obj.isAlive() && obj.takingAction) {
                 obj.takeAction(elapsedTimeMS, map)
             }
         }
@@ -160,7 +165,16 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "tankred", map.posEnemySpawn[nbRand]!!))
+            val nbRandTroop = kotlin.random.Random.Default.nextInt(4)
+            var randTroop : String = ""
+            when(nbRandTroop){
+                0 -> randTroop = "tankred"
+                1 -> randTroop = "tankblue"
+                2 -> randTroop = "tankgreen"
+                3 -> randTroop = "soldier"
+            }
+            if (randTroop == ""){randTroop = "tankred"}
+            gameObjectList.add(troopFactory.getTroop(true, randTroop, map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -181,9 +195,9 @@ class GameManager {
     }
 
 
-    //TODO target at the end
-    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>) {
-        gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, target))
+    fun createProjectile(thrower: GameObject, target: Entity) {
+        val newCoordinates = Pair(ceil(thrower.coordinates.first / thrower.oldRendW), ceil(thrower.coordinates.second / thrower.oldRendH))
+        projectileList.add(troopFactory.getTroop(thrower.enemy, "projectile", newCoordinates, target, dmgProjectile = thrower.damage))
     }
 
 
@@ -204,6 +218,14 @@ class GameManager {
 
     fun useResource(price: Int) {
         resources -= price
+    }
+
+    fun addTroop(enemy : Boolean, type: String, side: Int){
+        //ok
+        when(enemy){
+            false -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posAllySpawn[side]!!))
+            true -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posEnemySpawn[side]!!))
+        }
     }
 
 
@@ -245,10 +267,9 @@ class GameManager {
 
 
 
-
     fun playCard(side : Int){
         if(cardClicked != null){
-            cardManager.playCard(cardClicked!!, map.posAllySpawn[side]!!)
+            cardManager.playCard(cardClicked!!, side)
             cardClicked = null
         }
     }
@@ -271,7 +292,6 @@ class GameManager {
 
 
     fun setGameOver(gameWon: Boolean?) {
-        //GAMEOVER = false
         GAMEOVER = true
         if (gameWon == false) {
             results = "Defeated"
