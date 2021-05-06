@@ -17,10 +17,9 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
 
     //TODO : dès qu'img prête on peut lancer projectile
-    /*override fun attack(entity: GameObject) {
-        game.gameObjectList.add(game.troopFactory.getTroop(true, "soldier",
-                                    coordinates, target as Entity, this))
-    }*/
+    override fun attack(entity: GameObject) {
+        game.createProjectile(enemy, entity as Entity, coordinates, damage)
+    }
 
 
     //substracts healthpoints, and sets dead = true when dies

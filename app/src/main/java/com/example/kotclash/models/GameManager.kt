@@ -39,7 +39,6 @@ class GameManager {
 
 
     private val enemyGenerationFreq : Long = 15
-    //var previousEnemyGenerationTime = System.currentTimeMillis()
     private var previousEnemyGenerationTime : Long = System.nanoTime() / 1000000
     var resources = 0f
     private val speedFill = 1/100f
@@ -63,6 +62,7 @@ class GameManager {
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
+    val projectileList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -139,6 +139,16 @@ class GameManager {
             takeAction(elapsedTimeMS, map)
             autonomousEnemyGeneration(map)
 
+            for (projectile in projectileList){
+                gameObjectList.add(projectile)
+            }
+            projectileList.clear()
+
+            gameObjectList.removeAll{ obj ->
+                obj.dead
+            }
+
+
             val nn = gameObjectList.size
             Log.e("sizeObjList", "$nn")
         }
@@ -182,8 +192,10 @@ class GameManager {
 
 
     //TODO target at the end
-    fun createProjectile(enemy: Boolean, type: String, target: Entity, coordinates: Pair<Float, Float>) {
-        gameObjectList.add(troopFactory.getTroop(enemy, type, coordinates, target))
+    fun createProjectile(enemy: Boolean, target: Entity, coordinates: Pair<Float, Float>, dmg: Int) {
+
+        val newCoordinates = Pair(coordinates.first / map.getColSize(), coordinates.second / map.getRowSize())
+        projectileList.add(troopFactory.getTroop(enemy, "projectile", newCoordinates, target, dmgProjectile = dmg))
     }
 
 

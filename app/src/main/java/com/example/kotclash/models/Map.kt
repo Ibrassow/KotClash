@@ -20,6 +20,7 @@ class Map()  {
     val posGate = mutableMapOf<Int, Pair<Float, Float>>()
     val wallTag = mutableMapOf<Int, Pair<Float, Float>>()
 
+
     var slope : Float = 0f
     var originLine : Float = 0f
 
