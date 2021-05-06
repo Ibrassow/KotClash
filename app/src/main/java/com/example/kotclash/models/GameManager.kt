@@ -169,7 +169,16 @@ class GameManager {
     fun autonomousEnemyGeneration(map: Map) {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
-            gameObjectList.add(troopFactory.getTroop(true, "tankred", map.posEnemySpawn[nbRand]!!))
+            val nbRandTroop = kotlin.random.Random.Default.nextInt(4)
+            var randTroop : String = ""
+            when(nbRandTroop){
+                0 -> randTroop = "tankred"
+                1 -> randTroop = "tankblue"
+                2 -> randTroop = "tankgreen"
+                3 -> randTroop = "soldier"
+            }
+            if (randTroop == ""){randTroop = "tankred"}
+            gameObjectList.add(troopFactory.getTroop(true, randTroop, map.posEnemySpawn[nbRand]!!))
         }
     }
 
@@ -215,6 +224,13 @@ class GameManager {
         resources -= price
     }
 
+    fun addTroop(enemy : Boolean, type: String, side: Int){
+        when(enemy){
+            false -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posAllySpawn[side]!!))
+            true -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posEnemySpawn[side]!!))
+        }
+    }
+
 
 
     fun updateEnemiesDestroyed(obj: GameObject) {
@@ -257,7 +273,7 @@ class GameManager {
 
     fun playCard(side : Int){
         if(cardClicked != null){
-            cardManager.playCard(cardClicked!!, map.posAllySpawn[side]!!)
+            cardManager.playCard(cardClicked!!, side)
             cardClicked = null
         }
     }
