@@ -51,15 +51,12 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
                 //- 100f
                 val y = e.rawY
                 //- 300f
-                //Pair(x,y)
                 if (x <= screenWidth/2f){
                     game.playCard(0)
                 }
                 else{
                     game.playCard(1)
                 }
-
-
             }
         }
         return true
@@ -96,12 +93,13 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
         backgroundPaint.textSize = (screenWidth/20f)
         if (game.timeLeft <= 20.0 && (game.timeLeft%2.0).toInt()==0) {backgroundPaint.color = Color.RED}
-        //TODO if
-        canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
-
+        if (second < 10.0){
+            canvas.drawText("0${minute.toInt()} : 0${second.toInt()} ",30f, 50f, backgroundPaint)
+        }
+        else{
+            canvas.drawText("0${minute.toInt()} : ${second.toInt()} ",30f, 50f, backgroundPaint)
+        }
         backgroundPaint.color = Color.WHITE
-
-
         }
 
 

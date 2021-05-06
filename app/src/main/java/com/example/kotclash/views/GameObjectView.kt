@@ -33,7 +33,7 @@ class GameObjectView(private val view : GameView) {
         tankRed = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
         tankBlue= BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bluetank)
         tankGreen = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.greentank)
-        bomber = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.awax)
+        bomber = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bomber)
         soldier = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soldiers)
     }
 

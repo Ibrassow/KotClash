@@ -38,10 +38,11 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq : Long = 3
-    var previousEnemyGenerationTime = System.currentTimeMillis()
+    private val enemyGenerationFreq : Long = 15
+    //var previousEnemyGenerationTime = System.currentTimeMillis()
+    private var previousEnemyGenerationTime : Long = System.nanoTime() / 1000000
     var resources = 0f
-    val speedFill = 1/100f
+    private val speedFill = 1/100f
     private val RESOURCESMAX = 100f
 
 
@@ -50,7 +51,7 @@ class GameManager {
 
     var cardClicked: String? = null
 
-    var timeLeft : Float = 180f
+    var timeLeft : Float = 130f
 
     lateinit var currentMap: String
     lateinit var results : String
@@ -135,7 +136,7 @@ class GameManager {
                 endGame()
             }
             updateResource(elapsedTimeMS)
-            takeAction(elapsedTimeMS, map) //TODO: might want to convert time into s
+            takeAction(elapsedTimeMS, map)
             autonomousEnemyGeneration(map)
 
             val nn = gameObjectList.size
@@ -243,23 +244,18 @@ class GameManager {
     }
 
 
-    /*fun playCard(nmCard : String) {
-        val nbRand = kotlin.random.Random.Default.nextInt(2)
-        cardManager.playCard(nmCard, floor(resources.toDouble()), map.posAllySpawn[nbRand]!!)
-        val v = map.posAllySpawn[nbRand]!!
-        Log.e("OKAYBOY", "$v")
-
-    }*/
 
 
     fun playCard(side : Int){
         if(cardClicked != null){
-            cardManager.playCard(cardClicked!!, floor(resources.toDouble()), map.posAllySpawn[side]!!)
+            cardManager.playCard(cardClicked!!, map.posAllySpawn[side]!!)
             cardClicked = null
         }
     }
 
-
+    fun isCardAvailable(nmCard : String): Boolean{
+        return cardManager.isAvailable(nmCard)
+    }
 
     fun endGame() {
 
@@ -268,8 +264,8 @@ class GameManager {
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
             Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
-        } else
-            setGameOver(null)
+        } else {
+            setGameOver(null)}
     }
 
 

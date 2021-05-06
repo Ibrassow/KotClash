@@ -24,6 +24,9 @@ class Base(enemy: Boolean,
             Log.e("BASE", "IM DEAD")
             gameManager.setGameOver(true)
         }
+        else if (dead && !enemy){
+            gameManager.setGameOver(false)
+        }
 
     }
 
