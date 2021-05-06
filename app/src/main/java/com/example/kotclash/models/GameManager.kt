@@ -61,6 +61,7 @@ class GameManager {
     val troopFactory = TroopFactory(this)
     val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
+    val projectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
 

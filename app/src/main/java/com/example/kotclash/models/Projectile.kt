@@ -11,7 +11,8 @@ class Projectile(enemy: Boolean,
 
 
     val projRange = 0.5f* sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))
-    private val speed = 1f
+    private val speed = 0.1f
+    override var type ="projectile"
 
     //Implémentation pour missiles qui touchent tt le monde aux alentours
     /*override fun takeAction(elapsedTimeMS: Long, grid: Map) {
@@ -28,11 +29,15 @@ class Projectile(enemy: Boolean,
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         val dist = distToEnemy(target)
-        if(dist < projRange){
-            attack(target)
-        }else{
+        Log.wtf("my coord","$dist :: $this :: ${this.coordinates}")
+        if(dist == 0f){
+           attack(target)
+            //this.dead = true
+        }else if (dist >0){
             move(elapsedTimeMS, map)
+            //attack(target)
         }
+
     }
 
 
@@ -65,5 +70,6 @@ class Projectile(enemy: Boolean,
         //could depend on type of projectile -> could also repel troops
         //one option:
         entity.getDamaged(damage)
+        this.dead = true
     }
 }

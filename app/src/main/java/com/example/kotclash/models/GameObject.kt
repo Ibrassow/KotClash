@@ -51,6 +51,17 @@ open class GameObject(
         oldRendH = rendH
         rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
     }
+    fun setRectpro(rendW : Float, rendH : Float) {
+
+        val x = (coordinates.first / oldRendW  )
+        val y = (coordinates.second / oldRendH  )
+        coordinates = Pair(x, y)
+        endx = x + rendW
+        endy = y + rendH
+        oldRendW = rendW
+        oldRendH = rendH
+        rectF.set(x - (size.first / 2f) * 1, y - (size.second / 2f) * 1, endx + (size.first / 2f) * 1, endy + (size.second / 2f) * 1)
+    }
 
 
     open fun takeAction(elapsedTimeMS: Long, map: Map){}

@@ -29,7 +29,7 @@ class GameObjectView(private val view : GameView) {
     fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
         simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
-        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullets)
+        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullet)
         tankRed = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
         tankBlue= BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bluetank)
         tankGreen = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.greentank)
@@ -69,7 +69,8 @@ class GameObjectView(private val view : GameView) {
                         canvas.drawBitmap(subImg, null, obj.rectF, paint)
                     }
                     "projectile" -> {
-                        canvas.drawBitmap(projectile, null, obj.rectF, paint)
+                        canvas.drawBitmap(projectile, null,obj.rectF, paint)
+                        Log.wtf("drawing","projectile drawed")
                     }
                 }
             }
@@ -83,7 +84,8 @@ class GameObjectView(private val view : GameView) {
         val rendH = (view.screenHeight / view.game.map.getRowSize())
 
         for (obj in objectList){
-            obj.setRect(rendW, rendH)
+            if (obj.type == "projectile"){obj.setRectpro(rendW,rendH)}
+            else{obj.setRect(rendW, rendH)}
         }
     }
 
