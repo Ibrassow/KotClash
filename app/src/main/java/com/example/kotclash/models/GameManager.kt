@@ -145,9 +145,7 @@ class GameManager {
             }
             projectileList.clear()
 
-            gameObjectList.removeAll{ obj ->
-                obj.dead
-            }
+            gameObjectList.removeAll{ it.dead }
 
 
             val nn = gameObjectList.size

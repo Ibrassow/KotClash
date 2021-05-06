@@ -78,9 +78,10 @@ class GameObjectView(private val view : GameView) {
     }
 
 
-    fun setRect(objectList : MutableList<GameObject> ){
-        val rendW = (view.screenWidth / view.game.map.getColSize())
-        val rendH = (view.screenHeight / view.game.map.getRowSize())
+    fun setRect(){
+        val objectList = game.gameObjectList
+        val rendW = (view.screenWidth / game.map.getColSize())
+        val rendH = (view.screenHeight / game.map.getRowSize())
 
         for (obj in objectList){
             obj.setRect(rendW, rendH)

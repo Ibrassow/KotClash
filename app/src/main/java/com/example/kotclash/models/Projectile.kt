@@ -60,6 +60,6 @@ class Projectile(enemy: Boolean,
         //endy = y + rendH
         oldRendW = rendW
         oldRendH = rendH
-        rectF.set(x - (size.first/2f)*15f, y - (size.second/2f)*15f, x + (size.first/2f)*15f, y + (size.second/2f)*15f)
+        rectF.set(x - (size.first/2f)*20f, y - (size.second/2f)*20f, x + (size.first/2f)*20f, y + (size.second/2f)*20f)
     }
 }
