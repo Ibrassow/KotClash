@@ -18,7 +18,7 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
     //TODO : dès qu'img prête on peut lancer projectile
     override fun attack(entity: GameObject) {
-        game.createProjectile(enemy, entity as Entity, coordinates, damage)
+        game.createProjectile(this, entity as Entity)
     }
 
 

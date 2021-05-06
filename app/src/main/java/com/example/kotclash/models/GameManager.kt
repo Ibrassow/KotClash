@@ -1,6 +1,7 @@
 package com.example.kotclash.models
 
 import android.util.Log
+import kotlin.math.ceil
 import kotlin.math.floor
 
 
@@ -191,11 +192,9 @@ class GameManager {
     }
 
 
-    //TODO target at the end
-    fun createProjectile(enemy: Boolean, target: Entity, coordinates: Pair<Float, Float>, dmg: Int) {
-
-        val newCoordinates = Pair(coordinates.first / map.getColSize(), coordinates.second / map.getRowSize())
-        projectileList.add(troopFactory.getTroop(enemy, "projectile", newCoordinates, target, dmgProjectile = dmg))
+    fun createProjectile(thrower: GameObject, target: Entity) {
+        val newCoordinates = Pair(ceil(thrower.coordinates.first / thrower.oldRendW), ceil(thrower.coordinates.second / thrower.oldRendH))
+        projectileList.add(troopFactory.getTroop(thrower.enemy, "projectile", newCoordinates, target, dmgProjectile = thrower.damage))
     }
 
 
