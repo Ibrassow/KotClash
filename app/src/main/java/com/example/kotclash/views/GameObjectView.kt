@@ -29,12 +29,12 @@ class GameObjectView(private val view : GameView) {
     fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
         simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
-        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullet)
         tankRed = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
         tankBlue= BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bluetank)
         tankGreen = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.greentank)
         bomber = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bomber)
         soldier = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.soldiers)
+        projectile = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.bullets)
     }
 
 
@@ -45,6 +45,7 @@ class GameObjectView(private val view : GameView) {
 
 
         for (obj in objectList) {
+            if(!obj.takingAction){obj.startOperation()}
             if (obj.isAlive()){
                 when (obj.type) {
                     "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)
@@ -70,7 +71,6 @@ class GameObjectView(private val view : GameView) {
                     }
                     "projectile" -> {
                         canvas.drawBitmap(projectile, null,obj.rectF, paint)
-                        Log.wtf("drawing","projectile drawed")
                     }
                 }
             }
@@ -79,13 +79,13 @@ class GameObjectView(private val view : GameView) {
     }
 
 
-    fun setRect(objectList : MutableList<GameObject> ){
-        val rendW = (view.screenWidth / view.game.map.getColSize())
-        val rendH = (view.screenHeight / view.game.map.getRowSize())
+    fun setRect(){
+        val objectList = game.gameObjectList
+        val rendW = (view.screenWidth / game.map.getColSize())
+        val rendH = (view.screenHeight / game.map.getRowSize())
 
         for (obj in objectList){
-            if (obj.type == "projectile"){obj.setRectpro(rendW,rendH)}
-            else{obj.setRect(rendW, rendH)}
+            obj.setRect(rendW, rendH)
         }
     }
 

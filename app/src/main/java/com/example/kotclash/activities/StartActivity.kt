@@ -3,7 +3,6 @@ package com.example.kotclash.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,7 @@ import com.example.kotclash.R
 class StartActivity : AppCompatActivity() {
     var startButton : Button? =null
     var quitButton : Button? =null
+    var levelButton : Button? =null
     val sampleMaps = intArrayOf(R.drawable.springfield, R.drawable.lavafield, R.drawable.winterfield)
     val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.bomber,R.drawable.soldier)
     val nameTroops = arrayListOf<String>("tankred", "tankblue", "tankgreen", "bomber", "soldier")
@@ -78,6 +78,7 @@ class StartActivity : AppCompatActivity() {
 
         startButton = findViewById(R.id.startbutton)
         quitButton = findViewById(R.id.quitbutton)
+        levelButton = findViewById(R.id.lvlBtn)
 
         startButton?.setOnClickListener {
             var params = listOf<Int>(i,j,k,l)
@@ -85,7 +86,7 @@ class StartActivity : AppCompatActivity() {
             when (i){
                 1 -> intent.putExtra("mapChosen", "spring")
                 2 -> intent.putExtra("mapChosen", "lava")
-                3 -> intent.putExtra("mapChosen", "lava")
+                3 -> intent.putExtra("mapChosen", "frost")
             }
 
             intent.putExtra("troop1Chosen", nameTroops[j-1])
@@ -93,6 +94,9 @@ class StartActivity : AppCompatActivity() {
             intent.putExtra("troop3Chosen", nameTroops[l-1])
 
             startActivity(intent);
+        }
+        levelButton?.setOnClickListener {
+            // todo ...
         }
 
         quitButton?.setOnClickListener {

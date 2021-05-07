@@ -9,28 +9,29 @@ class CardManager(private val troopFactory: TroopFactory, var game : GameManager
     val costBomber : Int = 40
 
     //TODO: could also use CardManager for autonomousEnemyGeneration()
-    fun playCard(cardName: String, coordinates: Pair<Float,Float>){
+    fun playCard(cardName: String, side: Int){
         val resources = floor(game.resources)
 
         when(cardName){
             "tankred" -> {
-                if(resources > costTank){game.gameObjectList.add(troopFactory.getTroop(false,"tankred", coordinates))
-                game.useResource(costTank)}
+                if(resources > costTank){
+                    game.addTroop(false, "tankred", side)
+                    game.useResource(costTank)}
             }
             "tankblue" -> {
-                if(resources > costTank){game.gameObjectList.add(troopFactory.getTroop(false,"tankblue", coordinates))
+                if(resources > costTank){game.addTroop(false, "tankblue", side)
                 game.useResource(costTank)}
             }
             "tankgreen" -> {
-                if(resources > costTank){game.gameObjectList.add(troopFactory.getTroop(false,"tankgreen", coordinates))
+                if(resources > costTank){game.addTroop(false, "tankgreen", side)
                 game.useResource(costTank)}
             }
             "bomber" -> {
-                if(resources > costBomber){game.gameObjectList.add(troopFactory.getTroop(false,"bomber", coordinates))
+                if(resources > costBomber){game.addTroop(false, "bomber", side)
                 game.useResource(costBomber)} }
 
             "soldier" -> {
-                if(resources > costSoldier){game.gameObjectList.add(troopFactory.getTroop(false,"soldier", coordinates))
+                if(resources > costSoldier){game.addTroop(false, "soldier", side)
                 game.useResource(costSoldier)}
             }
 

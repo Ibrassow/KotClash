@@ -22,10 +22,10 @@ class MapLoader() {
             map.clearMap()
         }
 
-        //TODO Add other maps
         when (mapName){
             "spring" -> map = parseFile("spring")
             "lava" -> map = parseFile("lava")
+            "frost" -> map = parseFile("frost")
         }
         return map
     }

@@ -9,67 +9,55 @@ class Projectile(enemy: Boolean,
                  override val damage : Int
                 ) : GameObject(enemy, coordinates), Movable {
 
+    override var type = "projectile"
+    private val projRange = sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))*2.5f
+    private val speed = 1f
 
-    val projRange = 0.5f* sqrt((range*oldRendW).pow(2) + (range*oldRendH).pow(2))
-    private val speed = 0.1f
-    override var type ="projectile"
-
-    //Implémentation pour missiles qui touchent tt le monde aux alentours
-    /*override fun takeAction(elapsedTimeMS: Long, grid: Map) {
-        val enemyInRange = getEnemiesInRange(grid)
-        if(enemyInRange.isNotEmpty()){
-            for(entity in enemyInRange) {
-                attack(entity)
-            }
-        }else{
-            move(elapsedTimeMS)
-        }
-    }*/
 
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         val dist = distToEnemy(target)
-        Log.wtf("my coord","$dist :: $this :: ${this.coordinates}")
-        if(dist == 0f){
-           attack(target)
-            //this.dead = true
-        }else if (dist >0){
+        if(dist < projRange){
+            attack(target)
+            Log.e("PROJECTILE", "TargetHIT")
+        }else{
             move(elapsedTimeMS, map)
-            //attack(target)
         }
-
     }
 
 
     fun move(interval : Long, map: Map) {
-
-        currentOrientation = getAngleVector(coordinates,target.coordinates)
+        val targCoord = Pair(target.rectF.centerX(), target.rectF.centerY())
+        currentOrientation = getAngleVector(coordinates,targCoord)
         //Log.e("orientation","$this orientation = $currentOrientation")
 
-        val previousCoordinates = coordinates
         val dx = speed * interval * cos(currentOrientation)
         val dy = speed * interval * -sin(currentOrientation)
 
         //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
-
+        //Log.e("PROJECTILE", "$coordinates")
         //used to update view
         rectF.offset(dx, dy)
-        /*Log.e("EE", "dx : $dx, dy : $dy")
-        Log.e("RR", "prevCoord : $previousCoordinates")*/
-        //val x = coordinates.first/oldRendW
-        //val y = coordinates.second/oldRendH
-        //Log.e("TroopCoord", "coord : $x,$y")
 
-        map.displace(this, previousCoordinates)
 
     }
 
 
     override fun attack(entity: GameObject) {
-        //could depend on type of projectile -> could also repel troops
-        //one option:
         entity.getDamaged(damage)
-        this.dead = true
+        dead = true
+        //Log.e("PROJECTILE", "I'm Done")
+    }
+
+    override fun setRect(rendW : Float, rendH : Float){
+        val x = (coordinates.first / oldRendW * rendW)
+        val y = (coordinates.second / oldRendH * rendH)
+        coordinates = Pair(x,y)
+        //endx = x + rendW
+        //endy = y + rendH
+        oldRendW = rendW
+        oldRendH = rendH
+        rectF.set(x - (size.first/2f)*20f, y - (size.second/2f)*20f, x + (size.first/2f)*20f, y + (size.second/2f)*20f)
     }
 }

@@ -48,9 +48,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             MotionEvent.ACTION_DOWN -> {
                 Log.e("clickSucceed","Yes!")
                 val x = e.rawX
-                //- 100f
                 val y = e.rawY
-                //- 300f
                 if (x <= screenWidth/2f){
                     game.playCard(0)
                 }
@@ -78,7 +76,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         mapView.drawGrid(canvas, game.map)
 
         if (objListSize != game.gameObjectList.size){
-            objectDrawer.setRect(game.gameObjectList)
+            objectDrawer.setRect()
             objListSize = game.gameObjectList.size
         }
 
@@ -108,7 +106,7 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         screenWidth = w.toFloat()
         screenHeight = h.toFloat()
         mapView.setRects(game.map, screenWidth, screenHeight)
-        objectDrawer.setRect(game.gameObjectList)
+        objectDrawer.setRect()
     }
 
 
