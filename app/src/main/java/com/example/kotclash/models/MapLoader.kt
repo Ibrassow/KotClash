@@ -7,7 +7,7 @@ import com.example.kotclash.App
 
 class MapLoader() {
 
-    var paint = Paint()
+    //var paint = Paint()
     var map = Map()
 
 

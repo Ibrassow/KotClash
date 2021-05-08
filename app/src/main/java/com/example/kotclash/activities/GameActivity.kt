@@ -31,6 +31,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var mapSelected : String
     var troopSelected = mutableListOf<String>()
 
+    var lvl = 0
+
     var running = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         mapSelected = intent.getStringExtra("mapChosen").toString()
         troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
         Log.e("GYH", "$troopSelected")
+        lvl = intent.getStringExtra("lvl")!!.toInt()
+
 
 
         gameView = findViewById(R.id.gameView)
@@ -76,6 +80,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
+        game.setLevel(lvl)
         game.setMap(mapSelected)
         for (i in 0 until cardList.size) {
             cardList[i].setCard(cardSelected[i])
