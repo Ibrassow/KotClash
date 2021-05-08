@@ -77,7 +77,6 @@ class GameManager {
         mapLoader.loadMap(mapName)
         map = mapLoader.returnMap()
         val ss = map.grid.isNotEmpty()
-        Log.d("InitGM", "got map : $ss")
         currentMap = mapName
     }
 
@@ -104,10 +103,8 @@ class GameManager {
             gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
         }
 
-
-
         for (elem in gameObjectList) {
-            if (elem is Tower){ //Simple check
+            if (elem is Tower){
                 if (elem.isEnemy()) {
                     enemyTowersList.add(elem)
                 } else {
@@ -126,9 +123,6 @@ class GameManager {
 
         if (STARTED){
             timeLeft -= (elapsedTimeMS*3/1000f)
-            Log.d("GM", "time : $elapsedTimeMS")
-            Log.d("GM", "time : $timeLeft")
-
             if (timeLeft <= 0.0) {
                 endGame()
             }
@@ -143,6 +137,12 @@ class GameManager {
 
             gameObjectList.removeAll{ it.dead }
 
+            gameObjectList.forEach{obj ->
+                if (!obj.takingAction){
+                    obj.startOperation()
+                }
+            }
+            //if(!obj.takingAction){obj.startOperation()}
 
             val nn = gameObjectList.size
             Log.e("sizeObjList", "$nn")
@@ -164,7 +164,7 @@ class GameManager {
 
     fun autonomousEnemyGeneration() {
         if (readyForEnemyGeneration()) {
-            val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
+            val nbRand = kotlin.random.Random.Default.nextInt(2)  //TODO : define more complex generation pattern (preferably one that respects resources)
             val nbRandTroop = kotlin.random.Random.Default.nextInt(4)
             var randTroop : String = ""
             when(nbRandTroop){
@@ -221,7 +221,6 @@ class GameManager {
     }
 
     fun addTroop(enemy : Boolean, type: String, side: Int){
-        //ok
         when(enemy){
             false -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posAllySpawn[side]!!))
             true -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posEnemySpawn[side]!!))

@@ -45,7 +45,6 @@ class GameObjectView(private val view : GameView) {
 
 
         for (obj in objectList) {
-            if(!obj.takingAction){obj.startOperation()}
             if (obj.isAlive()){
                 when (obj.type) {
                     "base" -> canvas.drawBitmap(base, null, obj.rectF, paint)

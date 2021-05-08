@@ -32,7 +32,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     init{
         backgroundPaint.color = Color.WHITE
-
         holder.addCallback(this)
         this.isFocusable = true
         thread = GameThread(holder, this)
@@ -77,7 +76,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         }
 
         objectDrawer.drawObjects(canvas)
-        Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
 
 
         minute = (floor(game.timeLeft/60.0))

@@ -32,17 +32,11 @@ class Map()  {
     var name : String = ""
     set(name) {
         if (name == "frost") {
-            val w1 = wallTag[0]!!
-            val w2 = wallTag[1]!!
-            wallTag.clear()
-            wallTag[0] = w2
-            wallTag[1] = w1
-
-            val p1 = posGate[0]!!
+            /*val p1 = posGate[0]!!
             val p2 = posGate[1]!!
             posGate.clear()
             posGate[0] = p2
-            posGate[1] = p1
+            posGate[1] = p1*/
 
             val a1 = posAllySpawn[0]!!
             val a2 = posAllySpawn[1]!!
@@ -78,25 +72,8 @@ class Map()  {
 
     //Should be used at the beginning for the tower
     fun placeTower(obj: GameObject){
-        //TODO opti after
-        val sz = obj.size
-        //val szx = sz.first/2
-        //val szy = sz.second/2
         val xx = ((obj.coordinates.first)/obj.oldRendW).toInt()
         val yy = ((obj.coordinates.second)/obj.oldRendH).toInt()
-
-        //TODO Clean here
-        /*for (x in (xx-szx).toInt()..(xx+szx).toInt()){
-            for (y in (yy-szy).toInt()..(yy+szy).toInt()){
-                //to account for non-existing tiles
-                try {
-                    grid[y][x].setOccupant(obj)
-                }
-                catch(e: IndexOutOfBoundsException){
-                    Log.d("Exception grid - place", "Index out of bounds")
-                }
-            }
-        }*/
 
         try {
             grid[yy][xx].setOccupant(obj)
@@ -117,11 +94,6 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
-        //Log.e("posObj","$x,$y")
-
-        //val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
-        //val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
-
         //TODO add conditions for walls -- existence of cells
         for (row in y-range..y+range+1){
             for (column in x-range..x+range+1){
@@ -130,9 +102,7 @@ class Map()  {
                         val entitiesScanned = grid[row][column].getEntity()
                         for(entityScanned in entitiesScanned){
                             if(entityScanned.isEnemyOf(obj)) {
-                                //entityScanned.let { objectFound.add(it) }
                                 objectFound.add(entityScanned)
-                                //Log.e("ScanArea", "object detected $row $column $entityScanned")
                             }
                         }
                     }
@@ -144,7 +114,6 @@ class Map()  {
                 }
             }
         }
-        //Log.e("objectFound","$objectFound")
         return objectFound
     }
 
@@ -161,13 +130,8 @@ class Map()  {
 
         if(newX != oldX || newY != oldY){
             try {
-                //val x = getColSize()
-                //val y = getRowSize()
-                //Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
-                //Log.e("newPosition","($newX,$newY)")
                 grid[oldY][oldX].removeOccupant(obj)
-                //Log.e("oldPosition","($oldX,$oldY)")
             }
             catch(e: IndexOutOfBoundsException){
                 //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
@@ -179,14 +143,10 @@ class Map()  {
 
     private fun setCoeffFrontier(){
 
-        slope = (wallTag[1]!!.second - wallTag[0]!!.second) / (wallTag[1]!!.first - wallTag[0]!!.first)
-        /*if (name == "frost"){
-            originLine = wallTag[1]!!.second
-        } else {
-            originLine = wallTag[0]!!.second
-        }*/
+        //slope = (wallTag[1]!!.second - wallTag[0]!!.second) / (wallTag[1]!!.first - wallTag[0]!!.first)
+        slope = (posGate[1]!!.second - posGate[0]!!.second) / (posGate[1]!!.first - posGate[0]!!.first)
+
         originLine = wallTag[0]!!.second
-        Log.e("ORIGIN", "$originLine")
 
     }
 
@@ -221,10 +181,6 @@ class Map()  {
         wallTag.forEach { (gate, pos) ->
             wallTag[gate] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
         }
-
-        /*posAllySpawn.forEach { (spawn, pos) ->
-            posGate[spawn] = Pair(pos.first/oldRendW*rendW, pos.second/oldRendH*rendH)
-        }*/
 
         setCoeffFrontier()
 
