@@ -60,7 +60,6 @@ class GameManager {
     val troopFactory = TroopFactory()
     val cardManager = CardManager(this)
     val gameObjectList = mutableListOf<GameObject>()
-    val projectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
     private val futureObjectList = mutableListOf<GameObject>()
@@ -77,7 +76,6 @@ class GameManager {
     fun setMap(mapName: String) {
         mapLoader.loadMap(mapName)
         map = mapLoader.returnMap()
-        val ss = map.grid.isNotEmpty()
         currentMap = mapName
     }
 
@@ -293,7 +291,6 @@ class GameManager {
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
-            Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
         } else {
             setGameOver(null)}
@@ -306,10 +303,8 @@ class GameManager {
         if (gameWon == false) {
             results = "Defeated"
         } else if (gameWon == true) {
-            Log.e("WIN", "YEAH")
             results = "Victory"
         } else {
-            Log.e("LOSE", "No..")
             results = "Equality"
 
         }

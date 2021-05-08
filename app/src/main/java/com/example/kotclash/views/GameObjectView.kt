@@ -40,9 +40,7 @@ class GameObjectView(private val view : GameView) {
 
     fun drawObjects(canvas : Canvas) {
 
-        //TODO Temporary solution to avoid concurrent manipulations.. (copy)
         val objectList = game.gameObjectList.toMutableList()
-
 
         for (obj in objectList) {
             if (obj.isAlive()){

@@ -25,7 +25,6 @@ open class GameObject(
 
     //Parcelable
     var rectF: RectF = RectF(coordinates.first, coordinates.second, endx, endy)
-    //TODO For each "movable" object -> Offset the rectangle
 
     //Don't change
     var oldRendW = 1f
@@ -42,19 +41,11 @@ open class GameObject(
         takingAction = true
     }
 
-    //X,y should be the center ..
+
     open fun setRect(rendW : Float, rendH : Float){
-        val rx = coordinates.first
-        val ry = coordinates.second
 
         val x = (coordinates.first / oldRendW * rendW)
         val y = (coordinates.second / oldRendH * rendH)
-
-
-        if (type == "tankred"){
-            Log.e("$ix", "olH $oldRendH olW $oldRendW --- ($x,$y) -- rend H : $rendH - rend W : $rendW --- first : ($rx, $ry)")
-            Log.e("TANKRED", "id : $ix --- ($x,$y) -- rend H : $rendH - rend W : $rendW")
-        }
 
         coordinates = Pair(x,y)
         endx = x + rendW
@@ -63,24 +54,11 @@ open class GameObject(
         oldRendH = rendH
         rectF.set(x - (size.first/2f)*rendW, y - (size.second/2f)*rendH, endx + (size.first/2f)*rendW, endy + (size.second/2f)*rendH)
     }
-    fun setRectpro(rendW : Float, rendH : Float) {
-
-        val x = (coordinates.first / oldRendW  )
-        val y = (coordinates.second / oldRendH  )
-        coordinates = Pair(x, y)
-        endx = x + rendW
-        endy = y + rendH
-        oldRendW = rendW
-        oldRendH = rendH
-        rectF.set(x - (size.first / 2f) * 1, y - (size.second / 2f) * 1, endx + (size.first / 2f) * 1, endy + (size.second / 2f) * 1)
-    }
 
 
     open fun takeAction(elapsedTimeMS: Long, map: Map) {
     }
 
-    /*fun isObstacle(){
-    }*/
 
     fun isAlive():Boolean{
         return !dead
@@ -96,7 +74,6 @@ open class GameObject(
         val xx = ceil(coordinates.first.toDouble()/oldRendW).toInt()
         val yy = ceil(coordinates.second.toDouble()/oldRendH).toInt()
         val enemiesAround = map.scanArea(Pair(xx, yy), range, this)
-        //Log.e("enemiesAround","$enemiesAround - $this")
         return enemiesAround
     }
 

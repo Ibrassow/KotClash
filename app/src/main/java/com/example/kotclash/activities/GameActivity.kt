@@ -38,12 +38,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        Log.wtf("oncreate", " ${savedInstanceState}")
-
-
         mapSelected = intent.getStringExtra("mapChosen").toString()
         troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
-        Log.e("GYH", "$troopSelected")
         lvl = intent.getStringExtra("lvl")!!.toInt()
 
 
@@ -176,19 +172,3 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 }
 
 
-
-
-
-//var gameState: String? = null
-
-// recovering the instance state - in onCreate
-//gameState = savedInstanceState?.getString(GAME_STATE_KEY) //Ideas for later
-
-
-/*  override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.run {
-            //Some actions
-        }
-
-        super.onSaveInstanceState(outState)
-    }*/

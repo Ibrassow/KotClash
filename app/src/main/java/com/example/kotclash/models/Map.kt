@@ -215,13 +215,9 @@ class Map()  {
             currDist = dist(obj.coordinates, posGate[gate]!!)
             val oo = obj.type
             val ee = obj.coordinates
-            Log.e("GATE", "gate $gate : curr $currDist - $oo - $ee")
             if (currDist<minDist){
                 minDist = currDist
                 gateChoice = posGate[gate]!!
-                Log.e("GATE", "$gateChoice")
-                Log.e("GATE", "CurrDist $currDist")
-                Log.e("GATE", "minDist $minDist")
             }
         }
 
