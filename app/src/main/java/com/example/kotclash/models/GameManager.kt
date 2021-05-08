@@ -38,10 +38,10 @@ class GameManager {
     var STARTED = false
 
 
-    private val enemyGenerationFreq : Long = 15
+    private var enemyGenerationFreq : Long = 15
     private var previousEnemyGenerationTime : Long = System.nanoTime() / 1000000
     var resources = 0f
-    private val speedFill = 1/100f
+    private val speedFill = 1/50f
     private val RESOURCESMAX = 100f
 
 
@@ -60,6 +60,7 @@ class GameManager {
     val troopFactory = TroopFactory()
     val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
+    val projectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
     val projectileList = mutableListOf<GameObject>()
@@ -274,9 +275,22 @@ class GameManager {
         }
     }
 
+
     fun isCardAvailable(nmCard : String): Boolean{
         return cardManager.isAvailable(nmCard)
     }
+
+
+    fun setLevel(lvl:Int){
+        when(lvl){
+            1 -> enemyGenerationFreq = 25
+            2 -> enemyGenerationFreq = 20
+            3 -> enemyGenerationFreq = 15
+            4 -> enemyGenerationFreq = 12
+            5 -> enemyGenerationFreq = 10
+        }
+    }
+
 
     fun endGame() {
 

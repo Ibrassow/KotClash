@@ -31,14 +31,22 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var mapSelected : String
     var troopSelected = mutableListOf<String>()
 
-    private var running = true
+    var lvl = 0
+
+    var running = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        Log.wtf("oncreate", " ${savedInstanceState}")
+
 
         mapSelected = intent.getStringExtra("mapChosen").toString()
         troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
+        Log.e("GYH", "$troopSelected")
+        lvl = intent.getStringExtra("lvl")!!.toInt()
+
+
 
         gameView = findViewById(R.id.gameView)
         progressBar = findViewById(R.id.progressBar)
@@ -72,6 +80,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
+        game.setLevel(lvl)
         game.setMap(mapSelected)
         for (i in 0 until cardList.size) {
             cardList[i].setCard(cardSelected[i])
@@ -83,7 +92,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         for (i in 0 until 3) {
             when(game.isCardAvailable(troopSelected[i])){
                 false -> cardList[i].blurImg()
-                true -> cardList[i].unblurImg()
+                true -> cardList[i].availableImg()
             }
         }
     }
@@ -166,3 +175,20 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
 }
 
+
+
+
+
+//var gameState: String? = null
+
+// recovering the instance state - in onCreate
+//gameState = savedInstanceState?.getString(GAME_STATE_KEY) //Ideas for later
+
+
+/*  override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.run {
+            //Some actions
+        }
+
+        super.onSaveInstanceState(outState)
+    }*/

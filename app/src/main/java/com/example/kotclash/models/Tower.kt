@@ -19,7 +19,7 @@ open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
             val yTarget = ceil(target!!.coordinates.second/oldRendH)
             //Log.e("targetFound","($xTarget,$yTarget)")
             if(readyForAttack()) {
-                attack(target!!)
+                //attack(target!!)
                 previousAttackTime = System.currentTimeMillis()
             }
         }
