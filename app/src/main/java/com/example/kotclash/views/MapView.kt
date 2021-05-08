@@ -27,7 +27,7 @@ class MapView() {
     lateinit var soil: Bitmap
     lateinit var wall: Bitmap
     lateinit var tree: Bitmap
-    //lateinit var gate: Bitmap
+
 
     private var INIT : Boolean = false
 

@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import java.lang.IndexOutOfBoundsException
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -25,8 +24,8 @@ class Map()  {
     var originLine : Float = 0f
 
     //Don't change
-    var oldRendW = 1f
-    var oldRendH = 1f
+    private var oldRendW = 1f
+    private var oldRendH = 1f
 
     fun clearAllPos(){
         posBases.clear()
