@@ -1,5 +1,6 @@
 package com.example.kotclash.models
 
+import android.util.Log
 import java.lang.IndexOutOfBoundsException
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -28,7 +29,29 @@ class Map()  {
     private var oldRendW = 1f
     private var oldRendH = 1f
 
-    lateinit var name : String
+    var name : String = ""
+    set(name) {
+        if (name == "frost") {
+            val w1 = wallTag[0]!!
+            val w2 = wallTag[1]!!
+            wallTag.clear()
+            wallTag[0] = w2
+            wallTag[1] = w1
+
+            val p1 = posGate[0]!!
+            val p2 = posGate[1]!!
+            posGate.clear()
+            posGate[0] = p2
+            posGate[1] = p1
+
+            val a1 = posAllySpawn[0]!!
+            val a2 = posAllySpawn[1]!!
+            posAllySpawn.clear()
+            posAllySpawn[0] = a2
+            posAllySpawn[1] = a1
+        }
+        field = name
+    }
 
     fun clearAllPos(){
         posBases.clear()
@@ -77,10 +100,8 @@ class Map()  {
 
         try {
             grid[yy][xx].setOccupant(obj)
-            //Log.e("initTowersInMap","$obj")
         }
         catch(e: IndexOutOfBoundsException){
-            //Log.d("Exception grid - place", "Index out of bounds")
         }
 
 
@@ -159,12 +180,13 @@ class Map()  {
     private fun setCoeffFrontier(){
 
         slope = (wallTag[1]!!.second - wallTag[0]!!.second) / (wallTag[1]!!.first - wallTag[0]!!.first)
-        if (name == "frost"){
+        /*if (name == "frost"){
             originLine = wallTag[1]!!.second
         } else {
             originLine = wallTag[0]!!.second
-        }
-
+        }*/
+        originLine = wallTag[0]!!.second
+        Log.e("ORIGIN", "$originLine")
 
     }
 
@@ -175,7 +197,6 @@ class Map()  {
 
     fun onOwnSide(obj: GameObject): Boolean{
         val onMySide : Boolean
-
         val x = obj.coordinates.first
         val y = obj.coordinates.second
         val correspondingFrontierPt = calculateFrontierPt(x)
@@ -221,23 +242,29 @@ class Map()  {
 
 
     private fun dist(c1: Pair<Float, Float>, c2: Pair<Float, Float>): Float {
-    return sqrt((c1.first - c2.first).pow(2) + (c1.first - c2.first).pow(2))
+    return sqrt((c1.first - c2.first).pow(2) + (c1.second - c2.second).pow(2))
     }
 
 
 
     fun getClosestGate(obj: GameObject): Pair<Float, Float>? {
         var gateChoice : Pair<Float, Float>? = null
-        var minDist = 5000000f
+        var minDist = 500000000f
 
 
         var currDist: Float
 
         posGate.forEach { (gate, _) ->
             currDist = dist(obj.coordinates, posGate[gate]!!)
+            val oo = obj.type
+            val ee = obj.coordinates
+            Log.e("GATE", "gate $gate : curr $currDist - $oo - $ee")
             if (currDist<minDist){
                 minDist = currDist
                 gateChoice = posGate[gate]!!
+                Log.e("GATE", "$gateChoice")
+                Log.e("GATE", "CurrDist $currDist")
+                Log.e("GATE", "minDist $minDist")
             }
         }
 

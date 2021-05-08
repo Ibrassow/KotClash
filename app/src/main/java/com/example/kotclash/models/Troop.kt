@@ -14,9 +14,6 @@ open class Troop(enemy: Boolean,
 
     override fun takeAction(elapsedTimeMS: Long, map: Map){
         target = selectTarget(map)
-        //val xCoord = ceil(coordinates.first/oldRendW)
-        //val yCoord = ceil(coordinates.second/oldRendH)
-        //Log.e("target","$this, $target, ($xCoord,$yCoord)")
         if (target != null) {
             currentOrientation = getAngleVector(coordinates,target!!.coordinates)
             if(readyForAttack()) {

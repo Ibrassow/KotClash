@@ -11,7 +11,4 @@ class Tankred(enemy: Boolean,
     override var health = 500
     override val speed = 0.5f
 
-    init {
-        //Log.e("Tankred", "CREATED")
-    }
 }

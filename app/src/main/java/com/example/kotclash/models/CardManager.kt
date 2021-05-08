@@ -3,7 +3,7 @@ package com.example.kotclash.models
 import kotlin.math.floor
 
 
-class CardManager(private val troopFactory: TroopFactory, var game : GameManager) {
+class CardManager(var game : GameManager) {
     val costTank: Int = 20
     val costSoldier : Int = 5
     val costBomber : Int = 40

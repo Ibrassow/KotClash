@@ -54,7 +54,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
         if (idx != null){
             occupants.removeAt(idx)
-            //Log.e("occupant Removed","$occupants in ($xi,$yi)")
         }
     }
 
@@ -63,7 +62,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         if (obj !in occupants){
             occupants.add(obj)//works
         }
-        //Log.e("occupant Set","$occupants in ($xi,$yi)")
     }
 
 
