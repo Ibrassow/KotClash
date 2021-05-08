@@ -57,7 +57,7 @@ class GameManager {
 
 
     /////////////////////////
-    val troopFactory = TroopFactory(this)
+    val troopFactory = TroopFactory()
     val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
@@ -125,7 +125,7 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS*3/1000f) // moué pourquoi 3 ?
+            timeLeft -= (elapsedTimeMS*3/1000f)
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
