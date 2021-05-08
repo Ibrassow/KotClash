@@ -23,11 +23,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
     var cellRectangle: RectF = RectF(x, y, endx, endy)
 
-    init{
-        if (tileElement == "grass"){
-            walkable = false //for testing purposes
-        }
-    }
 
     // TODO A* Search
     /*val parentCell: Cell? = null
@@ -59,7 +54,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
         if (idx != null){
             occupants.removeAt(idx)
-            //Log.e("occupant Removed","$occupants in ($xi,$yi)")
         }
     }
 
@@ -68,15 +62,9 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         if (obj !in occupants){
             occupants.add(obj)//works
         }
-        //Log.e("occupant Set","$occupants in ($xi,$yi)")
     }
 
 
-    /*fun dist(posE: Tile): Double {
-        return sqrt((posE.x - x).toDouble().pow(2) + (posE.y - y).toDouble().pow(2))
-    }*/
-
-    //TODO -> GameObject preferably (rename)
     fun getEntity() : MutableList<GameObject>{
         return occupants
     }

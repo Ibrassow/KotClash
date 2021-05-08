@@ -1,13 +1,11 @@
 package com.example.kotclash.models
 
-import android.graphics.Paint
 import android.util.Log
 import com.example.kotclash.App
 
 
 class MapLoader() {
 
-    var paint = Paint()
     var map = Map()
 
 
@@ -115,7 +113,7 @@ class MapLoader() {
                 i++
                 xi = 0f
             }
-
+                map.name = filename
                 return map
             }
     }

@@ -4,7 +4,7 @@ import android.util.Log
 import kotlin.math.*
 
 class Projectile(enemy: Boolean,
-                 val target: Entity,
+                 var target: Entity,
                  coordinates : Pair<Float,Float>,
                  override val damage : Int
                 ) : GameObject(enemy, coordinates), Movable {
@@ -16,30 +16,32 @@ class Projectile(enemy: Boolean,
 
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
-        val dist = distToEnemy(target)
-        if(dist < projRange){
-            attack(target)
-            Log.e("PROJECTILE", "TargetHIT")
-        }else{
-            move(elapsedTimeMS, map)
+        if (!target.dead){
+            val dist = distToEnemy(target)
+            if(dist < projRange){
+                attack(target)
+            }else{
+                move(elapsedTimeMS)
+            }
         }
+        else{
+            dead = true
+        }
+
+
     }
 
 
-    fun move(interval : Long, map: Map) {
+    fun move(interval : Long) {
         val targCoord = Pair(target.rectF.centerX(), target.rectF.centerY())
         currentOrientation = getAngleVector(coordinates,targCoord)
-        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val dx = speed * interval * cos(currentOrientation)
         val dy = speed * interval * -sin(currentOrientation)
 
-        //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
-        //Log.e("PROJECTILE", "$coordinates")
-        //used to update view
-        rectF.offset(dx, dy)
 
+        rectF.offset(dx, dy)
 
     }
 
@@ -47,7 +49,6 @@ class Projectile(enemy: Boolean,
     override fun attack(entity: GameObject) {
         entity.getDamaged(damage)
         dead = true
-        //Log.e("PROJECTILE", "I'm Done")
     }
 
     override fun setRect(rendW : Float, rendH : Float){

@@ -27,7 +27,7 @@ class MapView() {
     lateinit var soil: Bitmap
     lateinit var wall: Bitmap
     lateinit var tree: Bitmap
-    //lateinit var gate: Bitmap
+
 
     private var INIT : Boolean = false
 
@@ -50,7 +50,7 @@ class MapView() {
             "frost" -> {
                 grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snow)
                 soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.brown_soil)
-                wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snowtree)
+                wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.water)
                 tree = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snowtree)
 
             }

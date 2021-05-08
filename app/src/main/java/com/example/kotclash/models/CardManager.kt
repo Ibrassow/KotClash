@@ -3,12 +3,12 @@ package com.example.kotclash.models
 import kotlin.math.floor
 
 
-class CardManager(private val troopFactory: TroopFactory, var game : GameManager) {
+class CardManager(var game : GameManager) {
     val costTank: Int = 20
     val costSoldier : Int = 5
     val costBomber : Int = 40
 
-    //TODO: could also use CardManager for autonomousEnemyGeneration()
+
     fun playCard(cardName: String, side: Int){
         val resources = floor(game.resources)
 
