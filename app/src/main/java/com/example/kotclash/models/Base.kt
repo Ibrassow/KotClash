@@ -8,7 +8,6 @@ class Base(enemy: Boolean,
 
     private val gameManager = GameManager.gameInstance
 
-
     override var type = "base"
 
     override var size = Pair(5f,3f)
