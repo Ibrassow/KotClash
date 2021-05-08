@@ -21,22 +21,21 @@ class Projectile(enemy: Boolean,
             attack(target)
             Log.e("PROJECTILE", "TargetHIT")
         }else{
-            move(elapsedTimeMS, map)
+            move(elapsedTimeMS)
         }
     }
 
 
-    fun move(interval : Long, map: Map) {
+    private fun move(interval : Long) {
         val targCoord = Pair(target.rectF.centerX(), target.rectF.centerY())
         currentOrientation = getAngleVector(coordinates,targCoord)
-        //Log.e("orientation","$this orientation = $currentOrientation")
 
         val dx = speed * interval * cos(currentOrientation)
         val dy = speed * interval * -sin(currentOrientation)
 
         //update x & y in model
         coordinates = Pair(coordinates.first + dx, coordinates.second + dy)
-        //Log.e("PROJECTILE", "$coordinates")
+
         //used to update view
         rectF.offset(dx, dy)
 
@@ -47,15 +46,12 @@ class Projectile(enemy: Boolean,
     override fun attack(entity: GameObject) {
         entity.getDamaged(damage)
         dead = true
-        //Log.e("PROJECTILE", "I'm Done")
     }
 
     override fun setRect(rendW : Float, rendH : Float){
         val x = (coordinates.first / oldRendW * rendW)
         val y = (coordinates.second / oldRendH * rendH)
         coordinates = Pair(x,y)
-        //endx = x + rendW
-        //endy = y + rendH
         oldRendW = rendW
         oldRendH = rendH
         rectF.set(x - (size.first/2f)*20f, y - (size.second/2f)*20f, x + (size.first/2f)*20f, y + (size.second/2f)*20f)

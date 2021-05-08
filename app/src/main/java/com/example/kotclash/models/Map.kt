@@ -6,7 +6,7 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 
-class Map()  {
+class Map{
 
 
     val grid = mutableListOf<MutableList<Tile>>()
@@ -55,25 +55,9 @@ class Map()  {
 
     //Should be used at the beginning for the tower
     fun placeTower(obj: GameObject){
-        //TODO opti after
-        val sz = obj.size
-        //val szx = sz.first/2
-        //val szy = sz.second/2
         val xx = ((obj.coordinates.first)/obj.oldRendW).toInt()
         val yy = ((obj.coordinates.second)/obj.oldRendH).toInt()
 
-        //TODO Clean here
-        /*for (x in (xx-szx).toInt()..(xx+szx).toInt()){
-            for (y in (yy-szy).toInt()..(yy+szy).toInt()){
-                //to account for non-existing tiles
-                try {
-                    grid[y][x].setOccupant(obj)
-                }
-                catch(e: IndexOutOfBoundsException){
-                    Log.d("Exception grid - place", "Index out of bounds")
-                }
-            }
-        }*/
 
         try {
             grid[yy][xx].setOccupant(obj)
@@ -96,12 +80,6 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
-        //Log.e("posObj","$x,$y")
-
-        //val x = ceil(obj.coordinates.first.toDouble()/obj.oldRendW).toInt()
-        //val y = ceil(obj.coordinates.second.toDouble()/obj.oldRendH).toInt()
-
-        //TODO add conditions for walls -- existence of cells
         for (row in y-range..y+range+1){
             for (column in x-range..x+range+1){
                 try {
@@ -109,26 +87,17 @@ class Map()  {
                         val entitiesScanned = grid[row][column].getEntity()
                         for(entityScanned in entitiesScanned){
                             if(entityScanned.isEnemyOf(obj)) {
-                                //entityScanned.let { objectFound.add(it) }
                                 objectFound.add(entityScanned)
-                                //Log.e("ScanArea", "object detected $row $column $entityScanned")
                             }
                         }
                     }
-                }catch(e:IndexOutOfBoundsException){
-                    val xx = row
-                    val yy = column
-                    //Log.d("E: ScanArea", "X : $xx, Y: $yy")
-                    //Log.e("E: ScanArea", "Index out of bounds")
-                }
+                }catch(e:IndexOutOfBoundsException){}
             }
         }
-        //Log.e("objectFound","$objectFound")
         return objectFound
     }
 
 
-    //TODO Check if movement is possible, where, etc
     fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
 
 
@@ -140,17 +109,10 @@ class Map()  {
 
         if(newX != oldX || newY != oldY){
             try {
-                //val x = getColSize()
-                //val y = getRowSize()
-                //Log.d("SIZEGRID", "X : $x, Y: $y")
                 grid[newY][newX].setOccupant(obj)
-                //Log.e("newPosition","($newX,$newY)")
                 grid[oldY][oldX].removeOccupant(obj)
-                //Log.e("oldPosition","($oldX,$oldY)")
             }
-            catch(e: IndexOutOfBoundsException){
-                //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
-            }
+            catch(e: IndexOutOfBoundsException){}
 
         }
     }

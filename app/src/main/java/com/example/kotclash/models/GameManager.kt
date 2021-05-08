@@ -57,13 +57,13 @@ class GameManager {
 
 
     /////////////////////////
-    val troopFactory = TroopFactory()
-    val cardManager = CardManager(troopFactory, this)
+    private val troopFactory = TroopFactory()
+    private val cardManager = CardManager(this)
     val gameObjectList = mutableListOf<GameObject>()
     val projectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
-    val projectileList = mutableListOf<GameObject>()
+    private val projectileList = mutableListOf<GameObject>()
 
     // -------------------- INIT ------------------- //
 
@@ -83,7 +83,7 @@ class GameManager {
     }
 
 
-    fun initializeObjects() {
+    private fun initializeObjects() {
 
         //default map
         if (map.grid.isEmpty()){
@@ -153,7 +153,7 @@ class GameManager {
     }
 
 
-    fun takeAction(elapsedTimeMS: Long) {
+    private fun takeAction(elapsedTimeMS: Long) {
         for (obj in gameObjectList) {
             if (obj.isAlive() && obj.takingAction) {
                 obj.takeAction(elapsedTimeMS, map)
@@ -163,9 +163,9 @@ class GameManager {
 
 
 
-    fun autonomousEnemyGeneration() {
+    private fun autonomousEnemyGeneration() {
         if (readyForEnemyGeneration()) {
-            val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
+            val nbRand = kotlin.random.Random.Default.nextInt(3)
             val nbRandTroop = kotlin.random.Random.Default.nextInt(4)
             var randTroop : String = ""
             when(nbRandTroop){
@@ -293,7 +293,7 @@ class GameManager {
     }
 
 
-    fun endGame() {
+    private fun endGame() {
 
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)

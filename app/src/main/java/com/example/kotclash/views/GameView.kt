@@ -21,11 +21,11 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     var thread: GameThread
 
     //Specific views
-    val mapView = MapView()
-    val objectDrawer : GameObjectView = GameObjectView(this)
+    private val mapView = MapView()
+    private val objectDrawer : GameObjectView = GameObjectView(this)
 
     //misc
-    val backgroundPaint = Paint()
+    private val backgroundPaint = Paint()
     var screenWidth = 0f
     var screenHeight = 0f
 
@@ -44,7 +44,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             MotionEvent.ACTION_DOWN -> {
                 Log.e("clickSucceed","Yes!")
                 val x = e.rawX
-                val y = e.rawY
                 if (x <= screenWidth/2f){
                     game.playCard(0)
                 }

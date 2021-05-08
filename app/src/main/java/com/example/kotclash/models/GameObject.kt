@@ -25,18 +25,13 @@ open class GameObject(
 
     //Parcelable
     var rectF: RectF = RectF(coordinates.first, coordinates.second, endx, endy)
-    //TODO For each "movable" object -> Offset the rectangle
 
     //Don't change
     var oldRendW = 1f
     var oldRendH = 1f
 
 
-    var ix : Int
-
-    init{
-        ix = getIx()
-    }
+    var ix : Int = getIx()
 
     fun startOperation(){
         takingAction = true

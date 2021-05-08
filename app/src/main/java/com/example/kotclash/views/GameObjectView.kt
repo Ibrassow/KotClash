@@ -26,7 +26,7 @@ class GameObjectView(private val view : GameView) {
         initImages()
     }
 
-    fun initImages(){
+    private fun initImages(){
         base = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.base_palace)
         simpleTower = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.tower1)
         tankRed = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.redtank)
@@ -40,7 +40,6 @@ class GameObjectView(private val view : GameView) {
 
     fun drawObjects(canvas : Canvas) {
 
-        //TODO Temporary solution to avoid concurrent manipulations.. (copy)
         val objectList = game.gameObjectList.toMutableList()
 
 
@@ -92,7 +91,7 @@ class GameObjectView(private val view : GameView) {
 
 
     //TODO Do all of these cut (only the card) at the init and store them to access them during runtime!
-    fun createSubImageAt(image: Bitmap,  orientation:Float): Bitmap  {
+    private fun createSubImageAt(image: Bitmap,  orientation:Float): Bitmap  {
         var row:Int=0; val col:Int=0; val rowCount: Int=8; val colCount:Int=6
         when (orientation){
             in -0.1745..0.1745 -> row = 2
