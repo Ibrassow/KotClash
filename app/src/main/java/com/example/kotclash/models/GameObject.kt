@@ -31,11 +31,7 @@ open class GameObject(
     var oldRendH = 1f
 
 
-    var ix : Int
-
-    init{
-        ix = getIx()
-    }
+    var ix : Int = getIx()
 
     fun startOperation(){
         takingAction = true

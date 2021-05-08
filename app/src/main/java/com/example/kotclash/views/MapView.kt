@@ -33,7 +33,7 @@ class MapView() {
 
 
 
-    fun initBitmaps() {
+    private fun initBitmaps() {
 
         when(game.currentMap){
             "spring" -> {
@@ -73,12 +73,8 @@ class MapView() {
             for (x in 0 until map.getColSize()) {
 
                 val cell = map.grid[y][x]
-                //val xx = cell.position.first
-                //val yy = cell.position.second
 
                 when (cell.tileElement) {
-                    //"grass" -> canvas.drawBitmap(grass, xx, yy, paint) //Keep for preference - different visual effect
-                    //"soil" -> canvas.drawBitmap(soil, xx, yy, paint)
                     "grass" -> canvas.drawBitmap(grass, null, cell.cellRectangle, paint)
                     "soil" -> canvas.drawBitmap(soil, null, cell.cellRectangle, paint)
                     "wall" -> canvas.drawBitmap(wall, null, cell.cellRectangle, paint)

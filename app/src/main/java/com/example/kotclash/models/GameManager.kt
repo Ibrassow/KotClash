@@ -57,12 +57,13 @@ class GameManager {
 
 
     /////////////////////////
-    val troopFactory = TroopFactory()
-    val cardManager = CardManager(this)
+    private val troopFactory = TroopFactory()
+    private val cardManager = CardManager(this)
     val gameObjectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
     private val futureObjectList = mutableListOf<GameObject>()
+
 
     // -------------------- INIT ------------------- //
 
@@ -80,7 +81,7 @@ class GameManager {
     }
 
 
-    fun initializeObjects() {
+    private fun initializeObjects() {
 
         //default map
         if (map.grid.isEmpty()){
@@ -135,7 +136,6 @@ class GameManager {
             futureObjectList.clear()
 
             gameObjectList.removeAll{ it.dead }
-
             gameObjectList.forEach{obj ->
                 if (!obj.takingAction){
                     obj.startOperation()
@@ -148,7 +148,7 @@ class GameManager {
     }
 
 
-    fun takeAction(elapsedTimeMS: Long) {
+    private fun takeAction(elapsedTimeMS: Long) {
         for (obj in gameObjectList) {
             if (obj.isAlive() && obj.takingAction) {
                 obj.takeAction(elapsedTimeMS, map)
@@ -158,11 +158,11 @@ class GameManager {
 
 
 
-    fun autonomousEnemyGeneration() {
+    private fun autonomousEnemyGeneration() {
         if (readyForEnemyGeneration()) {
-            val nbRand = kotlin.random.Random.Default.nextInt(2)  //TODO : define more complex generation pattern (preferably one that respects resources)
+            val nbRand = kotlin.random.Random.Default.nextInt(2)
             val nbRandTroop = kotlin.random.Random.Default.nextInt(4)
-            var randTroop : String = ""
+            var randTroop = ""
             when(nbRandTroop){
                 0 -> randTroop = "tankred"
                 1 -> randTroop = "tankblue"
@@ -215,6 +215,7 @@ class GameManager {
     fun useResource(price: Int) {
         resources -= price
     }
+
 
     fun addTroop(enemy : Boolean, type: String, side: Int){
         when(enemy){
@@ -286,7 +287,7 @@ class GameManager {
     }
 
 
-    fun endGame() {
+    private fun endGame() {
 
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)

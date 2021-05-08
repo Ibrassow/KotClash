@@ -10,13 +10,9 @@ import com.example.kotclash.views.GameView
 class GameThread(private val holder: SurfaceHolder, private val gameView: GameView) : Thread() {
     private var running: Boolean = false
     private var locked = false
-
     private val MAX_FPS : Long = 50
     private val game: GameManager = GameManager.gameInstance
 
-    init {
-        Log.d("thread", "created")
-    }
 
     fun setRunning(isRunning: Boolean) {
         this.running = isRunning
@@ -33,7 +29,6 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
 
         while (running && !game.GAMEOVER) {
 
-            //startTime = System.currentTimeMillis()
             startTime = System.nanoTime() / 1000000
             timeElapsed = (startTime - lastTime)
 
@@ -46,7 +41,6 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
                     locked = true}
 
                     synchronized(holder) {
-                            //game.update(timeElapsed.toInt())
                         game.update(timeElapsed)
                         gameView.draw(canvas!!)
                         Log.d("thread", "calling draw and update from thread : $timeElapsed")

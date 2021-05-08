@@ -78,10 +78,9 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
 
     fun getInitAngleProjectile(entity: GameObject):Float{
-        val angle = getAngleVector(Pair(coordinates.first,coordinates.second),
+        return getAngleVector(Pair(coordinates.first, coordinates.second),
                 Pair(entity.coordinates.first,
                         entity.coordinates.second))
-        return angle
     }
 
 }

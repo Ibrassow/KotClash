@@ -4,10 +4,10 @@ import kotlin.math.floor
 
 
 class CardManager(var game : GameManager) {
-    val costTank: Int = 20
-    val costSoldier : Int = 5
-    val costBomber : Int = 40
 
+    private val costTank: Int = 20
+    private val costSoldier : Int = 5
+    private val costBomber : Int = 40
 
     fun playCard(cardName: String, side: Int){
         val resources = floor(game.resources)

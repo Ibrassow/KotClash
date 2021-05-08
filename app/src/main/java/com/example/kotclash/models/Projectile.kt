@@ -32,7 +32,9 @@ class Projectile(enemy: Boolean,
     }
 
 
-    fun move(interval : Long) {
+
+    private fun move(interval : Long) {
+
         val targCoord = Pair(target.rectF.centerX(), target.rectF.centerY())
         currentOrientation = getAngleVector(coordinates,targCoord)
 
@@ -55,8 +57,6 @@ class Projectile(enemy: Boolean,
         val x = (coordinates.first / oldRendW * rendW)
         val y = (coordinates.second / oldRendH * rendH)
         coordinates = Pair(x,y)
-        //endx = x + rendW
-        //endy = y + rendH
         oldRendW = rendW
         oldRendH = rendH
         rectF.set(x - (size.first/2f)*20f, y - (size.second/2f)*20f, x + (size.first/2f)*20f, y + (size.second/2f)*20f)

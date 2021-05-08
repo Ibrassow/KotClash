@@ -7,12 +7,10 @@ import kotlin.math.pow
 import kotlin.math.sqrt
 
 
-class Map()  {
-
+class Map{
 
     val grid = mutableListOf<MutableList<Tile>>()
 
-    //Only the base - doesn't care about the specific type of tower
     val posBases = mutableMapOf<String, Pair<Float, Float>>()
     val posAllyTower = mutableMapOf<Int, Pair<Float, Float>>() //Keep indices to match with future user choice
     val posEnemyTower = mutableMapOf<Int, Pair<Float, Float>>()
@@ -94,7 +92,6 @@ class Map()  {
         val x = actualPos.first
         val y = actualPos.second
 
-        //TODO add conditions for walls -- existence of cells
         for (row in y-range..y+range+1){
             for (column in x-range..x+range+1){
                 try {
@@ -106,19 +103,13 @@ class Map()  {
                             }
                         }
                     }
-                }catch(e:IndexOutOfBoundsException){
-                    val xx = row
-                    val yy = column
-                    //Log.d("E: ScanArea", "X : $xx, Y: $yy")
-                    //Log.e("E: ScanArea", "Index out of bounds")
-                }
+                }catch(e:IndexOutOfBoundsException){}
             }
         }
         return objectFound
     }
 
 
-    //TODO Check if movement is possible, where, etc
     fun displace(obj : GameObject, prevCoord : Pair<Float, Float>){
 
 
@@ -132,10 +123,9 @@ class Map()  {
             try {
                 grid[newY][newX].setOccupant(obj)
                 grid[oldY][oldX].removeOccupant(obj)
+
             }
-            catch(e: IndexOutOfBoundsException){
-                //Log.d("E: Grid displace", "Index out of bounds : OLD : ($oldX, $oldY) - NEW : ($newX, $newY)")
-            }
+            catch(e: IndexOutOfBoundsException){}
 
         }
     }
@@ -213,8 +203,6 @@ class Map()  {
 
         posGate.forEach { (gate, _) ->
             currDist = dist(obj.coordinates, posGate[gate]!!)
-            val oo = obj.type
-            val ee = obj.coordinates
             if (currDist<minDist){
                 minDist = currDist
                 gateChoice = posGate[gate]!!
