@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 
 class Tankred(enemy: Boolean,
               coordinates : Pair<Float,Float>
@@ -10,8 +9,4 @@ class Tankred(enemy: Boolean,
     override val damage = 200
     override var health = 500
     override val speed = 0.5f
-
-    init {
-        //Log.e("Tankred", "CREATED")
-    }
 }

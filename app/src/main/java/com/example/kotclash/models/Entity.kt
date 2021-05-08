@@ -24,11 +24,9 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
     //substracts healthpoints, and sets dead = true when dies
     override fun getDamaged(dmg: Int) {
         health -= dmg  //different from member variable damage
-        //Log.e("health","$health")
         if (health <= 0) {
             dead = true
             game.map.killEntity(this)
-            Log.e("DEAD", "They killed me.. a $type")
         }
     }
 
@@ -80,10 +78,9 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
 
     fun getInitAngleProjectile(entity: GameObject):Float{
-        val angle = getAngleVector(Pair(coordinates.first,coordinates.second),
+        return getAngleVector(Pair(coordinates.first, coordinates.second),
                 Pair(entity.coordinates.first,
                         entity.coordinates.second))
-        return angle
     }
 
 }

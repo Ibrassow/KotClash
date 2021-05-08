@@ -1,10 +1,7 @@
 package com.example.kotclash.views
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
 import android.util.AttributeSet
-import android.widget.ImageView
 import com.example.kotclash.R
 
 
@@ -18,7 +15,7 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         initView(cardName)
     }
 
-    fun initView(cardName : String) {
+    private fun initView(cardName : String) {
 
         when (cardName) {
             "tankred" -> {this.setImageResource(R.drawable.tankred)}

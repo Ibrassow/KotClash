@@ -6,8 +6,6 @@ import android.util.Log
 
 class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
-
-    //TODO -> GameObject preferably
     var occupants : MutableList<GameObject> = mutableListOf()
 
     var x = xi
@@ -15,20 +13,10 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
     var position  = Pair(xi,yi)
 
-    //TODO change this attribute when reading the map
-    var walkable : Boolean = true
-
     var endx = x
     var endy = y
 
     var cellRectangle: RectF = RectF(x, y, endx, endy)
-
-
-    // TODO A* Search
-    /*val parentCell: Cell? = null
-    var gCost = 10
-    var hCost = 0
-    var fCost = 0*/
 
 
     fun isOccupied(): Boolean{
@@ -54,7 +42,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
         if (idx != null){
             occupants.removeAt(idx)
-            //Log.e("occupant Removed","$occupants in ($xi,$yi)")
         }
     }
 
@@ -63,7 +50,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         if (obj !in occupants){
             occupants.add(obj)//works
         }
-        //Log.e("occupant Set","$occupants in ($xi,$yi)")
     }
 
 
@@ -74,9 +60,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     override fun toString(): String {
         return position.toString()
     }
-
-
-
 
 }
 

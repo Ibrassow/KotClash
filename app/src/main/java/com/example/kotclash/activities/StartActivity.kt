@@ -8,16 +8,15 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotclash.R
 
-//import kotlinx.android.synthetic.main.activity_start.*
 
 class StartActivity : AppCompatActivity() {
     var startButton : Button? =null
     var quitButton : Button? =null
     var levelButton : Button? =null
-    val sampleMaps = intArrayOf(R.drawable.springfield, R.drawable.lavafield, R.drawable.winterfield)
-    val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.bomber,R.drawable.soldier)
-    val nameTroops = arrayListOf<String>("tankred", "tankblue", "tankgreen", "bomber", "soldier")
-    var sampleChoosable = arrayOf<ImageView?>()
+    private val sampleMaps = intArrayOf(R.drawable.springfield, R.drawable.lavafield, R.drawable.winterfield)
+    private val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.bomber,R.drawable.soldier)
+    private val nameTroops = arrayListOf("tankred", "tankblue", "tankgreen", "bomber", "soldier")
+    private var sampleChoosable = arrayOf<ImageView?>()
     var i=0;var j=0;var k=0;var l=0
     var lvl = 1
 
@@ -28,7 +27,7 @@ class StartActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             setContentView(R.layout.activity_start)
-            sampleChoosable = arrayOf<ImageView?>(findViewById(R.id.mapChoose),findViewById(R.id.troop1Choose),findViewById(R.id.troop2Choose), findViewById(R.id.troop3Choose))
+            sampleChoosable = arrayOf(findViewById(R.id.mapChoose),findViewById(R.id.troop1Choose),findViewById(R.id.troop2Choose), findViewById(R.id.troop3Choose))
             for (choosable in sampleChoosable){
                 choosable?.setOnClickListener{
                     if (choosable == sampleChoosable[0]) {
@@ -83,7 +82,6 @@ class StartActivity : AppCompatActivity() {
 
 
         startButton?.setOnClickListener {
-            var params = listOf<Int>(i,j,k,l)
             val intent = Intent(this, GameActivity::class.java)
             when (i){
                 1 -> intent.putExtra("mapChosen", "spring")
@@ -121,8 +119,6 @@ class StartActivity : AppCompatActivity() {
 
         }}}, 3000)
     }
-
-
 
 
 }

@@ -27,7 +27,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var progressBar : ProgressBar
 
-    val cardList = mutableListOf<CardView>()
+    private val cardList = mutableListOf<CardView>()
     lateinit var mapSelected : String
     var troopSelected = mutableListOf<String>()
 
@@ -38,12 +38,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        Log.wtf("oncreate", " ${savedInstanceState}")
-
-
         mapSelected = intent.getStringExtra("mapChosen").toString()
         troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
-        Log.e("GYH", "$troopSelected")
         lvl = intent.getStringExtra("lvl")!!.toInt()
 
 
@@ -79,7 +75,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
+    private fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
         game.setLevel(lvl)
         game.setMap(mapSelected)
         for (i in 0 until cardList.size) {
@@ -173,22 +169,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         GameManager.destroy()
     }
 
+
 }
 
-
-
-
-
-//var gameState: String? = null
-
-// recovering the instance state - in onCreate
-//gameState = savedInstanceState?.getString(GAME_STATE_KEY) //Ideas for later
-
-
-/*  override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.run {
-            //Some actions
-        }
-
-        super.onSaveInstanceState(outState)
-    }*/

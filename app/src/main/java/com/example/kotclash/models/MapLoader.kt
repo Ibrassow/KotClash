@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.graphics.Paint
 import android.util.Log
 import com.example.kotclash.App
 

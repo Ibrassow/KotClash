@@ -57,13 +57,13 @@ class GameManager {
 
 
     /////////////////////////
-    val troopFactory = TroopFactory()
-    val cardManager = CardManager(troopFactory, this)
+    private val troopFactory = TroopFactory()
+    private val cardManager = CardManager(this)
     val gameObjectList = mutableListOf<GameObject>()
-    val projectList = mutableListOf<GameObject>()
     val enemyTowersList = mutableListOf<GameObject>()
     val allyTowersList = mutableListOf<GameObject>()
-    val projectileList = mutableListOf<GameObject>()
+    private val futureObjectList = mutableListOf<GameObject>()
+
 
     // -------------------- INIT ------------------- //
 
@@ -77,13 +77,11 @@ class GameManager {
     fun setMap(mapName: String) {
         mapLoader.loadMap(mapName)
         map = mapLoader.returnMap()
-        val ss = map.grid.isNotEmpty()
-        Log.d("InitGM", "got map : $ss")
         currentMap = mapName
     }
 
 
-    fun initializeObjects() {
+    private fun initializeObjects() {
 
         //default map
         if (map.grid.isEmpty()){
@@ -105,10 +103,8 @@ class GameManager {
             gameObjectList.add(troopFactory.getTroop(false, "simpleTower", position.value))
         }
 
-
-
         for (elem in gameObjectList) {
-            if (elem is Tower){ //Simple check
+            if (elem is Tower){
                 if (elem.isEnemy()) {
                     enemyTowersList.add(elem)
                 } else {
@@ -127,9 +123,6 @@ class GameManager {
 
         if (STARTED){
             timeLeft -= (elapsedTimeMS*3/1000f)
-            Log.d("GM", "time : $elapsedTimeMS")
-            Log.d("GM", "time : $timeLeft")
-
             if (timeLeft <= 0.0) {
                 endGame()
             }
@@ -137,23 +130,25 @@ class GameManager {
             takeAction(elapsedTimeMS)
             autonomousEnemyGeneration()
 
-            for (projectile in projectileList){
-                gameObjectList.add(projectile)
+            for (obj in futureObjectList){
+                gameObjectList.add(obj)
             }
-            projectileList.clear()
+            futureObjectList.clear()
 
             gameObjectList.removeAll{ it.dead }
+            gameObjectList.forEach{obj ->
+                if (!obj.takingAction){
+                    obj.startOperation()
+                }
+            }
 
-
-            val nn = gameObjectList.size
-            Log.e("sizeObjList", "$nn")
         }
 
 
     }
 
 
-    fun takeAction(elapsedTimeMS: Long) {
+    private fun takeAction(elapsedTimeMS: Long) {
         for (obj in gameObjectList) {
             if (obj.isAlive() && obj.takingAction) {
                 obj.takeAction(elapsedTimeMS, map)
@@ -163,11 +158,11 @@ class GameManager {
 
 
 
-    fun autonomousEnemyGeneration() {
+    private fun autonomousEnemyGeneration() {
         if (readyForEnemyGeneration()) {
-            val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
+            val nbRand = kotlin.random.Random.Default.nextInt(2)
             val nbRandTroop = kotlin.random.Random.Default.nextInt(4)
-            var randTroop : String = ""
+            var randTroop = ""
             when(nbRandTroop){
                 0 -> randTroop = "tankred"
                 1 -> randTroop = "tankblue"
@@ -198,7 +193,7 @@ class GameManager {
 
     fun createProjectile(thrower: GameObject, target: Entity) {
         val newCoordinates = Pair(ceil(thrower.coordinates.first / thrower.oldRendW), ceil(thrower.coordinates.second / thrower.oldRendH))
-        projectileList.add(troopFactory.getTroop(thrower.enemy, "projectile", newCoordinates, target, dmgProjectile = thrower.damage))
+        futureObjectList.add(troopFactory.getTroop(thrower.enemy, "projectile", newCoordinates, target, dmgProjectile = thrower.damage))
     }
 
 
@@ -221,11 +216,11 @@ class GameManager {
         resources -= price
     }
 
+
     fun addTroop(enemy : Boolean, type: String, side: Int){
-        //ok
         when(enemy){
-            false -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posAllySpawn[side]!!))
-            true -> gameObjectList.add(troopFactory.getTroop(enemy,type, map.posEnemySpawn[side]!!))
+            false -> futureObjectList.add(troopFactory.getTroop(enemy,type, map.posAllySpawn[side]!!))
+            true -> futureObjectList.add(troopFactory.getTroop(enemy,type, map.posEnemySpawn[side]!!))
         }
     }
 
@@ -292,12 +287,11 @@ class GameManager {
     }
 
 
-    fun endGame() {
+    private fun endGame() {
 
         if (allyTowersDestroyed < enemyTowersDestroyed) {
             setGameOver(true)
         } else if (allyTowersDestroyed > enemyTowersDestroyed) {
-            Log.wtf("destroy", "$allyTowersDestroyed  $enemyTowersDestroyed")
             setGameOver(false)
         } else {
             setGameOver(null)}
@@ -310,10 +304,8 @@ class GameManager {
         if (gameWon == false) {
             results = "Defeated"
         } else if (gameWon == true) {
-            Log.e("WIN", "YEAH")
             results = "Victory"
         } else {
-            Log.e("LOSE", "No..")
             results = "Equality"
 
         }

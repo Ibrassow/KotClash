@@ -1,6 +1,6 @@
 package com.example.kotclash.models
 
-class TroopFactory() {
+class TroopFactory {
 
     fun getTroop(enemy : Boolean,
                  type : String,

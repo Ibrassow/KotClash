@@ -1,7 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
-
 class Soldier(enemy: Boolean,
 coordinates : Pair<Float,Float>
 ) : Troop(enemy, coordinates) {

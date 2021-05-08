@@ -21,18 +21,17 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
     var thread: GameThread
 
     //Specific views
-    val mapView = MapView()
-    val objectDrawer : GameObjectView = GameObjectView(this)
+    private val mapView = MapView()
+    private val objectDrawer : GameObjectView = GameObjectView(this)
 
     //misc
-    val backgroundPaint = Paint()
+    private val backgroundPaint = Paint()
     var screenWidth = 0f
     var screenHeight = 0f
 
 
     init{
         backgroundPaint.color = Color.WHITE
-
         holder.addCallback(this)
         this.isFocusable = true
         thread = GameThread(holder, this)
@@ -44,7 +43,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
             MotionEvent.ACTION_DOWN -> {
                 Log.e("clickSucceed","Yes!")
                 val x = e.rawX
-                val y = e.rawY
                 if (x <= screenWidth/2f){
                     game.playCard(0)
                 }
@@ -77,7 +75,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         }
 
         objectDrawer.drawObjects(canvas)
-        Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
 
 
         minute = (floor(game.timeLeft/60.0))
