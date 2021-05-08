@@ -12,7 +12,6 @@ import com.example.kotclash.R
 class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyle) {
 
     lateinit var cardName: String
-    //lateinit var imageCard : Bitmap
 
     fun setCard(cardname: String){
         cardName = cardname
@@ -36,22 +35,9 @@ class CardView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         isClickable = false
     }
 
-    fun availableImg(){
+    fun unblurImg(){
         alpha = 1f
         isClickable = true
     }
-
-
-
-
-    /*fun grey(){
-        when (cardName){
-            "test1" -> {this.setImageResource(R.drawable.gtankblue);this.setBackgroundColor(Color.GRAY)}
-            "test2" -> {this.setImageResource(R.drawable.gtankgreen);this.setBackgroundColor(Color.GRAY)}
-            "test3" -> {this.setImageResource(R.drawable.gtankred);this.setBackgroundColor(Color.GRAY)}
-            "test4" -> {this.setImageResource(R.drawable.awax);this.setBackgroundColor(Color.GRAY)}
-            "test5" -> {this.setImageResource(R.drawable.soldier);this.setBackgroundColor(Color.GRAY)}
-        }
-    }*/
 
 }

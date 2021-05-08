@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import java.lang.IndexOutOfBoundsException
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -8,6 +7,7 @@ import kotlin.math.sqrt
 
 
 class Map()  {
+
 
     val grid = mutableListOf<MutableList<Tile>>()
 
@@ -25,8 +25,10 @@ class Map()  {
     var originLine : Float = 0f
 
     //Don't change
-    var oldRendW = 1f
-    var oldRendH = 1f
+    private var oldRendW = 1f
+    private var oldRendH = 1f
+
+    lateinit var name : String
 
     fun clearAllPos(){
         posBases.clear()
@@ -157,7 +159,12 @@ class Map()  {
     private fun setCoeffFrontier(){
 
         slope = (wallTag[1]!!.second - wallTag[0]!!.second) / (wallTag[1]!!.first - wallTag[0]!!.first)
-        originLine = wallTag[0]!!.second
+        if (name == "frost"){
+            originLine = wallTag[1]!!.second
+        } else {
+            originLine = wallTag[0]!!.second
+        }
+
 
     }
 
@@ -242,5 +249,11 @@ class Map()  {
 
         return gateChoice
     }
+
+
+
+
+
+
 }
 

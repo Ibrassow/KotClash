@@ -92,7 +92,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         for (i in 0 until 3) {
             when(game.isCardAvailable(troopSelected[i])){
                 false -> cardList[i].blurImg()
-                true -> cardList[i].availableImg()
+                true -> cardList[i].unblurImg()
             }
         }
     }

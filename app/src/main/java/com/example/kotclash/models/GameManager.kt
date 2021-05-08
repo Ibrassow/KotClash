@@ -57,7 +57,7 @@ class GameManager {
 
 
     /////////////////////////
-    val troopFactory = TroopFactory(this)
+    val troopFactory = TroopFactory()
     val cardManager = CardManager(troopFactory, this)
     val gameObjectList = mutableListOf<GameObject>()
     val projectList = mutableListOf<GameObject>()
@@ -126,7 +126,7 @@ class GameManager {
     fun update(elapsedTimeMS: Long) {
 
         if (STARTED){
-            timeLeft -= (elapsedTimeMS*3/1000f) // moué pourquoi 3 ?
+            timeLeft -= (elapsedTimeMS*3/1000f)
             Log.d("GM", "time : $elapsedTimeMS")
             Log.d("GM", "time : $timeLeft")
 
@@ -134,8 +134,8 @@ class GameManager {
                 endGame()
             }
             updateResource(elapsedTimeMS)
-            takeAction(elapsedTimeMS, map)
-            autonomousEnemyGeneration(map)
+            takeAction(elapsedTimeMS)
+            autonomousEnemyGeneration()
 
             for (projectile in projectileList){
                 gameObjectList.add(projectile)
@@ -153,7 +153,7 @@ class GameManager {
     }
 
 
-    fun takeAction(elapsedTimeMS: Long, map: Map) {
+    fun takeAction(elapsedTimeMS: Long) {
         for (obj in gameObjectList) {
             if (obj.isAlive() && obj.takingAction) {
                 obj.takeAction(elapsedTimeMS, map)
@@ -163,7 +163,7 @@ class GameManager {
 
 
 
-    fun autonomousEnemyGeneration(map: Map) {
+    fun autonomousEnemyGeneration() {
         if (readyForEnemyGeneration()) {
             val nbRand = kotlin.random.Random.Default.nextInt(3)  //TODO : define more complex generation pattern (preferably one that respects resources)
             val nbRandTroop = kotlin.random.Random.Default.nextInt(4)

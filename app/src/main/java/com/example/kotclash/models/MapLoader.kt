@@ -115,7 +115,7 @@ class MapLoader() {
                 i++
                 xi = 0f
             }
-
+                map.name = filename
                 return map
             }
     }

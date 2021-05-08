@@ -19,7 +19,6 @@ open class GameObject(
     var endy = coordinates.second
 
 
-
     var dead = false
     open val range = 3
     open val damage = 0

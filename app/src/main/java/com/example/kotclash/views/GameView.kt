@@ -10,7 +10,6 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import com.example.kotclash.models.*
-import com.example.kotclash.models.Map
 import kotlin.math.floor
 
 
@@ -21,17 +20,14 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
 
     var thread: GameThread
 
-    //Map
-    var map : Map = Map()
+    //Specific views
     val mapView = MapView()
-
     val objectDrawer : GameObjectView = GameObjectView(this)
 
     //misc
     val backgroundPaint = Paint()
     var screenWidth = 0f
     var screenHeight = 0f
-
 
 
     init{
@@ -83,8 +79,6 @@ class GameView @JvmOverloads constructor (context: Context, attributes: Attribut
         objectDrawer.drawObjects(canvas)
         Log.d("GameView", "Check Screen Size -- W : $width -- H : $height")
 
-
-        //TODO Timer is slow ?
 
         minute = (floor(game.timeLeft/60.0))
         second = (game.timeLeft - minute*60.0)

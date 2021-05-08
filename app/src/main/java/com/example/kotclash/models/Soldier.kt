@@ -11,7 +11,4 @@ coordinates : Pair<Float,Float>
     override var health = 500
     override val speed = 1f
 
-    init {
-        //Log.e("soldier", "CREATED")
-    }
 }

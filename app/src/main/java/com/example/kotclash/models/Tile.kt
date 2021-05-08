@@ -23,11 +23,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
 
     var cellRectangle: RectF = RectF(x, y, endx, endy)
 
-    init{
-        if (tileElement == "grass"){
-            walkable = false //for testing purposes
-        }
-    }
 
     // TODO A* Search
     /*val parentCell: Cell? = null
@@ -72,11 +67,6 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
     }
 
 
-    /*fun dist(posE: Tile): Double {
-        return sqrt((posE.x - x).toDouble().pow(2) + (posE.y - y).toDouble().pow(2))
-    }*/
-
-    //TODO -> GameObject preferably (rename)
     fun getEntity() : MutableList<GameObject>{
         return occupants
     }
