@@ -69,7 +69,6 @@ open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)
 
         for(elem in listEnemies){
             var distToEnemy = distToEnemy(elem)
-            //Log.d("TARGETPOINTDIST", "$distToEnemy")
             if(distToEnemy < smallestDist){
                 smallestDist = distToEnemy
                 target3 = elem
