@@ -150,6 +150,7 @@ class Map()  {
 
     }
 
+
     private fun calculateFrontierPt(x : Float) : Float{
         return slope * x + originLine
     }

@@ -48,7 +48,10 @@ class GameThread(private val holder: SurfaceHolder, private val gameView: GameVi
                     synchronized(holder) {
                             //game.update(timeElapsed.toInt())
                         game.update(timeElapsed)
-                            gameView.draw(canvas!!)
+                        gameView.draw(canvas!!)
+                        for (pro in game.projectList){
+                            game.gameObjectList.add(pro)}
+                        game.projectList.clear()
                             Log.d("thread", "calling draw and update from thread : $timeElapsed")
                             lastTime = System.nanoTime() / 1000000
 

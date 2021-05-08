@@ -13,11 +13,13 @@ import com.example.kotclash.R
 class StartActivity : AppCompatActivity() {
     var startButton : Button? =null
     var quitButton : Button? =null
+    var levelButton : Button? =null
     val sampleMaps = intArrayOf(R.drawable.springfield, R.drawable.lavafield, R.drawable.winterfield)
     val sampleTroops = intArrayOf(R.drawable.tankred, R.drawable.tankblue, R.drawable.tankgreen,R.drawable.bomber,R.drawable.soldier)
     val nameTroops = arrayListOf<String>("tankred", "tankblue", "tankgreen", "bomber", "soldier")
     var sampleChoosable = arrayOf<ImageView?>()
     var i=0;var j=0;var k=0;var l=0
+    var lvl = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +79,8 @@ class StartActivity : AppCompatActivity() {
 
         startButton = findViewById(R.id.startbutton)
         quitButton = findViewById(R.id.quitbutton)
+        levelButton = findViewById(R.id.lvlBtn)
+
 
         startButton?.setOnClickListener {
             var params = listOf<Int>(i,j,k,l)
@@ -91,8 +95,21 @@ class StartActivity : AppCompatActivity() {
             intent.putExtra("troop2Chosen", nameTroops[k-1])
             intent.putExtra("troop3Chosen", nameTroops[l-1])
 
+            intent.putExtra("lvl","$lvl")
+
             startActivity(intent);
         }
+
+
+        levelButton?.setOnClickListener {
+            if(lvl == 5){
+                lvl = 1
+            }else{
+                lvl++
+            }
+            levelButton!!.text = "$lvl"
+        }
+
 
         quitButton?.setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN)
