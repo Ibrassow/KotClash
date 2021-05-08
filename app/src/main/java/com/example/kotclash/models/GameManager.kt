@@ -221,6 +221,7 @@ class GameManager {
         resources -= price
     }
 
+
     fun addTroop(enemy : Boolean, type: String, side: Int){
         //ok
         when(enemy){

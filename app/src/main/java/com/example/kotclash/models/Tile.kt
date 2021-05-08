@@ -85,8 +85,5 @@ class Tile(val xi : Float, val yi : Float, var tileElement : String) {
         return position.toString()
     }
 
-
-
-
 }
 
