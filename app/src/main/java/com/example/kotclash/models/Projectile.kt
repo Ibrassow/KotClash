@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import kotlin.math.*
 
 class Projectile(enemy: Boolean,

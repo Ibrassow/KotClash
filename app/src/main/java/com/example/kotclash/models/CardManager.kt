@@ -6,7 +6,7 @@ import kotlin.math.floor
 class CardManager(var game : GameManager) {
 
     private val costTank: Int = 20
-    private val costSoldier : Int = 5
+    private val costSoldier : Int = 8
     private val costBomber : Int = 40
 
     fun playCard(cardName: String, side: Int){

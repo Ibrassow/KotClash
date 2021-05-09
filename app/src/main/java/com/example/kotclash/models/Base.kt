@@ -13,8 +13,8 @@ class Base(enemy: Boolean,
     override var size = Pair(5f,3f)
 
     override val freqShoot = 1000f
-    override val damage = 10
-    override var health = 300
+    override val damage = 200
+    override var health = 3000
 
     override fun getDamaged(dmg: Int) {
         super.getDamaged(dmg)

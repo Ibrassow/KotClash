@@ -49,7 +49,7 @@ class MapView() {
             }
             "frost" -> {
                 grass = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snow)
-                soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.brown_soil)
+                soil = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snow)
                 wall = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.water)
                 tree = BitmapFactory.decodeResource(App.getContext().resources, R.drawable.snowtree)
 
