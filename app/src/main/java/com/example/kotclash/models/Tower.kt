@@ -6,6 +6,7 @@ open class Tower(enemy: Boolean, coordinates : Pair<Float,Float>
 ) : Entity(enemy, coordinates) {
 
     override var size = Pair(3f,3f)
+    override var range = 4
 
     override fun takeAction(elapsedTimeMS: Long, map: Map) {
         target = selectTarget(map)
