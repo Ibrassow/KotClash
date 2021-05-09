@@ -13,6 +13,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="483dp"
         android:layout_height="404dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +23,8 @@
 
         <com.example.kotclash.views.GameView
             android:id="@+id/gameView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="462dp"
+            android:layout_height="389dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,15 +78,14 @@
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="448dp"
+        android:layout_height="298dp"
+        android:layout_marginStart="264dp"
+        android:layout_marginLeft="264dp"
         android:baselineAligned="false"
-        android:max="100"
         android:rotation="-90"
-        android:scaleY="7"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout"
-        app:layout_constraintEnd_toStartOf="@+id/card2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
