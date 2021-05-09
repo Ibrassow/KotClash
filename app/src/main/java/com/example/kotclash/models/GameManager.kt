@@ -50,7 +50,7 @@ class GameManager {
 
     var cardClicked: String? = null
 
-    var timeLeft : Float = 130f
+    var timeLeft : Float = 180f
 
     lateinit var currentMap: String
     lateinit var results : String
