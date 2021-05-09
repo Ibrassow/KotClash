@@ -278,11 +278,11 @@ class GameManager {
 
     fun setLevel(lvl:Int){
         when(lvl){
-            1 -> enemyGenerationFreq = 25
-            2 -> enemyGenerationFreq = 20
-            3 -> enemyGenerationFreq = 15
-            4 -> enemyGenerationFreq = 12
-            5 -> enemyGenerationFreq = 10
+            1 -> enemyGenerationFreq = 20
+            2 -> enemyGenerationFreq = 16
+            3 -> enemyGenerationFreq = 13
+            4 -> enemyGenerationFreq = 10
+            5 -> enemyGenerationFreq = 7
         }
     }
 

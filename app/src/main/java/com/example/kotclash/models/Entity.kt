@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import kotlin.math.*
 
 open class Entity(enemy: Boolean, coordinates : Pair<Float,Float>)

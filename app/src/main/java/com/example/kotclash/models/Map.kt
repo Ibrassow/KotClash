@@ -1,6 +1,5 @@
 package com.example.kotclash.models
 
-import android.util.Log
 import java.lang.IndexOutOfBoundsException
 import kotlin.math.ceil
 import kotlin.math.pow
