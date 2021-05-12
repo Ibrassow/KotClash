@@ -66,7 +66,6 @@
         android:id="@+id/mapChoose"
         android:layout_width="387dp"
         android:layout_height="172dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/ic_launcher_background"
         android:contentDescription="@string/todo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -87,57 +86,33 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="RtlCompat" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="68dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:text="@string/troops"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapChoose"
-        tools:ignore="MissingConstraints,RtlCompat" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/map"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/mapChoose"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.194"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints,RtlCompat" />
-
     <Button
         android:id="@+id/lvlBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:text="1"
         app:layout_constraintBottom_toTopOf="@+id/startbutton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.575"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/mapChoose"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintVertical_bias="0.229" />
 
     <TextView
         android:id="@+id/lvlText"
-        android:layout_width="wrap_content"
+        android:layout_width="116dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:text="Choose your level "
         app:layout_constraintBottom_toTopOf="@+id/startbutton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/lvlBtn"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.277" />
+        app:layout_constraintVertical_bias="0.297" />
 
     <Button
         android:id="@+id/quitbutton"
@@ -156,13 +131,11 @@
         android:id="@+id/textView3"
         android:layout_width="166dp"
         android:layout_height="40dp"
-        android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="Click to change"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints,RtlCompat"
-        tools:layout_editor_absoluteX="320dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints,RtlCompat" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,14 +82,17 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         cardList.add(findViewById(R.id.card2))
         cardList.add(findViewById(R.id.card3))
     }
-
-    private fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
-        game.setLevel(lvl)
-        game.setMap(mapSelected)
+    private  fun configCard(cardSelected: MutableList<String>){
         for (i in 0 until cardList.size) {
             cardList[i].setCard(cardSelected[i])
             cardList[i].setOnClickListener(this)
         }
+    }
+
+    private fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
+        game.setLevel(lvl)
+        game.setMap(mapSelected)
+        configCard(cardSelected)
     }
 
     fun updateCards(){
@@ -158,10 +161,12 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             setContentView(R.layout.activity_game)
             configureViews()
+            configCard(troopSelected)
         }
         else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
             setContentView(R.layout.activity_game)
             configureViews()
+            configCard(troopSelected)
         }
     }
     /*private var count = 0
