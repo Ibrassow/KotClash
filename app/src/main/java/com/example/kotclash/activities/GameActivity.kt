@@ -3,6 +3,7 @@ package com.example.kotclash.activities
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -22,7 +23,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var mainHandler: Handler
 
-    val game = GameManager.gameInstance
+    var game = GameManager.gameInstance
     lateinit var gameView: GameView
 
     lateinit var progressBar : ProgressBar
@@ -42,14 +43,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         troopSelected = mutableListOf(intent.getStringExtra("troop1Chosen").toString(), intent.getStringExtra("troop2Chosen").toString(), intent.getStringExtra("troop3Chosen").toString())
         lvl = intent.getStringExtra("lvl")!!.toInt()
 
+        configureViews()
 
-
-        gameView = findViewById(R.id.gameView)
+        /*gameView = findViewById(R.id.gameView)
         progressBar = findViewById(R.id.progressBar)
 
         cardList.add(findViewById(R.id.card1))
         cardList.add(findViewById(R.id.card2))
-        cardList.add(findViewById(R.id.card3))
+        cardList.add(findViewById(R.id.card3))*/
 
         configureGame(mapSelected, troopSelected)
         game.start()
@@ -66,13 +67,20 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             if (running) {
                 progressBar.progress = game.resources.toInt()
                 updateCards()
-                mainHandler.postDelayed(this, 50)
-
+                mainHandler.postDelayed(this, 30)
                 if (game.GAMEOVER){
                     showGameOverDialog(game.results)
                     running = false
             }}
         }
+    }
+    private fun configureViews(){
+        gameView = findViewById(R.id.gameView)
+        progressBar = findViewById(R.id.progressBar)
+        cardList.clear()
+        cardList.add(findViewById(R.id.card1))
+        cardList.add(findViewById(R.id.card2))
+        cardList.add(findViewById(R.id.card3))
     }
 
     private fun configureGame(mapSelected: String, cardSelected: MutableList<String>) {
@@ -144,6 +152,32 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         }
 
     }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            setContentView(R.layout.activity_game)
+            configureViews()
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            setContentView(R.layout.activity_game)
+            configureViews()
+        }
+    }
+    /*private var count = 0
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState);
+        //savedInstanceState.putParcelable("gameManager", game);
+        count++
+        savedInstanceState.putInt("countInstance", count)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        // TODO Auto-generated method stub
+        super.onRestoreInstanceState(savedInstanceState)
+        count = savedInstanceState.getInt("count")
+        //game = savedInstanceState.getParcelable("gameManager")!!
+    }*/
 
 
     fun newGame(){
